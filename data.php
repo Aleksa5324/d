@@ -6,6 +6,7 @@
 $db = mysqli_connect("127.0.0.1", "root", "", "cdr") or die("Ошибка " . mysqli_error($db));
 mysqli_set_charset($db, "utf8");
 
+
 function getDataString(){
 	global $db;
 	$query = "SELECT `dcontext`,COUNT(`dst`) AS dst
@@ -15,6 +16,7 @@ UNION
 SELECT `dcontext`,COUNT(`dst`) AS dst
 FROM `cdr` WHERE `dst`='gsm2'
 GROUP BY `dcontext`;";
+
 	$res = mysqli_query($db, $query);
 	$data = '{"cols": [';
 	$data .= '{"label":"Да","type":"string"},';

@@ -13,11 +13,12 @@
 	
 	
 <?php 
-	//require_once 'connection.php'; // подключаем скрипт
+	//require_once 'connection.php'; 
+	
+	// подключаемся к базе пока напрямую
 		
 	$link = mysqli_connect("127.0.0.1", "root", "", "cdr") or die("Не могу соединиться с MySQL");
 	mysqli_set_charset($link, "utf8");
-
 
 	
 	$query = "SELECT `dcontext`,COUNT(`dst`) AS dst
@@ -29,13 +30,13 @@
 		GROUP BY `dcontext`";
 		
 		
-
+	// выводим итоговую таблицу количества звонков
 	 
 	$result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link)); 
 
 	if($result)
 	{
-		$rows = mysqli_num_rows($result); // количество полученных строк
+		$rows = mysqli_num_rows($result); 
 		 
 		echo "<table><tr><th>Количество звонков:</th></tr>";
 		for ($i = 0 ; $i < $rows ; ++$i)

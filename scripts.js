@@ -1,3 +1,5 @@
+//Создаем диаграмму GoogleChart как написано в документации Google
+
 google.charts.load("current", {packages:["corechart"]});
 google.charts.setOnLoadCallback(drawChart);
 	  
@@ -8,14 +10,10 @@ google.charts.setOnLoadCallback(drawChart);
           async: false
         }).responseText;
 		  
+		  	  
 		  
-		  
-		  
-       //st var data = google.visualization.arrayToDataTable(jsonData);
-		var data = new google.visualization.DataTable(jsonData);
+       	var data = new google.visualization.DataTable(jsonData); //  а в примере Google используется массив
 			
-
-		
 
         var options = {
           title: 'Нужны ли выборы в Украине?',
