@@ -1,50 +1,67 @@
-// Создаем диаграмму GoogleChart как написано в документации Google
-google.charts.load("current", {packages:["corechart"]});
-google.charts.setOnLoadCallback(startInterval);
+window.onload = function() {
+	// Создаем диаграмму GoogleChart как написано в документации Google
+	google.charts.load("current", {packages:["corechart"]});
+	google.charts.setOnLoadCallback(init);
 
-var chart;
-var UPDATE_INTERVAL = 1000;
+	var chart;
+	var UPDATE_INTERVAL = 100000;
+	var chartArr;
 
-function getData() {
-	var jsonData = $.ajax({
-	  url: "data.php",
-	  dataType: "json",
-	  async: false
-	}).done(function(response) {
-	  $('#result #choises').remove();
-	  response.forEach(function(choise) {
-		$('#result').append(
-		  '<tr id="choises"' +
-			'<td>' + choise[0] + '</td>' +
-			'<td>' + choise[1] + '</td>' +
-		  '</tr>'
-		)
-	  });
-	}).fail(function(error) {
-	  throw Error('Failed get data from server: ' + error.responseText);
-	});
+	function init() {
+		chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+		updateView();
+		setInterval(updateView, UPDATE_INTERVAL);
+	}
 
-	// [["openvox-gsm-yes","5"],["openvox-gsm-no","7"]]
+	function getData() {
+		var jsonData = $.ajax({
+			url: "data.php",
+			dataType: "json",
+			async: false
+		}).done(function(response) {
+			var html = '<tr><th colspan="2">Количество звонков:</th></tr>';
+			arr = [['Ответ', 'Кол-во голосов']];
 
-	return jsonData.responseText;
-}
+			response.forEach(function(choise) {
+				switch(choise[0]) {
+				case 'openvox-gsm-yes':
+					arr.push(['Да', parseInt(choise[1])]);
+					html += '<tr><td>Да</td><td>' + choise[1] + '</td></tr>';
+					break;
+				case 'openvox-gsm-no':
+					arr.push(['Нет', parseInt(choise[1])]);
+					html += '<tr><td>Нет</td><td>' + choise[1] + '</td></tr>';
+					break;
+				// case 'openvox-gsm-dont-know':
+				// 	arr.push(['Не знаю', parseInt(choise[1])]);
+				// 	html += '<tr><td>Не знаю</td><td>' + choise[1] + '</td></tr>';
+				// 	break;
+				default:
+					break;
+				}
+			});
+			$('#result').html(html);
 
-function updateView() {
-	drawChart();
-}
+		}).fail(function(error) {
+			throw Error('Failed get data from server: ' + error.responseText);
+		});
+	}
 
-function drawChart() {
-	var data = new google.visualization.DataTable(getData()); // а в примере Google используется массив
-	var options = {
-	  title: 'Нужны ли выборы в Украине?',
-	  //legend: 'none',
-	  //pieSliceText: 'label',
-	  is3D: true
-	};
-	chart.draw(data, options);
-}
+	function updateView() {
+		drawChart();
+	}
 
-function startInterval() {
-	chart = new google.visualization.PieChart(document.getElementById('piechart_3d'))
-	setInterval(updateView, UPDATE_INTERVAL);
-}
+	function drawChart() {
+		getData();
+		var data = new google.visualization.arrayToDataTable(arr);
+		var options = {
+			width: 600,
+			height: 600,
+			title: 'Нужны ли выборы в Украине?',
+			// legend: 'none',
+			// pieSliceText: 'label',
+			is3D: true
+		};
+		chart.draw(data, options);
+	}
+};
