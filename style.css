@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+/* CSS Document */
+body{
+	margin:0px;
+	padding:0px;
+}
+
+#piechart_3d{
+	position: relative; /* Относительное позиционирование */	
+		
+}
+
+.legenda{
+	position: absolute; /* Абсолютное позиционирование */
+    top: 0px; /* Положение от верхнего края */
+    left: 0px; /* Положение от левого края */
+    z-index:1;
+	color: green;
+}

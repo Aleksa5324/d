@@ -4,7 +4,7 @@ window.onload = function() {
 	google.charts.setOnLoadCallback(init);
 
 	var chart;
-	var UPDATE_INTERVAL = 1000;
+	var UPDATE_INTERVAL = 10000; //10000 милисекунд=10 сек
 	var chartArr;
 
 	function init() {
@@ -58,7 +58,8 @@ window.onload = function() {
 			width: 1000,
 			height: 600,
 			title: 'Нужны ли выборы в Украине?',
-			// legend: 'none',
+			//fontSize: 14,
+			//legend: 'none',
 			// pieSliceText: 'label',
 			is3D: true
 		};

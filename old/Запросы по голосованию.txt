@@ -1,0 +1,24 @@
+﻿Запрос на UPDATE поля result:
+
+Для "Да":
+
+UPDATE `cdr` 
+SET `result` = 'Да'
+WHERE `dst`='gsm0'
+
+Для "Нет":
+
+UPDATE `cdr` 
+SET `result` = 'Нет'
+WHERE `dst`='gsm2'
+
+
+Модифицированный запрос на выборку по голосованию:
+
+SELECT `result`,COUNT(`result`) AS dst
+FROM `cdr` WHERE `result`='Да'
+GROUP BY `result`
+UNION
+SELECT `result`,COUNT(`result`) AS dst
+FROM `cdr` WHERE `result`='Нет'
+GROUP BY `result`;
