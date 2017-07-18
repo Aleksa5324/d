@@ -19,10 +19,12 @@ window.onload = function() {
 			dataType: "json",
 			async: false
 		}).done(function(response) {
-			var html = '<tr><th colspan="2">Количество звонков:</th></tr>';
+			var html = '<tr><th colspan="2">Количество звонков:</th></tr>',
+					total = 0;
 			chartArr = [['Ответ', 'Кол-во голосов']];
 
 			response.forEach(function(choise) {
+				total += parseInt(choise[1]);
 				switch(choise[0]) {
 				case 'openvox-gsm-yes':
 					chartArr.push(['Да  (тел.: +38-056-3704095)', parseInt(choise[1])]);
@@ -40,6 +42,7 @@ window.onload = function() {
 					break;
 				}
 			});
+			html += '<tr><td>Всего</td><td>' + total + '</td></tr>';
 			$('#result').html(html);
 
 		}).fail(function(error) {
