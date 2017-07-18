@@ -18,3 +18,11 @@ body{
     z-index:1;
 	color: green;
 }
+.progress{
+	height: 54px;
+}
+
+legend{
+	color: green;
+
+}

@@ -1,6 +1,5 @@
 <?php
 
-
 if(isset($_POST['selectoptions'])){
 	$selectoptions = $_POST['selectoptions'];
 	
@@ -17,9 +16,7 @@ if(isset($_POST['selectoptions'])){
 		header("Location:../index3.html");
 		exit();
 	}
-
 }		
-	
 ?>
 
 
@@ -27,24 +24,27 @@ if(isset($_POST['selectoptions'])){
 <html lang="en">
 <html>
   <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Admin:Голосование</title>
-	<!-- Latest compiled and minified CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Admin:Голосование</title>
 
-  <!-- Optional theme -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" type="text/css" href="../style.css" />
- 
- <!-- Latest compiled and minified JavaScript -->
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <!-- Bootstrap -->
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
    
   </head>
   <body>
 	<ul class="nav nav-pills"> 
 	  <li role="presentation" class="active"><a href="index.php">Настройка</a></li> 
+	  <li role="presentation"><a href="options.php">Опции графиков </a></li> 
 	  <li role="presentation"><a href="history.php">История</a></li> 
 	</ul>
 	
@@ -75,25 +75,7 @@ if(isset($_POST['selectoptions'])){
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Отступ слева, px</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="">
-					</div>
-				</div>
-				
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Отступ сверху, px</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="">
-					</div>
-				</div>
-			
-			</div>
-			
-			
-			
+						
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
@@ -155,5 +137,11 @@ if(isset($_POST['selectoptions'])){
 
 		</form>
 	</div>	
+	
+	
+	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>
