@@ -14,7 +14,7 @@ window.onload = function() {
 	}
 
 	function getData() {
-		var jsonData = $.ajax({
+		$.ajax({
 			url: "data.php",
 			dataType: "json",
 			async: false
