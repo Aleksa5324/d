@@ -82,7 +82,6 @@
 									<input class="form-control" type="text" name="chartArea_top" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -99,7 +98,6 @@
 									<input class="form-control" type="text" name="" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -140,7 +138,6 @@
 								<div class="form-group">
 									<label>Индивидуальные настройки</label>
 									  <textarea class="form-control" rows="10"></textarea>
-									
 								</div>
 							</div>	
 						</div>							
@@ -200,7 +197,6 @@
 									<input class="form-control" type="text" name="chartArea_top" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -217,7 +213,6 @@
 									<input class="form-control" type="text" name="" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -234,12 +229,10 @@
 									<input class="form-control" type="text" name="backgroundColor_fill" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						
 						<div class="row">
-							
 							<div class="col-md-2">
 								<div class="checkbox">
 									<label>
@@ -260,7 +253,6 @@
 									</select>
 								</div>
 							</div>
-						
 						</div>
 						
 						<div class="row">		
@@ -272,7 +264,7 @@
 								</div>
 							</div>	
 						</div>	
-						
+					
 					</form>
 				  		  
 				  </div>
@@ -319,7 +311,6 @@
 									<input class="form-control" type="text" name="chartArea_top" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -336,7 +327,6 @@
 									<input class="form-control" type="text" name="" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -377,7 +367,6 @@
 								<div class="form-group">
 									<label>Индивидуальные настройки</label>
 									  <textarea class="form-control" rows="10"></textarea>
-									
 								</div>
 							</div>	
 						</div>							
@@ -435,7 +424,6 @@
 									<input class="form-control" type="text" name="chartArea_top" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -452,7 +440,6 @@
 									<input class="form-control" type="text" name="" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						<div class="row">
@@ -469,12 +456,10 @@
 									<input class="form-control" type="text" name="backgroundColor_fill" size="10" value="">
 								</div>
 							</div>
-			
 						</div>
 						
 						
 						<div class="row">
-							
 							<div class="col-md-2">
 								<div class="checkbox">
 									<label>
@@ -495,7 +480,6 @@
 									</select>
 								</div>
 							</div>
-						
 						</div>
 						
 						<div class="row">		
@@ -503,15 +487,43 @@
 								<div class="form-group">
 									<label>Индивидуальные настройки</label>
 									  <textarea class="form-control" rows="10"></textarea>
-									
 								</div>
 							</div>	
 						</div>	
 						</fieldset>
 					</form>
-				  
 				  </div>
-				  <div class="tab-pane" id="opt4">Здесь настройки диаграммы Сводный индикатор......</div>
+				  
+				  
+				  <div class="tab-pane" id="opt4">
+					<form role = "form" action="" method="post">
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Фон диаграммы</label>
+									<input class="form-control" type="text" name="backgroundColor" size="10" value="">
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>Цвет 1</label>
+									<input class="form-control" type="text" name="Color1" size="10" value="">
+								</div>
+							</div>
+							
+							<div class="col-md-2">
+								<div class="form-group">
+									<label>Цвет 2</label>
+									<input class="form-control" type="text" name="Color2" size="10" value="">
+								</div>
+							</div>
+						</div>
+				  	</form>
+				  </div>
+				  
 				</div>
 			</div>
 		</div>		

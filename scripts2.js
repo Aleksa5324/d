@@ -17,14 +17,16 @@
 
         var piechart_options = {title:'Круговая диаграмма: Нравится ли Вам город?',
                        width:600,
-                       height:500};
+                       height:500,
+					   backgroundColor: { fill:'transparent' }};
         var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
         piechart.draw(data, piechart_options);
 
         var barchart_options = {title:'Линейная диаграмма: Нравится ли Вам город?',
                        width:600,
                        height:500,
-                       legend: 'none'};
+                       legend: 'none',
+					   backgroundColor: 'transparent'};
         var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
         barchart.draw(data, barchart_options);
       }

@@ -10,8 +10,8 @@
         var options = {
           chart: {
             title: 'Нужен ли городу СК "ДНЕПР-1"',
-            subtitle: 'голосование жителей Днепра',
-          }
+            subtitle: 'голосование жителей Днепра'
+			}
         };
 
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
