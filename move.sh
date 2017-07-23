@@ -1,2 +1,2 @@
 #!/bin/bash
-cp ../d/ ../xampp/htdocs/ -r
+cp ../d/ ../../xampp/htdocs/ -r

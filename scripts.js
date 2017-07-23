@@ -61,6 +61,7 @@ window.onload = function() {
 			width: 1000,
 			height: 600,
 			title: 'Нужны ли выборы в Украине?',
+			backgroundColor: { fill:'transparent' },
 			//fontSize: 14,
 			//legend: 'none',
 			// pieSliceText: 'label',
