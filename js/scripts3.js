@@ -40,10 +40,13 @@
 	// console.log(yesPerc + '  ' + noPerc);
 	
 	$('.progress-yes').css('width', yesPerc + '%');
-	$('.progress-yes span').text(yesPerc + '% (Поддерживаю)');
+	//$('.progress-yes span').text(yesPerc + '% (Поддерживаю)');
+	$('.progress-yes span').text(yesPerc + '%');
+	
 	
 	$('.progress-no').css('width', noPerc + '%');
-	$('.progress-no span').text(noPerc + '% (Не поддерживаю)');
+	//$('.progress-no span').text(noPerc + '% (Не поддерживаю)');
+	$('.progress-no span').text(noPerc + '%');
   }
   
   $(document).ready(function(){

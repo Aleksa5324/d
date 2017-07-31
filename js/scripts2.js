@@ -41,17 +41,24 @@
         data.addColumn('number', 'Slices');
         data.addRows(chartArr);
 
-        var piechart_options = {title:'Круговая диаграмма: Нравится ли Вам город?',
-                       width:600,
-                       height:500,
+        var piechart_options = {
+					   //title:'Круговая диаграмма: Нравится ли Вам город?',
+                       width:940,
+                       height:700,
+					   fontSize: 36,
+					   fontName: 'Vernada',
+					   //titleTextStyle:{fontSize: 24},
 					   backgroundColor: { fill:'transparent' }};
         var piechart = new google.visualization.PieChart(document.getElementById('piechart_div'));
         piechart.draw(data, piechart_options);
 
-        var barchart_options = {title:'Линейная диаграмма: Нравится ли Вам город?',
-                       width:600,
-                       height:500,
+        var barchart_options = {
+					   //title:'Линейная диаграмма: Нравится ли Вам город?',
+                       width:940,
+                       height:700,
                        legend: 'none',
+					   fontSize: 24,
+					   fontName: 'Vernada',
 					   backgroundColor: 'transparent'};
         var barchart = new google.visualization.BarChart(document.getElementById('barchart_div'));
         barchart.draw(data, barchart_options);

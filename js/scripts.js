@@ -28,11 +28,11 @@ window.onload = function() {
 				switch(choise[0]) {
 				case 'openvox-gsm-yes':
 					chartArr.push(['Да  (тел.: +38-056-3704095)', parseInt(choise[1])]);
-					html += '<tr><td>Да</td><td>' + choise[1] + '</td></tr>';
+					html += '<tr style ="color:blue"><td style ="color:blue">Да</td><td>' + choise[1] + '</td></tr>';
 					break;
 				case 'openvox-gsm-no':
 					chartArr.push(['Нет (тел.:+38-056-3704096)', parseInt(choise[1])]);
-					html += '<tr><td>Нет</td><td>' + choise[1] + '</td></tr>';
+					html += '<tr style ="color:red"><td style ="color:red">Нет</td><td>' + choise[1] + '</td></tr>';
 					break;
 				// case 'openvox-gsm-dont-know':
 				// 	chartArr.push(['Не знаю', parseInt(choise[1])]);
@@ -58,14 +58,18 @@ window.onload = function() {
 		getData();
 		var data = new google.visualization.arrayToDataTable(chartArr);
 		var options = {
-			width: 1000,
-			height: 600,
-			title: 'Нужны ли выборы в Украине?',
+			width: 1900,
+			height: 820,
+			fontSize: 36,
+			pieStartAngle: 45,
+			//title: 'Нужны ли выборы в Украине?',
 			backgroundColor: { fill:'transparent' },
 			//fontSize: 14,
-			//legend: 'none',
+			legend: 'none',
 			// pieSliceText: 'label',
-			is3D: true
+			is3D: true,
+			titleTextStyle: {fontSize:36,},
+			chartArea: {left:20,top:200,width:'95%',height:'80%'}
 		};
 		chart.draw(data, options);
 	}

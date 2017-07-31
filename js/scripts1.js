@@ -18,9 +18,9 @@
 					chartArr[1].push(parseInt(choise[1]));
 					
 					break;
-				// case 'openvox-gsm-dont-know':
-				// 	chartArr[1].push(parseInt(choise[1]));
-				// 	break;
+				case 'openvox-gsm-dont-know':
+					chartArr[1].push(parseInt(choise[1]));
+					break;
 				default:
 					break;
 				}
@@ -41,11 +41,17 @@
 		var data = google.visualization.arrayToDataTable(chartArr);
 		
         var options = {
-          chart: {
-            title: 'Нужен ли городу СК "ДНЕПР-1"',
-            subtitle: 'голосование жителей Днепра'
-		  },
-		  backgroundColor: { fill:'transparent' }
+			legend: { position: "none" },
+			
+			chart: {
+            //title: 'Нужен ли городу СК "ДНЕПР-1"',
+            //subtitle: 'голосование жителей Днепра'
+			},
+			
+			//chartArea: {left:20,top:500,width:'50%',height:'40%'},
+		  backgroundColor: { fill:'transparent' },
+		  
+		  //chartArea:{left:450,top:0,width:'50%',height:'75%'}
         };
 
         var chart = new google.charts.Bar(document.getElementById('columnchart_material'));

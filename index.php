@@ -4,19 +4,20 @@ if(isset($_POST['selectoptions'])){
 	$selectoptions = $_POST['selectoptions'];
 	
 	if($selectoptions == 'option1') {
-		header("Location: ../index.html");
+		header("Location: page/piechart_3d.html");
 		exit();
 	} elseif($selectoptions == 'option2') {
-		header("Location:../index1.html");
+		header("Location:page/columnchart_material.html");
 		exit();
 	} elseif($selectoptions == 'option3') {
-		header("Location:../index2.html");
+		header("Location:page/piechart_barchart.html");
 		exit();
 	} elseif($selectoptions == 'option4') {
-		header("Location:../index3.html");
+		header("Location:page/progress.php");
 		exit();
 	}
-}		
+}
+	
 ?>
 
 
@@ -28,24 +29,37 @@ if(isset($_POST['selectoptions'])){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Admin:Голосование</title>
+    <title>Голосование</title>
 
     <!-- Bootstrap -->
-    <link href="../css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="../style.css" />
+    <link href="css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="style.css" />
+	<link href="css/timeTo.css" type="text/css" rel="stylesheet"/>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-   
+	
+	<script>
+function tGol() {
+    var fname = document.getElementById('tg').value;
+     
+    document.getElementById('tg').innerHTML = fname;
+}
+ 
+</script>
+	
+	
+	
   </head>
   <body>
 	<ul class="nav nav-pills"> 
 	  <li role="presentation" class="active"><a href="index.php">Настройка</a></li> 
 	  <li role="presentation"><a href="options.php">Опции графиков </a></li> 
 	  <li role="presentation"><a href="history.php">История</a></li> 
+	  <li role="presentation"><a href="news.php">Новости</a></li> 
 	</ul>
 	
 	<br><br>	
@@ -87,9 +101,15 @@ if(isset($_POST['selectoptions'])){
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Время голосования</label>
-							<input class="form-control" type="text" name="textfield" size="10" value="<?php echo date("0:15:00"); ?>"> 
+							<input id = "tg" class="form-control" type="text" name="time_gol" size="10" value ="00:00:30" > 
 					</div>
 				</div>
+				
+				<div class="col-md-2">
+					<div id="countdown-1"></div>
+					<p><button id="reset-1" type="button">Сбросить</button></p>
+				</div>
+				
 			</div>
 			
 					
@@ -108,6 +128,9 @@ if(isset($_POST['selectoptions'])){
 						
 					</div>
 				</div>
+				
+				
+				
 			</div>
 			
 			<div class="row">
@@ -122,6 +145,9 @@ if(isset($_POST['selectoptions'])){
 						<button type="button" name="stop" class="btn btn-danger">Остановить голосование</button>
 					</div>
 				</div>
+				
+				
+	
 			</div>
 			
 			<br>
@@ -142,6 +168,17 @@ if(isset($_POST['selectoptions'])){
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="../js/bootstrap.js"></script>
+    <script src="js/bootstrap.js"></script>
+	<script src="js/jquery.time-to.js"></script>
+	<script>
+	
+		$('#countdown-1').timeTo(30, function(){				//время голосования в секундах
+            alert('Всем спасибо! Голосование закончилось!');
+        });
+        $('#reset-1').click(function() {
+            $('#countdown-1').timeTo('reset');
+        });
+	</script>
+	
   </body>
 </html>
