@@ -1,21 +1,33 @@
 <?php
 
-if(empty($_POST['titul_news'])){
-	echo 'Введите новость';
-	
-} else if(!empty($_POST['titul_news'])) {
+if(!empty($_POST['titul_news'])) {
 	if (isset($_POST['titul_news']) && isset($_POST['addnews'])) {
 		$titul_news = $_POST['titul_news'];
-		$fp = fopen("page/news.txt", "a"); // Открываем файл в режиме записи
-		$mytext = $titul_news." * \r\n"; // Исходная строка
+		$fp = fopen("page/news.txt", "a+"); // Открываем файл в режиме записи
+		$mytext = $titul_news." *** \r\n"; // Исходная строка
 		$test = fwrite($fp, $mytext); // Запись в файл
-		if ($test) echo '<p style="color: red"> Данные в файл успешно занесены.</p>';
+		if ($test) echo '<p style="color: red"> Новости успешно обновлены.</p>';
 		else echo 'Ошибка при записи в файл.';
 		fclose($fp); //Закрытие файла
+	}
+}
+
+if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
+	$fp = file("page/news.txt");
+	$count = count($fp);
+	if($count >10) {	//если кол-во строк в файле более 10, то удаляем 0 строку
+		$num_stroka = 0; //Удалим 0 строку из файла
+		$file = file("page/news.txt"); // Считываем весь файл в массив
+
+		for($i = 0; $i < sizeof($file); $i++)
+		if($i == $num_stroka) unset($file[$i]);
+
+		$fp = fopen("page/news.txt", "w");
+		fputs($fp, implode("", $file));
+		fclose($fp);
+	}
 	
 }
-}	
- 
 ?>
 
 <!DOCTYPE html>
@@ -55,9 +67,9 @@ if(empty($_POST['titul_news'])){
 			<div class = "tabs">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
-				  <li class="active"><a href="#opt1" data-toggle="tab">Добавление</a></li>
-				  <li><a href="#opt2" data-toggle="tab">Редактирование</a></li>
-				  <li><a href="#opt3" data-toggle="tab">Удаление</a></li>
+				  <li class="active"><a href="#opt1" data-toggle="tab">Управление новостями</a></li>
+				  <li><a href="#opt2" data-toggle="tab">RSS</a></li>
+				  <li><a href="#opt3" data-toggle="tab">MySQL</a></li>
 				</ul>
 
 					<!-- Tab panes -->
@@ -67,18 +79,18 @@ if(empty($_POST['titul_news'])){
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
+								<?php echo 'Количество новостей: '.@$count;?> <br><br>
 									<label>Заголовок новости</label>
 									<input class = "form-control" type="text" name="titul_news" value="">
+									<input type="checkbox" name="autodelete" value="a1" checked>Использовать автоудаление старых новостей
 								</div>
 							</div>
 						</div>
 			
 						<div class="row">		
 							<div class="col-md-4">
-								<div class="form-group">
-									<label>Текст новости</label>
-									  <textarea class="form-control" rows="10"></textarea>
-								</div>
+								<p>Внимание! Все текущие новости находятся в файле "/page/new.txt"</p>
+								<p>Удаленные новости хранятся в файле "/page/old_new.txt"</p>
 							</div>	
 						</div>
 			
@@ -92,6 +104,16 @@ if(empty($_POST['titul_news'])){
 						</div>
 								  
 					</form>
+					
+					<form role = "form" action="delete_news.php" method="post">
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<button type="submit" name="del" class="btn btn-danger">Удалить</button>
+									</div>
+								</div>
+							</div>
+					</form>
 				  </div>
 				  
 				  
@@ -100,7 +122,7 @@ if(empty($_POST['titul_news'])){
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<button type="submit" name="editnews" class="btn btn-warning">Редактировать</button>
+									<button type="submit" name="editnews" class="btn btn-warning">Сохранить</button>
 								</div>
 							</div>
 						</div>
@@ -114,7 +136,7 @@ if(empty($_POST['titul_news'])){
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group">
-										<button type="submit" name="delete" class="btn btn-danger">Удалить</button>
+										<button type="submit" name="delete" class="btn btn-danger">Просмотреть</button>
 									</div>
 								</div>
 							</div>
