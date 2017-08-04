@@ -1,14 +1,45 @@
 <?php
+include_once 'connect.php';
 
+//Настройки вывода новостей
+if(isset($_POST['optionsRadios'])) {
+	$_SESSION['optionsRadios'] = $_POST['optionsRadios'];
+	$_SESSION['info'] = 'Настройка вывода новостей сохранена. <a href="page/progress.php">Перейти к новостям.</a>';
+}
+
+if(isset($_POST['selectRss'],$_POST['submitRss'])){
+	$selectRss = $_POST['selectRss'];
+	
+	if($selectRss == 'option1') {
+		$_SESSION['urlRss'] = 'http://www.pravda.com.ua/rus/rss/view_news/';
+	} elseif($selectRss == 'option2') {
+		$_SESSION['urlRss'] = 'http://k.img.com.ua/rss/ru/all_news2.0.xml';
+	} elseif($selectRss == 'option3') {
+		$_SESSION['urlRss'] = 'https://www.rbc.ua/static/rss/newsline.rus.rss.xml';
+	} elseif($selectRss == 'option4') {
+		$_SESSION['urlRss'] = 'http://news.liga.net/news/rss.xml';
+	}
+}
+
+
+//удаление новостей из файла
 if(!empty($_POST['titul_news'])) {
 	if (isset($_POST['titul_news']) && isset($_POST['addnews'])) {
 		$titul_news = $_POST['titul_news'];
 		$fp = fopen("page/news.txt", "a+"); // Открываем файл в режиме записи
 		$mytext = $titul_news." *** \r\n"; // Исходная строка
 		$test = fwrite($fp, $mytext); // Запись в файл
-		if ($test) echo '<p style="color: red"> Новости успешно обновлены.</p>';
-		else echo 'Ошибка при записи в файл.';
-		fclose($fp); //Закрытие файла
+		if ($test) {
+			$_SESSION['info'] = 'Новости успешно обновлены';
+			header('Location: news.php');
+			exit();	
+		}
+		else {
+			$_SESSION['info'] = 'Ошибка при записи в файл';
+			header('Location: news.php');
+			exit();	
+			fclose($fp); //Закрытие файла
+		}
 	}
 }
 
@@ -25,10 +56,55 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 		$fp = fopen("page/news.txt", "w");
 		fputs($fp, implode("", $file));
 		fclose($fp);
+	}	
+}
+
+
+//удаление отмеченных новостей из базы
+if(isset($_POST['delete'])&& isset($_POST['ids'])) {
+	foreach($_POST['ids'] as $k=>$v){
+		$_POST['ids'][$k] = (int)$v;
 	}
 	
+	$ids = implode(',',$_POST['ids']);
+	mysqli_query($link, "
+	DELETE FROM `news`
+	WHERE `id` IN (".$ids.")
+	") or exit(mysqli_error());
+	
+	$_SESSION['info'] = 'Новости были удалены';
+	header('Location: news.php');
+	exit();
 }
+
+
+//удаление новости из базы
+if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+	mysqli_query($link, "
+	DELETE FROM `news`
+	WHERE `id` = ".$_GET['id']."
+	") or exit(mysqli_error());
+	
+	$_SESSION['info'] = 'Новость была удалена';
+	header('Location: news.php');
+	exit();	
+}
+
+
+//извлечение новостей из базы
+$news = mysqli_query($link, "
+	SELECT *
+	FROM `news`
+	ORDER BY `id` DESC
+	") or exit(mysqli_error());
+
+if(isset($_SESSION['info'])) {
+	$info = $_SESSION['info'];
+	unset($_SESSION['info']);	
+}		
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -59,15 +135,57 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 	  <li role="presentation"class="active"><a href="news.php">Новости</a></li> 
 	</ul>
 	
-	<br><br>	
+	<br><br>
+<!-- Вывод инфосообщения -->	
+<?php if(isset($info)) { ?>
+	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
+<?php } ?>
+
 	
 <div class = "container-fluid">	
+
+<form role = "form" action="" method="post">
+Вывод новостей в бегущей строке:
+	<div class="row">
+		<div class="col-md-4">
+			<div class="form-group">
+				<div class="radio-inline">
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+						Файл
+					</label>
+				</div>
+
+				<div class="radio-inline">
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+						RSS
+					</label>
+				</div>
+				
+				<div class="radio-inline">
+					<label>
+						<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+						SQL
+					</label>
+				</div>
+				
+				<button type="submit" name="ok" class="btn">Применить</button>
+				
+			</div>
+		</div>
+	</div>
+</form>
+
+
+
+
 	<div class = "row">
 		<div class="col-md-12">	
 			<div class = "tabs">
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
-				  <li class="active"><a href="#opt1" data-toggle="tab">Управление новостями</a></li>
+				  <li class="active"><a href="#opt1" data-toggle="tab">Файл</a></li>
 				  <li><a href="#opt2" data-toggle="tab">RSS</a></li>
 				  <li><a href="#opt3" data-toggle="tab">MySQL</a></li>
 				</ul>
@@ -76,10 +194,13 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 				<div class="tab-content">
 				  <div class="tab-pane active" id="opt1">
 					<form role = "form" action="news.php" method="post">
-						<div class="row">
+						<div class="row" style="padding-top:20px">
 							<div class="col-md-4">
 								<div class="form-group">
-								<?php echo 'Количество новостей: '.@$count;?> <br><br>
+								<?php echo '<p style="color: #cd66cc;"><b>Количество новостей: '.@$count.'</b></p>';?> 
+								<button type="submit" name="delete" class="btn btn-obnov"><span class="glyphicon glyphicon-refresh"></span>  Обновить</button>
+								
+								<br><br>
 									<label>Заголовок новости</label>
 									<input class = "form-control" type="text" name="titul_news" value="">
 									<input type="checkbox" name="autodelete" value="a1" checked>Использовать автоудаление старых новостей
@@ -89,8 +210,8 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 			
 						<div class="row">		
 							<div class="col-md-4">
-								<p>Внимание! Все текущие новости находятся в файле "/page/new.txt"</p>
-								<p>Удаленные новости хранятся в файле "/page/old_new.txt"</p>
+								<p>Внимание! Все текущие новости находятся в файле <b>"/page/new.txt"</b></p>
+								<p>Удаленные новости хранятся в файле <b>"/page/old_new.txt"</b></p>
 							</div>	
 						</div>
 			
@@ -109,7 +230,7 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group">
-										<button type="submit" name="del" class="btn btn-danger">Удалить</button>
+										<button type="submit" name="del" class="btn btn-danger"> Удалить </button>
 									</div>
 								</div>
 							</div>
@@ -119,29 +240,50 @@ if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
 				  
 				  <div class="tab-pane" id="opt2">
 					<form role = "form" action="" method="post">
-						<div class="row">
+						<div class="row" style="padding-top:20px">
 							<div class="col-md-4">
 								<div class="form-group">
-									<button type="submit" name="editnews" class="btn btn-warning">Сохранить</button>
+									<label>Источник ленты RSS</label>
+									<select class = "form-control" name="selectRss">
+										<option value="option1">Украинская правда</option>
+										<option value="option2">Корреспондент</option>
+										<option value="option3">РБК-Украина</option>
+										<option value="option4">Лига.Новости</option>
+									</select>
 								</div>
 							</div>
 						</div>
+							
+						<div class="col-md-4">
+							<div class="form-group">
+								<button type="submit" name="submitRss" class="btn btn-warning">Применить</button>
+							</div>
+						</div>
+						
 											
 					</form>
 				  </div>
 				  
 				  
 				  <div class="tab-pane" id="opt3">
-					<form role = "form" action="" method="post">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group">
-										<button type="submit" name="delete" class="btn btn-danger">Просмотреть</button>
-									</div>
+
+					<div style = "padding-top:20px; padding-bottom:20px;">
+
+						<b style="color: #cd66cc;">Все существующие новости:</b>	
+						<hr>		
+						<form action="" method="post">		
+							<?php while($row = mysqli_fetch_assoc($news)) { ?>					
+								<div>
+									<div><input type="checkbox" name ="ids[]" value="<?php echo $row['id']; ?>"> <a href="news.php?page=news&action=delete&id=<?php echo $row['id']; ?>">УДАЛИТЬ</a> <a href="edit_news.php?action=edit&id=<?php echo $row['id']; ?>">ИЗМЕНИТЬ</a> <b><?php echo $row['title'];?></b> <span style="color:#777777; font-size:10px;"><?php echo '('.$row['date']. ')'; ?></span></div>
 								</div>
-							</div>
-						
-					</form>
+								<hr>
+							<?php } ?>	
+							
+							<a href="add_news.php" class="btn btn-success" role="button">Добавить</a>
+
+							<button type="submit" name="delete" class="btn btn-danger">Удалить отмеченные записи</button>
+						</form>
+					</div>
 				  </div>
 				
 				</div>

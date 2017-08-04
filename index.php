@@ -1,21 +1,41 @@
 <?php
+include_once 'connect.php';
+
+// echo $_SESSION['question']. '<br>';
+
+ // echo 'GET:<pre>'.print_r($_GET,1). '</pre>';
+ // echo 'POST:<pre>'.print_r($_POST,1). '</pre>';
+ // echo 'REQUEST:<pre>'.print_r($_REQUEST,1). '</pre>';
+ 
 
 if(isset($_POST['selectoptions'])){
 	$selectoptions = $_POST['selectoptions'];
 	
 	if($selectoptions == 'option1') {
-		header("Location: page/piechart_3d.html");
+		header("Location: page/piechart_3d.php");
 		exit();
 	} elseif($selectoptions == 'option2') {
-		header("Location:page/columnchart_material.html");
+		header("Location:page/columnchart_material.php");
 		exit();
 	} elseif($selectoptions == 'option3') {
-		header("Location:page/piechart_barchart.html");
+		header("Location:page/piechart_barchart.php");
 		exit();
 	} elseif($selectoptions == 'option4') {
 		header("Location:page/progress.php");
 		exit();
 	}
+}
+
+//извлечение тем для голосований из базы
+$result =  mysqli_query ($link,"
+SELECT * 
+FROM `questions` 
+ORDER BY `id` DESC
+") or exit(mysqli_error());
+
+if(isset($_SESSION['info'])) {
+	$info = $_SESSION['info'];
+	unset($_SESSION['info']);
 }
 	
 ?>
@@ -48,13 +68,18 @@ function tGol() {
      
     document.getElementById('tg').innerHTML = fname;
 }
- 
 </script>
-	
-	
-	
-  </head>
+</head>
+  
+ 
+
   <body>
+<!-- Вывод инфосообщения -->
+<?php if(isset($info)) { ?>
+	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
+<?php } ?>
+
+
 	<ul class="nav nav-pills"> 
 	  <li role="presentation" class="active"><a href="index.php">Настройка</a></li> 
 	  <li role="presentation"><a href="options.php">Опции графиков </a></li> 
@@ -65,6 +90,63 @@ function tGol() {
 	<br><br>	
 	
 	<div class = "container-fluid">
+		<form action="index.php" method="post">
+			<div class="row">
+				<div class="col-md-3">
+					<div class="form-group">
+						<label>Тема для голосования</label>
+						<select class="form-control" name="question">
+							<option value="">Выберите вопрос</option>
+							
+							<?php
+							while ($row = mysqli_fetch_array($result)){
+								echo "<option value=' ".$row['id']." '>".$row['question']."</option>";
+							}
+						
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $op = $_POST['question']; //тут будет выбраное значение из списка
+    $q = mysqli_query ($link, "
+	SELECT * FROM `questions` 
+	WHERE `id`=".$op."
+	") or exit(mysqli_error());
+	while($row = mysqli_fetch_assoc($q)){
+		$_SESSION['question'] = $row['question']; //сохраняем в сессию текст вопроса
+	}
+}	
+
+//echo "<input type='submit' value ='Применить'></input>";
+
+
+
+// if(isset($_SESSION['question'])) {
+	// echo '<p>Текущая тема: <b>' . $_SESSION['question'] . '</b></p>';
+// }
+?>							
+
+						
+						</select>
+   						
+					</div>
+				</div>
+				
+				
+				
+				<div class="col-md-1">
+					<div class="form-group">
+					<br>
+						<button type="submit" class="btn btn-warning">Применить</button>
+					</div>
+				</div>
+			</div>
+				
+<?php
+if(isset($_SESSION['question'])) {
+	echo '<p style = "color: #cd66cc;">Текущая тема: <b>' . $_SESSION['question'] . '</b></p>';
+}	?>
+				
+		
+		</form>
+		
 		<form role = "form" action="index.php" method="post">
 			<div class="row">
 				<div class="col-md-4">
@@ -80,16 +162,8 @@ function tGol() {
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Тема голосования</label>
-						<input class = "form-control" type="text" name="textfield" value="">
-					</div>
-				</div>
-			</div>
-			
 						
+			<br>			
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
@@ -171,8 +245,7 @@ function tGol() {
     <script src="js/bootstrap.js"></script>
 	<script src="js/jquery.time-to.js"></script>
 	<script>
-	
-		$('#countdown-1').timeTo(30, function(){				//время голосования в секундах
+		$('#countdown-1').timeTo(300, function(){				//время голосования в секундах
             alert('Всем спасибо! Голосование закончилось!');
         });
         $('#reset-1').click(function() {

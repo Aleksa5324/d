@@ -1,3 +1,8 @@
+<?php
+include_once 'connect.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -57,7 +62,7 @@
 							<div class="col-md-2">
 								<div class="form-group">
 									<label>Ширина, px</label>
-									<input class = "form-control" type="text" name="width" value="">
+									<input class = "form-control" type="text" name="width" value="<?php echo @$_POST['width']; ?>">
 								</div>
 							</div>	
 								
@@ -141,7 +146,15 @@
 									  <textarea class="form-control" rows="10"></textarea>
 								</div>
 							</div>	
-						</div>							
+						</div>	
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+								</div>
+							</div>
+						</div>
 				  
 					</form>
 				  </div>

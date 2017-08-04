@@ -1,4 +1,8 @@
+<?php
+include_once '../connect.php';
 
+
+?>
 
 <!DOCTYPE html>
 <html>
@@ -72,18 +76,86 @@
 						<!--<img src="../img/zastavka.png" width="214" height="54" alt=""> -->
 					</div>	
 					<div class="col-md-10">
-						<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">
-						<!--<img src="../img/drum.gif" width="100" height="54" alt="">-->
-						<?php
-							header('Content-Type: text/html; charset=utf-8');
-							$f = fopen("news.txt", "r");
+					
+					<?php
+					if(isset($_SESSION['optionsRadios']) && $_SESSION['optionsRadios'] == 'option3') {
+						
+						//извлечение новостей из базы
+						$news = mysqli_query($link, "
+							SELECT *
+							FROM `news`
+							ORDER BY `id` DESC
+							") or exit(mysqli_error());
+						
+						$beg_stroka = "";
+						while($row = mysqli_fetch_assoc($news))
+						$beg_stroka .= $row['title']. '***';	
+						//вывод бегущей строки
+						echo '<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">' .$beg_stroka.'</marquee>';
+												
+						
+					} elseif(isset($_SESSION['optionsRadios'], $_SESSION['urlRss']) && $_SESSION['optionsRadios'] == 'option2') {
+						
+						$url = $_SESSION['urlRss']; //адрес RSS ленты, для примера я взял новостную ленту укрправды
+ 
+						$rss = simplexml_load_file($url); //Функция интерпретирует XML-файл в объект
+
+						$news = "";
+						//цикл для считывания всей RSS ленты
+						foreach ($rss->channel->item as $item) {
+						 $news .= $item->title. '***';
+						}
+						//вывод бегущей строки
+						echo '<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">' .$news. '</marquee>';
+						
+					} elseif(isset($_SESSION['optionsRadios']) && $_SESSION['optionsRadios'] == 'option1')  {
+					
+						echo '<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">';
+						
 							
-							while(!feof($f)) { 
-								echo fgets($f);
-							}
-							fclose($f);
-						?>
-						</span></marquee>
+								header('Content-Type: text/html; charset=utf-8');
+								$f = fopen("news.txt", "r");
+								
+								while(!feof($f)) { 
+									echo fgets($f);
+								}
+								fclose($f);
+							
+							echo '</span></marquee>';
+						
+					} elseif(empty($_SESSION['optionsRadios']))  {
+					
+						echo '<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">';
+						
+							
+								header('Content-Type: text/html; charset=utf-8');
+								$f = fopen("news.txt", "r");
+								
+								while(!feof($f)) { 
+									echo fgets($f);
+								}
+								fclose($f);
+							
+							echo '</span></marquee>';
+						
+					} elseif(empty($_SESSION['urlRss']))  {
+						
+						$url = 'http://www.pravda.com.ua/rss/view_news/'; //адрес RSS ленты, для примера я взял новостную ленту укрправды
+ 
+						$rss = simplexml_load_file($url); //Функция интерпретирует XML-файл в объект
+
+						$news = "";
+						//цикл для считывания всей RSS ленты
+						foreach ($rss->channel->item as $item) {
+						 $news .= $item->title. '***';
+						}
+						//вывод бегущей строки
+						echo '<marquee behavior="scroll" direction="left"><span style="color:white; font-size: 36px;">' .$news. '</marquee>';
+					
+					}
+					
+					?>
+					
 					</div>	
 				</div>
 			</div>	

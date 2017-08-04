@@ -1,3 +1,7 @@
+<?php
+include_once '../connect.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <html>
@@ -12,7 +16,12 @@
   </head>
   <body>
 		<div class="titul">
-			<?php $_SESSION['question'];?> 
+			<?php 
+			if(isset($_SESSION['question'])) {
+				echo $_SESSION['question'];
+			} else echo "Выберите тему голосования... <a href='../index.php'>Перейти</a>";	
+			?> 
+			
 		</div>
 		
 		<div class="legenda">

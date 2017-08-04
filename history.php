@@ -1,4 +1,62 @@
+<?php
+include_once 'connect.php';
 
+//извлечение новостей из базы
+$question = mysqli_query($link, "
+	SELECT *
+	FROM `questions`
+	ORDER BY `id` DESC
+	") or exit(mysqli_error());
+
+if(isset($_SESSION['info'])) {
+	$info = $_SESSION['info'];
+	unset($_SESSION['info']);	
+}		
+
+
+//удаление отмеченных тем для голосования из базы
+if(isset($_POST['delete'])&& isset($_POST['ids'])) {
+	foreach($_POST['ids'] as $k=>$v){
+		$_POST['ids'][$k] = (int)$v;
+	}
+	
+	$ids = implode(',',$_POST['ids']);
+	mysqli_query($link, "
+	DELETE FROM `questions`
+	WHERE `id` IN (".$ids.")
+	") or exit(mysqli_error());
+	
+	$_SESSION['info'] = 'Темы для голосований были удалены';
+	header('Location: history.php');
+	exit();
+}
+
+
+//удаление темы для голосования из базы
+if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+	mysqli_query($link, "
+	DELETE FROM `questions`
+	WHERE `id` = ".$_GET['id']."
+	") or exit(mysqli_error());
+	
+	$_SESSION['info'] = 'Новость была удалена';
+	header('Location: history.php');
+	exit();	
+}
+
+//выборка данных из базы между датами
+if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
+    $from = $_POST['from'];
+    $to = $_POST['to'] ;
+    	
+	$result = mysqli_query($link, "
+	SELECT * FROM `questions` 
+	WHERE `date` BETWEEN CAST('".$from."' AS DATE) and CAST('".$to."' AS DATE) 
+	") or exit(mysqli_error());
+	
+}
+
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,30 +89,28 @@
 	
 	<br><br>	
 	
+<!-- Вывод инфосообщения -->	
+<?php if(isset($info)) { ?>
+	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
+<?php } ?>
+
+
 	<div class = "container-fluid">
-		<form role = "form" action="" method="">
+		<form role = "form" action="" method="post">
 					
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Тема голосования</label>
-						<input class = "form-control" type="text" name="tema" value="">
-					</div>
-				</div>
-			</div>
-			
+						
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата начала</label>
-						<input class = "form-control" type="date" value="">
+						<input class = "form-control" type="date" name="from" value="">
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата окончания</label>
-						<input class = "form-control" type="date" value="">
+						<input class = "form-control" type="date" name="to" value="">
 					</div>
 				</div>
 			</div>	
@@ -63,12 +119,60 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<button type="submit" name="search" class="btn btn-warning">Найти</button>
+						<button type="submit" name="show" class="btn btn-warning">Найти</button>
 					</div>
 				</div>
 			</div>
 
+			<?php 
+				echo '<table class="table">';
+				echo '<tr >';
+				echo '<th style ="width:100px;">ID</th>';
+				echo '<th>Дата</th>';	
+				echo '<th>Тема</th>';
+				echo '</tr>';
+				
+								
+				
+				while($row = mysqli_fetch_assoc($result)) {
+				$row['date'] = strtotime($row['date']);
+				$row['date'] = date('d.m.Y', $row['date']);
+				
+				echo '<tr>';
+				echo '<td>' . $row['id'] . '</td>';
+				echo '<td>' . $row['date'] . '</td>';
+				echo '<td>' . $row['question'] . '</td>';
+				
+				echo '</tr>';							
+				}
+					
+				echo '</table>';		
+			?>
+			
 		</form>
+		
+		
+		
+		<div style = "padding-top:20px; padding-bottom:20px;">
+
+						<b style="color: #cd66cc;">Все существующие темы для голосования:</b>	
+						<hr>
+		<form action="" method="post">		
+			<?php while($row = mysqli_fetch_assoc($question)) { ?>					
+				<div>
+					<div><input type="checkbox" name ="ids[]" value="<?php echo $row['id']; ?>"> <a href="history.php?page=history&action=delete&id=<?php echo $row['id']; ?>">УДАЛИТЬ</a> <a href="edit_question.php?action=edit&id=<?php echo $row['id']; ?>">ИЗМЕНИТЬ</a> <b><?php echo $row['question'];?></b> <span style="color:#777777; font-size:10px;"><?php echo '('.$row['date']. ')'; ?></span></div>
+				</div>
+				<hr>
+				<?php } ?>	
+							
+				<a href="add_question.php" class="btn btn-success" role="button">Добавить</a>
+
+				<button type="submit" name="delete" class="btn btn-danger">Удалить отмеченные записи</button>
+		</form>
+		
+		
+		
+		
 	</div>	
 	
 	
