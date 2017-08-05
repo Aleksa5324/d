@@ -51,11 +51,11 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
     	
 	$result = mysqli_query($link, "
 	SELECT * FROM `questions` 
-	WHERE `date` BETWEEN CAST('".$from."' AS DATE) and CAST('".$to."' AS DATE) 
+	WHERE `date` BETWEEN CAST('".$from."' AS DATE) and ADDDATE(CAST('".$to."' AS DATE),INTERVAL 1 DAY) 
 	") or exit(mysqli_error());
 	
-}
-
+} 
+	
 ?>
 
 <!DOCTYPE html>
@@ -97,20 +97,19 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
 
 	<div class = "container-fluid">
 		<form role = "form" action="" method="post">
-					
-						
+									
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата начала</label>
-						<input class = "form-control" type="date" name="from" value="">
+						<input class = "form-control" type="date" name="from" value="<?php $POST['from']; ?>">
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата окончания</label>
-						<input class = "form-control" type="date" name="to" value="">
+						<input class = "form-control" type="date" name="to" value="<?php $POST['to']; ?>">
 					</div>
 				</div>
 			</div>	
@@ -121,33 +120,46 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
 					<div class="form-group">
 						<button type="submit" name="show" class="btn btn-warning">Найти</button>
 					</div>
+					<?php 
+					if (isset($_POST['from'],$_POST['to'])){
+					$_POST['from'] = strtotime($_POST['from']);
+					$dateFrom = date('d.m.Y', $_POST['from']);
+					$_POST['to'] = strtotime($_POST['to']);
+					$dateTo = date('d.m.Y', $_POST['to']);
+					
+					echo '<p>Заданный период: с <b>'.$dateFrom. ' по ' .$dateTo. '</b></p>';
+					}
+					?>
 				</div>
 			</div>
 
-			<?php 
-				echo '<table class="table">';
-				echo '<tr >';
-				echo '<th style ="width:100px;">ID</th>';
-				echo '<th>Дата</th>';	
-				echo '<th>Тема</th>';
-				echo '</tr>';
+			
+			<table class="table table-striped">
+			</tbody>
+				<tr >
+					<th style ="width:100px;">ID</th>
+					<th>Дата</th>	
+					<th>Тема</th>
+				</tr>
 				
 								
-				
+			<?php 	
+				if (isset($result)) {
 				while($row = mysqli_fetch_assoc($result)) {
 				$row['date'] = strtotime($row['date']);
 				$row['date'] = date('d.m.Y', $row['date']);
 				
 				echo '<tr>';
-				echo '<td>' . $row['id'] . '</td>';
-				echo '<td>' . $row['date'] . '</td>';
-				echo '<td>' . $row['question'] . '</td>';
-				
-				echo '</tr>';							
+					echo '<td>' . $row['id'] . '</td>';
+					echo '<td>' . $row['date'] . '</td>';
+					echo '<td>' . $row['question'] . '</td>';
 				}
-					
-				echo '</table>';		
-			?>
+				}
+			?>	
+				</tr>							
+				</tbody>	
+			</table>	
+			
 			
 		</form>
 		
