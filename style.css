@@ -3,7 +3,7 @@
 /* CSS Document */
 body{
 	margin:0px;
-	padding:0px;
+	padding:70px;
 }
 
 #piechart_3d{
@@ -89,4 +89,22 @@ color: blue;
 	top: 0px; 
 	right: 0px; 
 	z-index:1;
+}
+.MessageBlock{
+	margin-top: 15px;
+	border: 1px solid #A83B2D;
+	background: #D44B38;
+	padding: 10px;
+	color: #fff;
+	
+}
+.zast{
+	position: absolute; 
+	top: 350px; 
+	right: 350px; 
+	z-index:1;	
+}
+.zast p{
+	color: black;
+	font-size: 18px;
 }

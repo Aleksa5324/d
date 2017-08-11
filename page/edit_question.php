@@ -1,5 +1,5 @@
 <?php
-include_once 'connect.php';
+include_once '../connect.php';
 
 
 if(isset($_POST['edit'],$_POST['question'])) {
@@ -8,11 +8,11 @@ if(isset($_POST['edit'],$_POST['question'])) {
 	$_POST[$k] = trim($v);
 	}
 	
-    mysqli_query($link,"
+    mysqli_query($db,"
 		UPDATE `questions` SET
-			`question`= '".mysqli_real_escape_string($link,$_POST['question'])."'
+			`question`= '".mysqli_real_escape_string($db,$_POST['question'])."'
 			WHERE `id` = ".(int)$_GET['id']."
-	") or exit(mysqli_error($link));
+	") or exit(mysqli_error($db));
 		
 	$_SESSION['info'] = 'Запись была изменена';
 	header('Location: history.php');
@@ -20,7 +20,7 @@ if(isset($_POST['edit'],$_POST['question'])) {
 }
 
 
-$question = mysqli_query($link,"
+$question = mysqli_query($db,"
 		SELECT * 
 		FROM `questions` 
 		WHERE `id` = ".(int)$_GET['id']."
@@ -53,8 +53,8 @@ if(isset($_POST['question'])) {
     <title>Редактрование новости</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -98,6 +98,6 @@ if(isset($_POST['question'])) {
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>

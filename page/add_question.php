@@ -1,18 +1,18 @@
 <?php
-include_once 'connect.php';
+include_once '../connect.php';
 
-if(isset($_POST['add'],$_POST['title'])) {
-	$_POST['title'] = trim($_POST['title']);
+if(isset($_POST['add'],$_POST['question'])) {
+	$_POST['question'] = trim($_POST['question']);
 	
 	
-	mysqli_query($link,"
-		INSERT INTO `news` SET
-			`title`= '".mysqli_real_escape_string($link,trim($_POST['title']))."',
+	mysqli_query($db,"
+		INSERT INTO `questions` SET
+			`question`= '".mysqli_real_escape_string($db,trim($_POST['question']))."',
 			`date`= NOW()
 	") or exit(mysqli_error());
 		
 	$_SESSION['info'] = 'Запись была добавлена';
-	header('Location: news.php');
+	header('Location: history.php');
 	exit();
 }
 
@@ -28,11 +28,11 @@ if(isset($_POST['add'],$_POST['title'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Управление новостями</title>
+    <title>Голосование</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -46,14 +46,14 @@ if(isset($_POST['add'],$_POST['title'])) {
 	<div class = "container-fluid">	
 		<div class = "row">
 			<div class="col-md-12">	
-				<form action="add_news.php" method="post">
+				<form action="add_question.php" method="post">
 					<fieldset>
-					<legend style="color: green">Добавление новости</legend>
+					<legend style="color: green">Добавление вопроса для голосования</legend>
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-								<label>Заголовок новости</label>
-									<input class = "form-control"  type="text" name="title">
+								<label>Тема голосования</label>
+									<input class = "form-control"  type="text" name="question">
 								</div>
 							</div>
 						</div>
@@ -74,6 +74,6 @@ if(isset($_POST['add'],$_POST['title'])) {
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>

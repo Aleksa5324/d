@@ -1,5 +1,6 @@
 <?php
-include_once 'connect.php';
+include_once '../connect.php';
+include_once '../lib/myFunction.php';
 ?>
 
 
@@ -13,8 +14,10 @@ include_once 'connect.php';
     <title>Настройки голосования</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
+	<!-- Custom styles for this template -->
+    <link href="../css/navbar-fixed-top.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,15 +27,42 @@ include_once 'connect.php';
   </head>
   <body>
    
-	<ul class="nav nav-pills"> 
-		<li role="presentation"><a href="index.php">Настройка</a></li> 
-		<li role="presentation" class="active"><a href="options.php">Опции графиков </a></li> 
-		<li role="presentation"><a href="history.php">История</a></li> 
-		<li role="presentation"><a href="news.php">Новости</a></li> 
-	</ul>
-	
-	<br><br>	
-<div class = "container-fluid">	
+	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.php">ГОЛОСОВАНИЕ</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="main.php">Главная</a></li>
+            <li><a href="history.php">История</a></li>
+			<li><a href="news.php">Новости</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="admin_polls.php">Интернет голосование</a></li>
+                <li class="divider"></li>
+				<li><a href="options.php">Опции графиков</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="signin.php">Вход</a></li>
+            <?php Menu(); ?>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+		
+<div class = "container">	
 	<div class = "row">
 		<div class="col-md-12">	
 			<div class = "tabs">
@@ -278,6 +308,14 @@ include_once 'connect.php';
 								</div>
 							</div>	
 						</div>	
+						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+								</div>
+							</div>
+						</div>
 					
 					</form>
 				  		  
@@ -383,7 +421,16 @@ include_once 'connect.php';
 									  <textarea class="form-control" rows="10"></textarea>
 								</div>
 							</div>	
-						</div>							
+						</div>	
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+								</div>
+							</div>
+						</div>
+						
 						</fieldset>
 					</form>
 					
@@ -504,6 +551,15 @@ include_once 'connect.php';
 								</div>
 							</div>	
 						</div>	
+						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+								</div>
+							</div>
+						</div>
+						
 						</fieldset>
 					</form>
 				  </div>
@@ -534,7 +590,17 @@ include_once 'connect.php';
 									<input class="form-control" type="text" name="Color2" size="10" value="">
 								</div>
 							</div>
+							
 						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+								</div>
+							</div>
+						</div>
+							
 				  	</form>
 				  </div>
 				  
@@ -547,6 +613,6 @@ include_once 'connect.php';
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>

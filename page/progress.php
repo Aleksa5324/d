@@ -81,7 +81,7 @@ include_once '../connect.php';
 					if(isset($_SESSION['optionsRadios']) && $_SESSION['optionsRadios'] == 'option3') {
 						
 						//извлечение новостей из базы
-						$news = mysqli_query($link, "
+						$news = mysqli_query($db, "
 							SELECT *
 							FROM `news`
 							ORDER BY `id` DESC

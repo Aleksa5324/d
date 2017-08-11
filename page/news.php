@@ -1,10 +1,11 @@
 <?php
-include_once 'connect.php';
+include_once '../connect.php';
+include_once '../lib/myFunction.php';
 
 //Настройки вывода новостей
 if(isset($_POST['optionsRadios'])) {
 	$_SESSION['optionsRadios'] = $_POST['optionsRadios'];
-	$_SESSION['info'] = 'Настройка вывода новостей сохранена. <a href="page/progress.php">Перейти к новостям.</a>';
+	$_SESSION['info'] = 'Настройка вывода новостей сохранена. <a href="progress.php">Перейти к новостям.</a>';
 }
 
 if(isset($_POST['selectRss'],$_POST['submitRss'])){
@@ -26,7 +27,7 @@ if(isset($_POST['selectRss'],$_POST['submitRss'])){
 if(!empty($_POST['titul_news'])) {
 	if (isset($_POST['titul_news']) && isset($_POST['addnews'])) {
 		$titul_news = $_POST['titul_news'];
-		$fp = fopen("page/news.txt", "a+"); // Открываем файл в режиме записи
+		$fp = fopen("news.txt", "a+"); // Открываем файл в режиме записи
 		$mytext = $titul_news." *** \r\n"; // Исходная строка
 		$test = fwrite($fp, $mytext); // Запись в файл
 		if ($test) {
@@ -44,16 +45,16 @@ if(!empty($_POST['titul_news'])) {
 }
 
 if(isset($_POST['autodelete']) && !empty($_POST['autodelete'])){
-	$fp = file("page/news.txt");
+	$fp = file("news.txt");
 	$count = count($fp);
 	if($count >10) {	//если кол-во строк в файле более 10, то удаляем 0 строку
 		$num_stroka = 0; //Удалим 0 строку из файла
-		$file = file("page/news.txt"); // Считываем весь файл в массив
+		$file = file("news.txt"); // Считываем весь файл в массив
 
 		for($i = 0; $i < sizeof($file); $i++)
 		if($i == $num_stroka) unset($file[$i]);
 
-		$fp = fopen("page/news.txt", "w");
+		$fp = fopen("news.txt", "w");
 		fputs($fp, implode("", $file));
 		fclose($fp);
 	}	
@@ -67,7 +68,7 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 	}
 	
 	$ids = implode(',',$_POST['ids']);
-	mysqli_query($link, "
+	mysqli_query($db, "
 	DELETE FROM `news`
 	WHERE `id` IN (".$ids.")
 	") or exit(mysqli_error());
@@ -80,7 +81,7 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 
 //удаление новости из базы
 if(isset($_GET['action']) && $_GET['action'] == 'delete') {
-	mysqli_query($link, "
+	mysqli_query($db, "
 	DELETE FROM `news`
 	WHERE `id` = ".$_GET['id']."
 	") or exit(mysqli_error());
@@ -92,7 +93,7 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete') {
 
 
 //извлечение новостей из базы
-$news = mysqli_query($link, "
+$news = mysqli_query($db, "
 	SELECT *
 	FROM `news`
 	ORDER BY `id` DESC
@@ -117,8 +118,10 @@ if(isset($_SESSION['info'])) {
     <title>Управление новостями</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
+	<!-- Custom styles for this template -->
+    <link href="../css/navbar-fixed-top.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -128,21 +131,48 @@ if(isset($_SESSION['info'])) {
    
   </head>
   <body>
-	<ul class="nav nav-pills"> 
-	  <li role="presentation"><a href="index.php">Настройка</a></li> 
-	  <li role="presentation"><a href="options.php">Опции графиков </a></li> 
-	  <li role="presentation"><a href="history.php">История</a></li> 
-	  <li role="presentation"class="active"><a href="news.php">Новости</a></li> 
-	</ul>
-	
-	<br><br>
-<!-- Вывод инфосообщения -->	
-<?php if(isset($info)) { ?>
-	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
-<?php } ?>
+  
+  	<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.php">ГОЛОСОВАНИЕ</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="main.php">Главная</a></li>
+            <li><a href="history.php">История</a></li>
+			<li class="active"><a href="news.php">Новости</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="admin_polls.php">Интернет голосование</a></li>
+                <li class="divider"></li>
+				<li><a href="options.php">Опции графиков</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="signin.php">Вход</a></li>
+            <?php Menu(); ?>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
 
 	
-<div class = "container-fluid">	
+<div class = "container">	
+
+<!-- Вывод инфосообщения -->	
+<?php if(isset($info)) { ?>
+	<h2 style="color:red;"><?php echo $info; ?></h2>
+<?php } ?>
 
 <form role = "form" action="" method="post">
 Вывод новостей в бегущей строке:
@@ -297,6 +327,6 @@ if(isset($_SESSION['info'])) {
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>

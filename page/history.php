@@ -1,8 +1,9 @@
 <?php
-include_once 'connect.php';
+include_once '../connect.php';
+include_once '../lib/myFunction.php';
 
 //извлечение новостей из базы
-$question = mysqli_query($link, "
+$question = mysqli_query($db, "
 	SELECT *
 	FROM `questions`
 	ORDER BY `id` DESC
@@ -21,7 +22,7 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 	}
 	
 	$ids = implode(',',$_POST['ids']);
-	mysqli_query($link, "
+	mysqli_query($db, "
 	DELETE FROM `questions`
 	WHERE `id` IN (".$ids.")
 	") or exit(mysqli_error());
@@ -34,7 +35,7 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 
 //удаление темы для голосования из базы
 if(isset($_GET['action']) && $_GET['action'] == 'delete') {
-	mysqli_query($link, "
+	mysqli_query($db, "
 	DELETE FROM `questions`
 	WHERE `id` = ".$_GET['id']."
 	") or exit(mysqli_error());
@@ -49,7 +50,7 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
     $from = $_POST['from'];
     $to = $_POST['to'] ;
     	
-	$result = mysqli_query($link, "
+	$result = mysqli_query($db, "
 	SELECT * FROM `questions` 
 	WHERE `date` BETWEEN CAST('".$from."' AS DATE) and ADDDATE(CAST('".$to."' AS DATE),INTERVAL 1 DAY) 
 	") or exit(mysqli_error());
@@ -69,8 +70,10 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
     <title>История голосований</title>
 
     <!-- Bootstrap -->
-    <link href="css/bootstrap.css" rel="stylesheet">
-	<link rel="stylesheet" type="text/css" href="style.css" />
+    <link href="../css/bootstrap.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../style.css" />
+	<!-- Custom styles for this template -->
+    <link href="../css/navbar-fixed-top.css" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -80,22 +83,52 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
    
   </head>
   <body>
-	<ul class="nav nav-pills"> 
-	  <li role="presentation"><a href="index.php">Настройка</a></li> 
-	  <li role="presentation"><a href="options.php">Опции графиков </a></li> 
-	  <li role="presentation" class="active"><a href="history.php">История</a></li> 
-	  <li role="presentation"><a href="news.php">Новости</a></li> 
-	</ul>
 	
-	<br><br>	
+<!-- Fixed navbar -->
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.php">ГОЛОСОВАНИЕ</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="main.php">Главная</a></li>
+            <li class="active"><a href="history.php">История</a></li>
+			<li><a href="news.php">Новости</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Настройки<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="admin_polls.php">Интернет голосование</a></li>
+                <li class="divider"></li>
+				<li><a href="options.php">Опции графиков</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="signin.php">Вход</a></li>
+            <?php Menu(); ?>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+	
+	
+
+
+
+	<div class = "container">
 	
 <!-- Вывод инфосообщения -->	
 <?php if(isset($info)) { ?>
-	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
+	<h2 style="color:red;"><?php echo $info; ?></h2>
 <?php } ?>
 
-
-	<div class = "container-fluid">
 		<form role = "form" action="" method="post">
 									
 			<div class="row">
@@ -191,6 +224,6 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.js"></script>
+    <script src="../js/bootstrap.js"></script>
   </body>
 </html>

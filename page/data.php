@@ -22,5 +22,5 @@ function getDataString(){
 echo getDataString();
 
 // закрываем подключение
-//mysqli_close($link);
+//mysqli_close($db);
 ?>
