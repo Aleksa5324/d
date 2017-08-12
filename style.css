@@ -99,12 +99,14 @@ color: blue;
 	
 }
 .zast{
+	width:100%;
+	margin: auto;
 	position: absolute; 
-	top: 350px; 
-	right: 350px; 
+	top: 0px; 
+	left: 0px; 
 	z-index:1;	
 }
 .zast p{
 	color: black;
-	font-size: 18px;
+	font-size: 16px;
 }

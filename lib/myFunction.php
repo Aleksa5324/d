@@ -11,6 +11,22 @@ function d($value = null, $die = 1) {
 }
 
 
+//функция  
+function RandomString($p1) { 
+$char = '0123456789abcdefghijklmnopqrstuvwxyz';
+	for ($i = 0; $i < $p1; $i ++) $string .= $char[rand(0, strlen($char) - 1)];
+	return $string;
+}
+
+
+//функция для скрытия домена почтовика
+function HideEmail($p1) {
+	$explode = explode('@', $p1);	
+	return $explode[0].'@*****';
+}
+
+
+
 //функция для безопасности сайта при вводе данных с формы 
 function FormChars($p1) { 
 	return nl2br(htmlspecialchars(trim($p1), ENT_QUOTES), false);
@@ -40,7 +56,7 @@ function MessageShow() {
 }
 
 
-//функция для вывода сообщений 
+//функция для вывода сообщений в зависимости от вида полльзователей
 function ULogin($p1) {
 	if (isset($_SESSION['USER_LOGIN_IN'])) {
 		if($p1 <= 0 and $_SESSION['USER_LOGIN_IN'] != $p1) MessageSend(1,'Данная страница доступна только для гостей.');

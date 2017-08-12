@@ -29,6 +29,8 @@
 </head>
   
   <body>
+<div class = "container-fluid">
+  <center>
 	<div class = "zast">
 		<p><a href="page/main.php"><img src="img/start.jpg" width="259" height="194" alt="lorem"></a> 
 		Мы рады Вас приветствовать на нашем сайте!
@@ -39,7 +41,9 @@
 		</p>
 		
 		
+	</center>
 	</div>
+</div>
 		
   </body>
 </html>

@@ -1,40 +1,45 @@
 <?php
+error_reporting(E_ALL);
+
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 ULogin(0); //страница для гостей
 
-//авторизация
-if(isset($_POST['subSign'], $_POST['login'], $_POST['password'])) {
+
+//обработка восстановления пароля
+if(!isset($_GET['code']) and substr(isset($_SESSION['RESTORE']), 0, 4) == 'wait') MessageSend(2,'Вы уже отправили заявку на восстановление пароля. Проверьте Ваш E-mail <b>'.HideEmail(substr($_SESSION['RESTORE'], 5)).'</b>', 'restore.php');
+
+if(isset($_GET['code']) and substr($_SESSION['RESTORE'], 0, 4) != 'wait') MessageSend(2,'Ваш пароль раннее уже был изменен. Для входа используйте новый пароль <b>'.$_SESSION['RESTORE'].'</b>', 'signin.php');
+
+
+
+if(isset($_GET['code'])) {
+	$row = mysqli_fetch_assoc(mysqli_query($db, 'SELECT `login` FROM `users` WHERE `id` = '.str_replace(md5('barrikada'), '', $_GET['code'])));	
+	if (!$row['login']) MessageSend(1, 'Невозможно восстановить пароль.', 'signin.php');	
+	$random = RandomString(8);
+	$_SESSION['RESTORE'] = $random;
+	mysqli_query($db, "UPDATE `users` SET `password` = '".GenPass($random, $row['login'])."' WHERE `login` = '$row[login]'");
+	MessageSend(2, 'Пароль успешно изменен. Для входа используйте новый пароль <b>'.$random.'</b>.', 'signin.php');		
+}
+
+	
+// отправка
+if(isset($_POST['subRest'])) {
 	$_POST['login'] = FormChars($_POST['login']);
-	$_POST['password'] = GenPass(FormChars($_POST['password']), $_POST['login']);
-
-if (!$_POST['login'] or !$_POST['password']) MessageSend(1, 'Невозможно обработать форму.');
 		
-$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `password`, `active` FROM `users` WHERE `login` = '$_POST[login]'"));	
-if ($row['password'] != $_POST['password']) MessageSend(1,'Неверный логин или пароль.');	
-if ($row['active'] 	== 0) MessageSend(1,'Аккаунт пользователя <b>'.$_POST['login'].'</b> не подтвержден.');	
+if (!$_POST['login']) MessageSend(1, 'Невозможно обработать форму.');
+		
+$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM `users` WHERE `login` = '$_POST[login]'"));	
+if (!$row['login']) MessageSend(1,'Пользователь не найден.');
 
-$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email` FROM `users` WHERE `login` = '$_POST[login]'"));	
-$_SESSION['USER_ID'] = $row['id'];
-$_SESSION['USER_NAME'] = $row['name'];
-$_SESSION['USER_REGDATE'] = $row['regdate'];
-$_SESSION['USER_EMAIL'] = $row['email'];
-$_SESSION['USER_LOGIN_IN'] = 1;
+mail($row['email'],'Сайт "ГОЛОСОВАНИЕ"', 'Ссылка для восстановления: http://localhost/d/page/restore.php?&code='.md5('barrikada').$row['id'], 'From: info@mail.com');
 
-if(isset($_POST['remember'])) setcookie('user', $_POST['password'], strtotime('+10 days'), '/');
+$_SESSION['RESTORE'] = 'wait_'.$row['email'];
+MessageSend(2, 'На Ваш E-mail <b>' . HideEmail($row['email']).'</b> отправлено подтверждение смены пароля.', 'restore.php');
+}	
 	
-exit(header('Location: cab.php'));	
-
-}
-
-
-
-if(isset($_POST['remember'])) {
-	setcookie('user', $_POST['password'], strtotime('+10 days'), '/');
 	
-}
-
 ?>
 
 
@@ -48,7 +53,7 @@ if(isset($_POST['remember'])) {
     <meta name="author" content="">
   
 
-    <title>Вход в личный кабинет</title>
+    <title>Восстановление пароля</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -110,16 +115,11 @@ if(isset($_POST['remember'])) {
 	<!--info --> 
 	<?php MessageShow(); ?>
 
-      <form class="form-signin" role="form" method ="POST" action ="signin.php">
-        <h2 class="form-signin-heading">Авторизация на сайте</h2>
+      <form class="form-signin" role="form" method ="POST" action ="restore.php">
+        <h2 class="form-signin-heading">Восстановление пароля</h2>
         <input type="login" name ="login" class="form-control" placeholder="Логин" maxlength ="10" pattern ="[A-Za-z-0-9]{3,10}" title="Не менее 3 и не более 10 латинских символов или цифр." required autofocus>
-        <input type="password" name ="password" class="form-control" placeholder="Пароль" maxlength ="15" pattern ="[A-Za-z-0-9]{5,15}" title="Не менее 5 и не более 15 латинских символов или цифр." required>
-        <label class="checkbox">
-          <input type="checkbox"  name ="remember" value="remember"> запомнить меня
-        </label>
-		<p>	<a href="restore.php">Забыли свой пароль?</a></p>
-			У вас нет аккаунта? <a href="reg.php">Регистрация</a><br>
-		<button class="btn btn-lg btn-primary btn-block"  name ="subSign" type="submit">Войти</button>
+               
+		<button class="btn btn-lg btn-primary btn-block"  name ="subRest" type="submit">Восстановить</button>
 		<button class="btn btn-lg btn-danger btn-block " type="reset">Очистить</button>
 		
       </form>
