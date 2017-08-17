@@ -64,7 +64,7 @@ function ULogin($p1) {
 	}	
 }
 
-//функция для вывода меню для пользователей
+//функция для вывода меню для зарегистрированных пользователей
 function Menu() {
 	if (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){
 		$menu = '<li><a href="cab.php?&page=logout">Выйти</a></li>

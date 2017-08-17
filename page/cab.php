@@ -3,6 +3,42 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
+//чат
+if(isset($_POST['subChat'])) {
+	$_POST['text'] = FormChars($_POST['text']);
+	mysqli_query($db, "INSERT INTO `chat` VALUES ('','$_POST[text]', '$_SESSION[USER_LOGIN]', NOW())");
+	exit(header('location: cab.php'));
+}
+
+
+
+
+//редактирование профиля
+if(isset($_POST['subRed'])) {
+	$_POST['opassword'] = FormChars($_POST['opassword']);
+	$_POST['npassword'] = FormChars($_POST['npassword']);
+	$_POST['name'] = FormChars($_POST['name']); 
+	
+if(!empty($_POST['opassword'])	or $_POST['npassword']) {
+	if(!$_POST['opassword']) MessageSend(2,'Не указан старый пароль.');
+	if(!$_POST['npassword']) MessageSend(2,'Не указан новый пароль.');	
+	 
+	if($_SESSION['USER_PASSWORD'] != GenPass($_POST['opassword'], $_SESSION['USER_LOGIN'])) MessageSend(2,'Старый пароль указан не верно.');
+	
+	$password = GenPass($_POST['npassword'], $_SESSION['USER_LOGIN']);
+	
+	mysqli_query($db, "UPDATE `users` SET `password` = '$password'  WHERE `id` = ".$_SESSION['USER_ID']."");
+	$_SESSION['USER_PASSWORD'] = $password;
+}
+
+if($_POST['name']	!= $_SESSION['USER_NAME']) {
+	mysqli_query($db, "UPDATE `users` SET `name` = '$_POST[name]'  WHERE `id` = ".$_SESSION['USER_ID']."");	
+	$_SESSION['USER_NAME'] = $_POST['name'];
+}
+MessageSend(3, 'Данные изменены.');
+}
+	
+
 
 //выборка данных из базы между датами
 if (isset($_POST['from'],$_POST['to'],$_POST['billing'])){
@@ -62,7 +98,10 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-		
+	
+
+
+	
 </head>
   
  
@@ -119,7 +158,7 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 				<!-- Nav tabs -->
 				<ul class="nav nav-tabs">
 				  <li class="active"><a href="#opt1" data-toggle="tab">Профиль</a></li>
-				  <li><a href="#opt2" data-toggle="tab">Биллинг</a></li>
+				  <li><a href="#opt2" data-toggle="tab">Оплата</a></li>
 				  <li><a href="#opt3" data-toggle="tab">Настройки</a></li>
 				  <li><a href="#opt4" data-toggle="tab">Сообщения</a></li>
 				</ul>
@@ -156,32 +195,65 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 								</div>
 							</div>
 							
+							
+						</form>	
+
+						<hr>
+						
+						<form class="form-horizontal" role = "form" method ="POST" action ="cab.php">
+							<h2>Редактирование профиля</h2>
 							<div class="row">
-								<div class="form-group">
-									<label class="col-sm-2 control-label"></label>
-									<div class="col-sm-10">
-										<button type="submit" name="subRed" class="btn btn-warning">Изменить</button>
+								<div class="col-md-4">
+									<div class="form-group">
+										<input type="password" name ="opassword" class="form-control" placeholder="Старый пароль" maxlength ="15" pattern ="[A-Za-z-0-9]{5,15}" title="Не менее 5 и не более 15 латинских символов или цифр." autofocus>
 									</div>
 								</div>
 							</div>
-						</form>					
+							
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<input type="password" name ="npassword" class="form-control" placeholder="Новый пароль" maxlength ="15" pattern ="[A-Za-z-0-9]{5,15}" title="Не менее 5 и не более 15 латинских символов или цифр." autofocus>
+									</div>
+								</div>
+							</div>
+							
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<input type="text" name ="name" class="form-control" placeholder="Имя" required autofocus style="margin-bottom: 5px;" value="<?php echo $_SESSION['USER_NAME'];?>">
+									</div>
+								</div>
+							</div>
+							
+														
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<button type="submit" name="subRed" class="btn btn-warning btn-block">Изменить</button>
+									</div>
+								</div>
+							</div>
+						</form>
+						
 					</div>
 									  
 					<div class="tab-pane" id="opt2">
 						<form role = "form" action="" method="post">
 									
 			<div class="row">
+			<br>
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата начала</label>
-						<input class = "form-control" type="date" name="from" value="<?php $POST['from']; ?>">
+						<input class = "form-control" type="date" name="from" value="<?php if(!empty($_POST['from'])) echo $_POST['from']; ?>">
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата окончания</label>
-						<input class = "form-control" type="date" name="to" value="<?php $POST['to']; ?>">
+						<input class = "form-control" type="date" name="to" value="<?php if(!empty($_POST['to'])) echo $_POST['to']; ?>">
 					</div>
 				</div>
 			</div>	
@@ -199,7 +271,7 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 					$_POST['to'] = strtotime($_POST['to']);
 					$dateTo = date('d.m.Y', $_POST['to']);
 					
-					echo '<p>Заданный период: с <b>'.$dateFrom. ' по ' .$dateTo. '</b></p>';
+					echo '<p>Заданный период:<b> с '.$dateFrom. ' по ' .$dateTo. '</b></p>';
 					}
 					?>
 				</div>
@@ -243,8 +315,41 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 						
 					</div>
 									  
-					<div class="tab-pane" id="opt4">
+<!--Chat -->		<div class="tab-pane" id="opt4">
+					
+						<div class="Page">
+		
+							<div class="ChatBox">
+
+								<?php	
+								$query = mysqli_query($db, 'SELECT * FROM `chat` ORDER BY `time` DESC LIMIT 50');
+								while($row = mysqli_fetch_assoc($query)) {
+									echo '<div class="ChatBlock"><span>'.$row['user'].' | '.$row['time'].'</span>'.$row['message'].'</div>';
+								}
+								?>						
+								
+							</div>
 						
+								<form class="form-horizontal" role="form" method ="POST" action ="cab.php">
+									<br>									
+									
+									<textarea class ="ChatMessage" name="text" placeholder="Текст сообщения" required></textarea>
+									
+									<div class="row">
+										
+										<div class="col-md-4" style="padding-left: 30px;">
+											<div class="form-group">
+												<button class="btn btn-primary" type="submit" name ="subChat">Отправить</button>
+												<button class="btn btn-danger"  type="reset">Очистить</button>
+											</div>
+										</div>
+									</div>
+								</form>
+						
+						
+							
+						</div>
+					
 						
 					</div>
 				  
@@ -261,6 +366,28 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
-		
+
+
+	
+<script>
+  $(function() { 
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    // сохраним последнюю вкладку
+    localStorage.setItem('lastTab', $(this).attr('href'));
+  });
+
+  //перейти к последней вкладки, если она существует:
+  var lastTab = localStorage.getItem('lastTab');
+  if (lastTab) {
+    $('a[href="' + lastTab + '"]').tab('show');
+  }
+  else
+  {
+    // установить первую вкладку активной если lasttab не существует
+    $('a[data-toggle="tab"]:first').tab('show');
+  }
+});
+</script>
+	
   </body>
 </html>

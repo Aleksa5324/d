@@ -54,21 +54,21 @@ ORDER BY `id` DESC
 $result1 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 //извлечение 2 номера телефона для голосований из базы
 $result2 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 //извлечение 3 номера телефона для голосований из базы
 $result3 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 /*
@@ -110,7 +110,6 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-<!-- Вариант обратного таймера
 	<script>
 function tGol() {
     var fname = document.getElementById('tg').value;
@@ -119,10 +118,9 @@ function tGol() {
 }
 
 </script>
--->
 
 <script type="text/javascript">
-	function showTime()  //текущее время
+	function showTime()
 	{
 	  var dat = new Date();
 	  var H = '' + dat.getHours();
@@ -138,43 +136,11 @@ function tGol() {
 	  setTimeout(showTime,1000);  // перерисовать 1 раз в сек.
 	}
 </script>
-
-<script type="text/javascript">
-  function startTimer() {		//обратный таймер
-    var my_timer = document.getElementById("my_timer");
-    var time = my_timer.innerHTML;
-    var arr = time.split(":");
-    var h = arr[0];
-    var m = arr[1];
-    var s = arr[2];
-    if (s == 0) {
-      if (m == 0) {
-        if (h == 0) {
-          alert("Время вышло");
-          window.location.reload();
-          return;
-        }
-        h--;
-        m = 60;
-        if (h < 10) h = "0" + h;
-      }
-      m--;
-      if (m < 10) m = "0" + m;
-      s = 59;
-    }
-    else s--;
-    if (s < 10) s = "0" + s;
-    document.getElementById("my_timer").innerHTML = h+":"+m+":"+s;
-    setTimeout(startTimer, 1000);
-  }
-</script>
-
 </head>
   
  
 
   <body>
-   <!--<body onload="startTimer()">-->
 
 <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -205,7 +171,7 @@ function tGol() {
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
 			<?php Menu(); ?>
-           
+            <!--<li class="active"><a href="page/cab.php">КАБИНЕТ</a></li>-->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -219,7 +185,9 @@ function tGol() {
 
 <!--info --> 
 <?php MessageShow(); ?>
+
 	
+		
 		<form action="main.php" method="post">
 			<div class="row">
 				<div class="col-md-4">
@@ -246,11 +214,14 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 
 ?>							
 
+						
 						</select>
    						
 					</div>
 				</div>
-								
+				
+				
+				
 				<div class="col-md-1">
 					<div class="form-group">
 					<br>
@@ -266,7 +237,6 @@ if(isset($_SESSION['question'])) {
 		
 		</form>		
 		
-				
 		<form action="main.php" method="post">	
 			<div class="row">
 				<div class="col-md-4">
@@ -297,6 +267,9 @@ if(isset($_SESSION['question'])) {
 			
 							
 			
+				
+		
+					
 			<br>			
 			<div class="row">
 				<div class="col-md-2">
@@ -307,25 +280,19 @@ if(isset($_SESSION['question'])) {
 					</div>
 				</div>
 				
-								
+				<div id="time_div" style="font-size:40px; font-weight:200; width:85px; margin-left: 10px;"></div><script type="text/javascript"> showTime();</script>
+				
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Время голосования</label>
-							<input id = "tg" class="form-control" type="text" name="time_gol" size="10" value ="00:15:00" > 
+							<input id = "tg" class="form-control" type="text" name="time_gol" size="10" value ="00:00:30" > 
 					</div>
 				</div>
 				
 				<div class="col-md-3">
-					<div class="form-group">
-						<label>Осталось</label>
-						<div><span id="my_timer" style="color: #f00; font-size: 32px; font-weight:200; width:85px;">00:15:00</span></div>
-						
-					</div>
-					
-					<!--Вариант обратного таймера
-						<div id="countdown-1"></div>
-					<button id="reset-1" type="button">Сбросить</button>-->
+					<div id="countdown-1"></div>
+					<button id="reset-1" type="button">Сбросить</button>
 				</div>
 				
 			</div>
@@ -347,14 +314,6 @@ if(isset($_SESSION['question'])) {
 					</div>
 				</div>
 				
-				<div class="col-md-2">
-					<div class="checkbox">
-					<br>
-						<label>
-							  <input type="checkbox"> начать автоматически
-						</label>
-					</div>
-				</div>
 				
 				
 			</div>
@@ -362,7 +321,7 @@ if(isset($_SESSION['question'])) {
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
-						<button type="button" name="start" class="btn btn-success" onclick="startTimer()">Начать голосование</button>
+						<button type="button" name="start" class="btn btn-success">Начать голосование</button>
 					</div>
 				</div>
 				
@@ -395,8 +354,6 @@ if(isset($_SESSION['question'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
-	
-<!--Вариант обратного таймера	
 	<script src="../js/jquery.time-to.js"></script>
 	<script>
 		$('#countdown-1').timeTo(300, function(){				//время голосования в секундах
@@ -406,9 +363,7 @@ if(isset($_SESSION['question'])) {
             $('#countdown-1').timeTo('reset');
         });
 	</script>
--->	
-
-
+	
   </body>
 </html>
 

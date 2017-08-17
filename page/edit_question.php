@@ -1,6 +1,6 @@
 <?php
 include_once '../connect.php';
-
+include_once '../lib/myFunction.php';
 
 if(isset($_POST['edit'],$_POST['question'])) {
 	
@@ -14,9 +14,10 @@ if(isset($_POST['edit'],$_POST['question'])) {
 			WHERE `id` = ".(int)$_GET['id']."
 	") or exit(mysqli_error($db));
 		
-	$_SESSION['info'] = 'Запись была изменена';
-	header('Location: history.php');
-	exit();
+	MessageSend(3,'Запись была изменена.', 'history.php');
+	//$_SESSION['info'] = 'Запись была изменена';
+	//header('Location: history.php');
+	//exit();
 }
 
 
@@ -28,9 +29,10 @@ $question = mysqli_query($db,"
 	") or exit(mysqli_error());
 	
 if(!mysqli_num_rows($question)) {
-	$_SESSION['info'] = 'Данной темы не существует';
-	header('Location: history.php');
-	exit();
+	MessageSend(1,'Данной темы не существует', 'history.php');
+	//$_SESSION['info'] = 'Данной темы не существует';
+	//header('Location: history.php');
+	//exit();
 }
 
 $row = mysqli_fetch_assoc($question);

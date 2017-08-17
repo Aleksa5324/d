@@ -2,7 +2,7 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
-ULogin(0); //страница для гостей
+//ULogin(0); //страница для гостей
 
 //авторизация
 if(isset($_POST['subSign'], $_POST['login'], $_POST['password'])) {
@@ -15,7 +15,10 @@ $row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `password`, `active` FROM `u
 if ($row['password'] != $_POST['password']) MessageSend(1,'Неверный логин или пароль.');	
 if ($row['active'] 	== 0) MessageSend(1,'Аккаунт пользователя <b>'.$_POST['login'].'</b> не подтвержден.');	
 
-$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email` FROM `users` WHERE `login` = '$_POST[login]'"));	
+$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email`, `password`, `login` FROM `users` WHERE `login` = '$_POST[login]'"));	
+$_SESSION['USER_LOGIN'] = $row['login'];
+$_SESSION['USER_PASSWORD'] = $row['password'];
+
 $_SESSION['USER_ID'] = $row['id'];
 $_SESSION['USER_NAME'] = $row['name'];
 $_SESSION['USER_REGDATE'] = $row['regdate'];

@@ -8,12 +8,12 @@ $question = mysqli_query($db, "
 	FROM `questions`
 	ORDER BY `id` DESC
 	") or exit(mysqli_error());
-
+/*
 if(isset($_SESSION['info'])) {
 	$info = $_SESSION['info'];
 	unset($_SESSION['info']);	
 }		
-
+*/
 
 //удаление отмеченных тем для голосования из базы
 if(isset($_POST['delete'])&& isset($_POST['ids'])) {
@@ -27,9 +27,10 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 	WHERE `id` IN (".$ids.")
 	") or exit(mysqli_error());
 	
-	$_SESSION['info'] = 'Темы для голосований были удалены';
-	header('Location: history.php');
-	exit();
+	MessageSend(3,'Темы для голосований были удалены', 'history.php');
+	//$_SESSION['info'] = 'Темы для голосований были удалены';
+	//header('Location: history.php');
+	//exit();
 }
 
 
@@ -40,9 +41,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete') {
 	WHERE `id` = ".$_GET['id']."
 	") or exit(mysqli_error());
 	
-	$_SESSION['info'] = 'Новость была удалена';
-	header('Location: history.php');
-	exit();	
+	MessageSend(3,'Новость была удалена', 'history.php');
+	//$_SESSION['info'] = 'Новость была удалена';
+	//header('Location: history.php');
+	//exit();	
 }
 
 //выборка данных из базы между датами
@@ -56,8 +58,15 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
 	") or exit(mysqli_error());
 	
 } 
-	
+
+
+
+//вывод сайта для зарегистрированных пользователей
+if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
+	MessageSend(1, 'Требуется регистрация пользователя.');
+} elseif (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){	
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -123,11 +132,8 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
 
 
 	<div class = "container">
-	
-<!-- Вывод инфосообщения -->	
-<?php if(isset($info)) { ?>
-	<h2 style="color:red;"><?php echo $info; ?></h2>
-<?php } ?>
+<!--info --> 
+<?php MessageShow(); ?>
 
 		<form role = "form" action="" method="post">
 									
@@ -227,3 +233,5 @@ if (isset($_POST['from'],$_POST['to'],$_POST['show'])){
     <script src="../js/bootstrap.js"></script>
   </body>
 </html>
+
+<?php } ?>

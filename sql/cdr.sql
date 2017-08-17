@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Авг 11 2017 г., 16:34
+-- Время создания: Авг 17 2017 г., 15:06
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -113,6 +113,38 @@ INSERT INTO `cdr` (`id`, `calldate`, `clid`, `src`, `dst`, `id_question`, `dcont
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `chat`
+--
+
+CREATE TABLE `chat` (
+  `id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `user` varchar(20) NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `chat`
+--
+
+INSERT INTO `chat` (`id`, `message`, `user`, `time`) VALUES
+(1, '111', 'admin', '2017-08-17 12:17:50'),
+(2, 'test2', 'admin', '2017-08-17 12:26:22'),
+(3, 'привет', 'admin', '2017-08-17 12:34:38'),
+(4, 'еще один привет', 'admin', '2017-08-17 12:35:01'),
+(5, 'пробуем еще', 'admin', '2017-08-17 12:37:02'),
+(6, 'теперь написал юзер1', 'user1', '2017-08-17 12:44:37'),
+(7, 'fhfhffhf', 'user1', '2017-08-17 13:02:06'),
+(8, 'проба', 'admin', '2017-08-17 14:35:04'),
+(9, 'ацуа', 'admin', '2017-08-17 14:51:04'),
+(10, 'ееееее', 'admin', '2017-08-17 14:51:36'),
+(11, 'аа', 'admin', '2017-08-17 15:02:40'),
+(12, 'кккк', 'admin', '2017-08-17 15:04:12'),
+(13, 'получилось', 'admin', '2017-08-17 15:04:29');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `news`
 --
 
@@ -129,7 +161,8 @@ CREATE TABLE `news` (
 INSERT INTO `news` (`id`, `date`, `title`) VALUES
 (1, '2017-08-01 00:00:00', 'Новость из базы 1'),
 (7, '2017-08-03 11:02:30', 'Новость из базы 2'),
-(8, '2017-08-03 15:12:51', 'Новость из базы 3');
+(8, '2017-08-03 15:12:51', 'Новость из базы 3'),
+(9, '2017-08-17 15:20:36', 'Новость из базы 4');
 
 -- --------------------------------------------------------
 
@@ -167,7 +200,7 @@ CREATE TABLE `poll_answer` (
 --
 
 INSERT INTO `poll_answer` (`id`, `poll_id`, `title`, `votes`) VALUES
-(1, 1, '1С', 3),
+(1, 1, '1С', 4),
 (2, 1, 'Парус', 1),
 (3, 1, 'ГроссБух', 1);
 
@@ -206,6 +239,27 @@ INSERT INTO `questions` (`id`, `question`, `date`) VALUES
 (8, 'Выиграет ли ФК \"Днепр\" в Киеве?', '2017-08-03 17:38:28'),
 (11, 'Были ли Вы на концерте \"Океан Эльзы\"?', '2017-08-03 17:42:26'),
 (18, 'Пользуетесь ли Вы 1С?', '2017-08-04 15:48:19');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `telefons`
+--
+
+CREATE TABLE `telefons` (
+  `id` int(11) NOT NULL,
+  `number_tel` varchar(20) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `telefons`
+--
+
+INSERT INTO `telefons` (`id`, `number_tel`, `user_id`) VALUES
+(1, '+38(056)370-40-91', 2),
+(2, '+38(056)370-40-92', 2),
+(3, '+38(056)370-40-93', 1);
 
 -- --------------------------------------------------------
 
@@ -252,6 +306,12 @@ ALTER TABLE `cdr`
   ADD KEY `uniqueid` (`uniqueid`);
 
 --
+-- Индексы таблицы `chat`
+--
+ALTER TABLE `chat`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `news`
 --
 ALTER TABLE `news`
@@ -282,6 +342,12 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `telefons`
+--
+ALTER TABLE `telefons`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -302,10 +368,15 @@ ALTER TABLE `billing`
 ALTER TABLE `cdr`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
+-- AUTO_INCREMENT для таблицы `chat`
+--
+ALTER TABLE `chat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
 -- AUTO_INCREMENT для таблицы `news`
 --
 ALTER TABLE `news`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT для таблицы `polls`
 --
@@ -325,7 +396,12 @@ ALTER TABLE `poll_ip`
 -- AUTO_INCREMENT для таблицы `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT для таблицы `telefons`
+--
+ALTER TABLE `telefons`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --

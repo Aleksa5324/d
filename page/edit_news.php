@@ -1,6 +1,6 @@
 <?php
 include_once '../connect.php';
-
+include_once '../lib/myFunction.php';
 
 if(isset($_POST['edit'],$_POST['title'])) {
 	
@@ -14,9 +14,10 @@ if(isset($_POST['edit'],$_POST['title'])) {
 			WHERE `id` = ".(int)$_GET['id']."
 	") or exit(mysqli_error($db));
 		
-	$_SESSION['info'] = 'Запись была изменена';
-	header('Location: news.php');
-	exit();
+	MessageSend(3,'Запись была изменена', 'news.php');
+	//$_SESSION['info'] = 'Запись была изменена';
+	//header('Location: news.php');
+	//exit();
 }
 
 
@@ -28,9 +29,10 @@ $news= mysqli_query($db,"
 	") or exit(mysqli_error());
 	
 if(!mysqli_num_rows($news)) {
-	$_SESSION['info'] = 'Данной новости не существует';
-	header('Location: news.php');
-	exit();
+	MessageSend(3,'Данной новости не существует', 'news.php');
+	//$_SESSION['info'] = 'Данной новости не существует';
+	//header('Location: news.php');
+	//exit();
 }
 
 $row = mysqli_fetch_assoc($news);

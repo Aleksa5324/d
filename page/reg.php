@@ -2,7 +2,7 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
-ULogin(0); //страница для гостей
+//ULogin(0); //страница для гостей
 
 // регистрация пользователя
 if(isset($_POST['subReg'], $_POST['login'], $_POST['email'], $_POST['password'], $_POST['name'])) {
@@ -22,6 +22,7 @@ if ($row['email']) MessageSend(1,'E-mail <b>'.$_POST['email']. '</b> уже ис
 mysqli_query($db, "INSERT INTO `users` VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', 0)");	
 
 $code = substr(base64_encode($_POST['email']), 0, -1);
+$code = str_replace('=', '', base64_encode($_POST['email']));
 
 mail($_POST['email'],'Регистрация на сайте "ГОЛОСОВАНИЕ"', 'Ссылка для активации: '.URL_SITE.'page/reg.php?&code='.substr($code, -5).substr($code, 0, -5), 'From: info@mail.com');
 MessageSend(3, 'Регистрация аккаунта успешно завершена. На указанный E-mail <b>' . $_POST['email'].'</b> отправлено письмо для подтверждения регистрации.');

@@ -3,6 +3,11 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
+//echo '<pre>'.print_r($_POST,1). '</pre>';
+d($_SESSION['number_tel_1'],0);
+d($_SESSION['number_tel_2'],0);
+d($_SESSION['number_tel_3'],0);
+
 //извлекаем с базы данных куки
 if(isset($_SESSION['USER_LOGIN_IN'])&& $_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']){
 	$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email` FROM `users` WHERE `password` = '$_COOKIE[user]"));	
@@ -12,6 +17,9 @@ if(isset($_SESSION['USER_LOGIN_IN'])&& $_SESSION['USER_LOGIN_IN'] != 1 and $_COO
 	$_SESSION['USER_EMAIL'] = $row['email'];
 	$_SESSION['USER_LOGIN_IN'] = 1;
 }
+
+
+
 
 
 //выбор графика
@@ -54,26 +62,26 @@ ORDER BY `id` DESC
 $result1 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 //извлечение 2 номера телефона для голосований из базы
 $result2 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 //извлечение 3 номера телефона для голосований из базы
 $result3 =  mysqli_query ($db,"
 SELECT * 
 FROM `telefons` 
-ORDER BY `id` ASC
+ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
-/*
+
 //info
-if(isset($_SESSION['info'])) {
+/*if(isset($_SESSION['info'])) {
 	$info = $_SESSION['info'];
 	unset($_SESSION['info']);
 }*/
@@ -110,7 +118,6 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-<!-- Вариант обратного таймера
 	<script>
 function tGol() {
     var fname = document.getElementById('tg').value;
@@ -119,10 +126,9 @@ function tGol() {
 }
 
 </script>
--->
 
 <script type="text/javascript">
-	function showTime()  //текущее время
+	function showTime()
 	{
 	  var dat = new Date();
 	  var H = '' + dat.getHours();
@@ -138,43 +144,11 @@ function tGol() {
 	  setTimeout(showTime,1000);  // перерисовать 1 раз в сек.
 	}
 </script>
-
-<script type="text/javascript">
-  function startTimer() {		//обратный таймер
-    var my_timer = document.getElementById("my_timer");
-    var time = my_timer.innerHTML;
-    var arr = time.split(":");
-    var h = arr[0];
-    var m = arr[1];
-    var s = arr[2];
-    if (s == 0) {
-      if (m == 0) {
-        if (h == 0) {
-          alert("Время вышло");
-          window.location.reload();
-          return;
-        }
-        h--;
-        m = 60;
-        if (h < 10) h = "0" + h;
-      }
-      m--;
-      if (m < 10) m = "0" + m;
-      s = 59;
-    }
-    else s--;
-    if (s < 10) s = "0" + s;
-    document.getElementById("my_timer").innerHTML = h+":"+m+":"+s;
-    setTimeout(startTimer, 1000);
-  }
-</script>
-
 </head>
   
  
 
   <body>
-   <!--<body onload="startTimer()">-->
 
 <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -205,7 +179,7 @@ function tGol() {
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
 			<?php Menu(); ?>
-           
+            <!--<li class="active"><a href="page/cab.php">КАБИНЕТ</a></li>-->
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -215,188 +189,145 @@ function tGol() {
 
 
 	
-	<div class = "container">
+<div class = "container">
 
-<!--info --> 
-<?php MessageShow(); ?>
 	
-		<form action="main.php" method="post">
-			<div class="row">
+
+		
+<!-- Телефонные номера -->
+
+<form id ="form1" action="main.php" method="post">		
+	<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label>Тема для голосования</label>
-						<select class="form-control" name="question">
-							<option value="">Выберите вопрос</option>
+						<label>Номера телефонов</label>
+						<select class="form-control" name="selectTel1">
+							<option value="">Выберите 1-й номер</option>
 							
 							<?php
-							while ($row = mysqli_fetch_array($result)){
-								echo "<option value=' ".$row['id']." '>".$row['question']."</option>";
+							while ($row = mysqli_fetch_array($result1)){
+								echo "<option value=' ".$row['id']." '>".$row['number_tel']."</option>";
 							}
 						
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op = $_POST['question']; //тут будет выбраное значение из списка
-    $q = mysqli_query ($db, "
-	SELECT * FROM `questions` 
-	WHERE `id`=".$op."
+    $opt1 = $_POST['selectTel1']; //тут будет выбраное значение из списка
+    $q1 = mysqli_query ($db, "
+	SELECT * FROM `telefons` 
+	WHERE `id`=".$opt1."
 	") or exit(mysqli_error());
-	while($row = mysqli_fetch_assoc($q)){
-		$_SESSION['question'] = $row['question']; //сохраняем в сессию текст вопроса
+	while($row = mysqli_fetch_assoc($q1)){
+		$_SESSION['number_tel_1'] = $row['number_tel']; //сохраняем в сессию номер телефона
+		
 	}
 }	
 
 ?>							
 
+						
 						</select>
    						
 					</div>
 				</div>
-								
-				<div class="col-md-1">
-					<div class="form-group">
-					<br>
-						<button type="subTema" class="btn btn-warning">Применить</button>
-					</div>
-				</div>
+				
 			</div>
-				
-<?php
-if(isset($_SESSION['question'])) {
-	echo '<p style = "color: #cd66cc;">Текущая тема: <b>' . $_SESSION['question'] . '</b></p>';
-}	?>
+			
 		
-		</form>		
 		
-				
-		<form action="main.php" method="post">	
-			<div class="row">
+		
+		<!-- выбор 2 тел  -->
+		
+		<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<label>Вид диаграммы</label>
-						<select class = "form-control" name="selectoptions">
-							<option value="option1">Круговая_3d</option>
-							<option value="option2">Столбцы</option>
-							<option value="option3">Круговая+Столбцы</option>
-							<option value="option4">Сводный индикатор</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			
-			
-			<div class="row">
-				<div class="col-md-4">
-					<div class="form-group">
-						<label>Вид голосования</label>
-						<select class = "form-control" name="selectVote">
-							<option value="opt1">Телефонное голосование</option>
-							<option value="opt2">Интернет голосование</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			
+						<label>Номера телефонов</label>
+						<select class="form-control" name="selectTel2">
+							<option value="">Выберите 2-й номер</option>
 							
-			
-			<br>			
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Текущее время</label>
-							<div id="time_div" style="font-size:30px; font-weight:200; width:85px; margin-left: 10px; color: blue;"> 
-							<script type="text/javascript"> showTime();</script></div>
-					</div>
-				</div>
-				
-								
-				
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Время голосования</label>
-							<input id = "tg" class="form-control" type="text" name="time_gol" size="10" value ="00:15:00" > 
-					</div>
-				</div>
-				
-				<div class="col-md-3">
-					<div class="form-group">
-						<label>Осталось</label>
-						<div><span id="my_timer" style="color: #f00; font-size: 32px; font-weight:200; width:85px;">00:15:00</span></div>
+							<?php
+							while ($row = mysqli_fetch_array($result2)){
+								echo "<option value=' ".$row['id']." '>".$row['number_tel']."</option>";
+							}
 						
-					</div>
-					
-					<!--Вариант обратного таймера
-						<div id="countdown-1"></div>
-					<button id="reset-1" type="button">Сбросить</button>-->
-				</div>
-				
-			</div>
-			
-					
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Время старта</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="19:00:00">
-					</div>
-				</div>
-				
-				<div class="col-md-2">
-					<div class="form-group">
-						<label>Время финиша</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="19:15:00">
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $opt2 = $_POST['selectTel2']; //тут будет выбраное значение из списка
+    $q2 = mysqli_query ($db, "
+	SELECT * FROM `telefons` 
+	WHERE `id`=".$opt2."
+	") or exit(mysqli_error());
+	while($row = mysqli_fetch_assoc($q2)){
+		$_SESSION['number_tel_2'] = $row['number_tel']; //сохраняем в сессию номер телефона
+	}
+}	
+
+?>							
+
 						
+						</select>
+   						
 					</div>
 				</div>
 				
-				<div class="col-md-2">
-					<div class="checkbox">
-					<br>
-						<label>
-							  <input type="checkbox"> начать автоматически
-						</label>
-					</div>
-				</div>
-				
-				
+			
+			
 			</div>
 			
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<button type="button" name="start" class="btn btn-success" onclick="startTimer()">Начать голосование</button>
-					</div>
-				</div>
 				
-				<div class="col-md-2">
-					<div class="form-group">
-						<button type="button" name="stop" class="btn btn-danger">Остановить голосование</button>
-					</div>
-				</div>
-				
-				
-	
-			</div>
-			
-			<br>
-			
-			
-			<div class="row">
+
+
+		
+<!-- выбор 3 тел-->
+
+		<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
-						<button type="submit" name="submit" class="btn btn-warning">Перейти на график</button>
+						<label>Номера телефонов</label>
+						<select class="form-control" name="selectTel3">
+							<option value="">Выберите 3-й номер</option>
+							
+							<?php
+							while ($row = mysqli_fetch_array($result3)){
+								echo "<option value=' ".$row['id']." '>".$row['number_tel']."</option>";
+							}
+						
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $opt3 = $_POST['selectTel3']; //тут будет выбраное значение из списка
+    $q3 = mysqli_query ($db, "
+	SELECT * FROM `telefons` 
+	WHERE `id`=".$opt3."
+	") or exit(mysqli_error());
+	while($row = mysqli_fetch_assoc($q3)){
+		$_SESSION['number_tel_3'] = $row['number_tel']; //сохраняем в сессию номер телефона
+	}
+}	
+
+?>							
+
+						
+						</select>
+   						
 					</div>
 				</div>
-			</div>
+				
+				
+		</div>
+		
+	<div class="col-md-1">
+					<div class="form-group">
+					<br>
+						<button name ="subTel3" type="submit" class="btn btn-warning">Применить</button>
+					</div>
+				</div>	
 
-		</form>
-	</div>	<!-- /container-fluid -->
+</form>		
+		
+
+</div>	<!-- /container-fluid -->
 
 	
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
-	
-<!--Вариант обратного таймера	
 	<script src="../js/jquery.time-to.js"></script>
 	<script>
 		$('#countdown-1').timeTo(300, function(){				//время голосования в секундах
@@ -406,9 +337,7 @@ if(isset($_SESSION['question'])) {
             $('#countdown-1').timeTo('reset');
         });
 	</script>
--->	
-
-
+	
   </body>
 </html>
 

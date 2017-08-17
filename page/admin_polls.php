@@ -1,4 +1,15 @@
 <?php
+include_once '../connect.php';
+include_once '../lib/myFunction.php';
+
+//вывод сайта для зарегистрированных пользователей
+if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
+	MessageSend(1, 'Требуется регистрация пользователя.');
+} elseif (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){
+
+
+
+
 if (session_id()=='') session_start();
 $db=mysqli_connect("localhost","root","","cdr");
 $res=mysqli_query($db,"set names utf8");
@@ -45,7 +56,7 @@ $res=mysqli_query($db,"set names utf8");
  <input type="submit" name="edit_poll" value="Редактировать"></form></div>
 
 <?php
-if ($_SESSION["this_id"]!='') {
+if (!empty($_SESSION["this_id"]))  {
  $res=mysqli_fetch_array(mysqli_query($db,"SELECT id,title FROM polls WHERE
      id='".$_SESSION["this_id"]."'"));
  echo '<div class="forms"><b>'.$res["title"].'</b> (id='.$res["id"].')<br>';
@@ -77,3 +88,5 @@ if ($_SESSION["this_id"]!='') {
 <?php
 }
 ?>
+
+<?php } ?>

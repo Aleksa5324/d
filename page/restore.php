@@ -15,8 +15,8 @@ if(isset($_GET['code']) and substr($_SESSION['RESTORE'], 0, 4) != 'wait') Messag
 
 
 if(isset($_GET['code'])) {
-	$row = mysqli_fetch_assoc(mysqli_query($db, 'SELECT `login` FROM `users` WHERE `id` = '.str_replace(md5('barrikada'), '', $_GET['code'])));	
-	if (!$row['login']) MessageSend(1, 'Невозможно восстановить пароль.', 'signin.php');	
+	$row = mysqli_fetch_assoc(mysqli_query($db, 'SELECT `email` FROM `users` WHERE `id` = '.str_replace(md5($row['email']), '', $_GET['code'])));	
+	if (!$row['email']) MessageSend(1, 'Невозможно восстановить пароль.', 'signin.php');	
 	$random = RandomString(8);
 	$_SESSION['RESTORE'] = $random;
 	mysqli_query($db, "UPDATE `users` SET `password` = '".GenPass($random, $row['login'])."' WHERE `login` = '$row[login]'");
@@ -33,7 +33,7 @@ if (!$_POST['login']) MessageSend(1, 'Невозможно обработать 
 $row = mysqli_fetch_assoc(mysqli_query($db, "SELECT * FROM `users` WHERE `login` = '$_POST[login]'"));	
 if (!$row['login']) MessageSend(1,'Пользователь не найден.');
 
-mail($row['email'],'Сайт "ГОЛОСОВАНИЕ"', 'Ссылка для восстановления: http://localhost/d/page/restore.php?&code='.md5('barrikada').$row['id'], 'From: info@mail.com');
+mail($row['email'],'Сайт "ГОЛОСОВАНИЕ"', 'Ссылка для восстановления: '.URL_SITE.'page/restore.php?&code='.md5($row['email']).$row['id'], 'From: info@mail.com');
 
 $_SESSION['RESTORE'] = 'wait_'.$row['email'];
 MessageSend(2, 'На Ваш E-mail <b>' . HideEmail($row['email']).'</b> отправлено подтверждение смены пароля.', 'restore.php');
@@ -117,7 +117,7 @@ MessageSend(2, 'На Ваш E-mail <b>' . HideEmail($row['email']).'</b> отп�
 
       <form class="form-signin" role="form" method ="POST" action ="restore.php">
         <h2 class="form-signin-heading">Восстановление пароля</h2>
-        <input type="login" name ="login" class="form-control" placeholder="Логин" maxlength ="10" pattern ="[A-Za-z-0-9]{3,10}" title="Не менее 3 и не более 10 латинских символов или цифр." required autofocus>
+        <input type="login" name ="login" class="form-control" placeholder="Логин" maxlength ="10" pattern ="[A-Za-z-0-9]{3,10}" title="Не менее 3 и не более 10 латинских символов или цифр." required autofocus style="margin-bottom: 5px;">
                
 		<button class="btn btn-lg btn-primary btn-block"  name ="subRest" type="submit">Восстановить</button>
 		<button class="btn btn-lg btn-danger btn-block " type="reset">Очистить</button>

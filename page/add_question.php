@@ -1,5 +1,6 @@
 <?php
 include_once '../connect.php';
+include_once '../lib/myFunction.php';
 
 if(isset($_POST['add'],$_POST['question'])) {
 	$_POST['question'] = trim($_POST['question']);
@@ -11,9 +12,10 @@ if(isset($_POST['add'],$_POST['question'])) {
 			`date`= NOW()
 	") or exit(mysqli_error());
 		
-	$_SESSION['info'] = 'Запись была добавлена';
-	header('Location: history.php');
-	exit();
+	MessageSend(3,'Запись была добавлена','history.php');
+	//$_SESSION['info'] = 'Запись была добавлена';
+	//header('Location: history.php');
+	//exit();
 }
 
 ?>

@@ -5,7 +5,8 @@ include_once '../lib/myFunction.php';
 //Настройки вывода новостей
 if(isset($_POST['optionsRadios'])) {
 	$_SESSION['optionsRadios'] = $_POST['optionsRadios'];
-	$_SESSION['info'] = 'Настройка вывода новостей сохранена. <a href="progress.php">Перейти к новостям.</a>';
+	MessageSend(3,'Настройка вывода новостей сохранена. <a href="progress.php" style="color:white;">Перейти к новостям.</a>');
+	//$_SESSION['info'] = 'Настройка вывода новостей сохранена. <a href="progress.php">Перейти к новостям.</a>';
 }
 
 if(isset($_POST['selectRss'],$_POST['submitRss'])){
@@ -31,14 +32,16 @@ if(!empty($_POST['titul_news'])) {
 		$mytext = $titul_news." *** \r\n"; // Исходная строка
 		$test = fwrite($fp, $mytext); // Запись в файл
 		if ($test) {
-			$_SESSION['info'] = 'Новости успешно обновлены';
-			header('Location: news.php');
-			exit();	
+			MessageSend(3,'Новости успешно обновлены', 'news.php');
+			//$_SESSION['info'] = 'Новости успешно обновлены';
+			//header('Location: news.php');
+			//exit();	
 		}
 		else {
-			$_SESSION['info'] = 'Ошибка при записи в файл';
-			header('Location: news.php');
-			exit();	
+			MessageSend(1,'Ошибка при записи в файл', 'news.php');
+			//$_SESSION['info'] = 'Ошибка при записи в файл';
+			//header('Location: news.php');
+			//exit();	
 			fclose($fp); //Закрытие файла
 		}
 	}
@@ -73,9 +76,10 @@ if(isset($_POST['delete'])&& isset($_POST['ids'])) {
 	WHERE `id` IN (".$ids.")
 	") or exit(mysqli_error());
 	
-	$_SESSION['info'] = 'Новости были удалены';
-	header('Location: news.php');
-	exit();
+	MessageSend(3,'Новости были удалены' ,'news.php');
+	//$_SESSION['info'] = 'Новости были удалены';
+	//header('Location: news.php');
+	//exit();
 }
 
 
@@ -86,9 +90,10 @@ if(isset($_GET['action']) && $_GET['action'] == 'delete') {
 	WHERE `id` = ".$_GET['id']."
 	") or exit(mysqli_error());
 	
-	$_SESSION['info'] = 'Новость была удалена';
-	header('Location: news.php');
-	exit();	
+	MessageSend(3,'Новость была удалена', 'news.php');
+	//$_SESSION['info'] = 'Новость была удалена';
+	//header('Location: news.php');
+	//exit();	
 }
 
 
@@ -99,10 +104,14 @@ $news = mysqli_query($db, "
 	ORDER BY `id` DESC
 	") or exit(mysqli_error());
 
-if(isset($_SESSION['info'])) {
-	$info = $_SESSION['info'];
-	unset($_SESSION['info']);	
-}		
+
+
+//вывод сайта для зарегистрированных пользователей
+if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
+	MessageSend(1, 'Требуется регистрация пользователя.');
+} elseif (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){
+
+		
 ?>
 
 
@@ -168,11 +177,10 @@ if(isset($_SESSION['info'])) {
 
 	
 <div class = "container">	
+<!--info --> 
+<?php MessageShow(); ?>
 
-<!-- Вывод инфосообщения -->	
-<?php if(isset($info)) { ?>
-	<h2 style="color:red;"><?php echo $info; ?></h2>
-<?php } ?>
+
 
 <form role = "form" action="" method="post">
 Вывод новостей в бегущей строке:
@@ -328,5 +336,31 @@ if(isset($_SESSION['info'])) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
+	
+	
+	
+<script>
+  $(function() { 
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    // сохраним последнюю вкладку
+    localStorage.setItem('lastTab', $(this).attr('href'));
+  });
+
+  //перейти к последней вкладки, если она существует:
+  var lastTab = localStorage.getItem('lastTab');
+  if (lastTab) {
+    $('a[href="' + lastTab + '"]').tab('show');
+  }
+  else
+  {
+    // установить первую вкладку активной если lasttab не существует
+    $('a[data-toggle="tab"]:first').tab('show');
+  }
+});
+</script>
+	
+	
   </body>
 </html>
+
+<?php } ?>

@@ -1,6 +1,12 @@
 <?php
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
+
+
+//вывод сайта для зарегистрированных пользователей
+if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
+	MessageSend(1, 'Требуется регистрация пользователя.');
+} elseif (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){
 ?>
 
 
@@ -616,3 +622,5 @@ include_once '../lib/myFunction.php';
     <script src="../js/bootstrap.js"></script>
   </body>
 </html>
+
+<?php } ?>
