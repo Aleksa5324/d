@@ -40,7 +40,12 @@ if(isset($_POST['selectoptions']) && $_POST['selectVote'] == 'opt1'){
 	}  
 }
 
-
+//извлечение страны из базы
+$rs =  mysqli_query ($db,"
+SELECT * 
+FROM `countries` 
+ORDER BY `id` DESC
+") or exit(mysqli_error());
 
 //извлечение тем для голосований из базы
 $result =  mysqli_query ($db,"
@@ -295,7 +300,40 @@ if(isset($_SESSION['question'])) {
 				</div>
 			</div>
 			
+			<div class="row">
+				<div class="col-md-4">
+				<a href=""> Выбор телефонов:</a>
+					<div class="form-group">
+						<label>Страна</label>
+						<select class = "form-control" name="selectCountry">
+							<option value="">Выберите страну</option>
 							
+<?php
+while ($row = mysqli_fetch_array($rs)){
+echo "<option value=' ".$row['id']." '>".$row['country']."</option>";
+}
+						
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $op = $_POST['country']; //тут будет выбраное значение из списка
+    $sql = mysqli_query ($db, "
+	SELECT * FROM `countries` 
+	WHERE `id`=".$op."
+	") or exit(mysqli_error());
+	while($row = mysqli_fetch_assoc($sql)){
+		$_SESSION['country'] = $row['country']; //сохраняем в сессию текст вопроса
+	}
+}	
+
+?>											
+							
+							
+							
+							
+							
+						</select>
+					</div>
+				</div>
+			</div>				
 			
 			<br>			
 			<div class="row">

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Авг 17 2017 г., 15:06
+-- Время создания: Авг 23 2017 г., 13:26
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -140,7 +140,31 @@ INSERT INTO `chat` (`id`, `message`, `user`, `time`) VALUES
 (10, 'ееееее', 'admin', '2017-08-17 14:51:36'),
 (11, 'аа', 'admin', '2017-08-17 15:02:40'),
 (12, 'кккк', 'admin', '2017-08-17 15:04:12'),
-(13, 'получилось', 'admin', '2017-08-17 15:04:29');
+(13, 'получилось', 'admin', '2017-08-17 15:04:29'),
+(14, 'gkfdhjfldgfl', 'admin', '2017-08-18 16:11:17'),
+(15, 'ghjghmjghg', 'admin', '2017-08-21 10:21:09'),
+(16, 'hgftjg', 'admin', '2017-08-21 10:21:12');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `countries`
+--
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL,
+  `country` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `countries`
+--
+
+INSERT INTO `countries` (`id`, `country`) VALUES
+(1, 'Ukraine'),
+(2, 'USA'),
+(3, 'France'),
+(4, 'Germany');
 
 -- --------------------------------------------------------
 
@@ -312,6 +336,12 @@ ALTER TABLE `chat`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `countries`
+--
+ALTER TABLE `countries`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `news`
 --
 ALTER TABLE `news`
@@ -371,7 +401,12 @@ ALTER TABLE `cdr`
 -- AUTO_INCREMENT для таблицы `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+--
+-- AUTO_INCREMENT для таблицы `countries`
+--
+ALTER TABLE `countries`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT для таблицы `news`
 --
@@ -396,7 +431,7 @@ ALTER TABLE `poll_ip`
 -- AUTO_INCREMENT для таблицы `questions`
 --
 ALTER TABLE `questions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT для таблицы `telefons`
 --

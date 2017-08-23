@@ -326,6 +326,7 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 					</form>
 				  		  
 				  </div>
+				  
 				  <div class="tab-pane" id="opt3">
 					<form role = "form" action="" method="post">
 						<fieldset>
@@ -571,38 +572,65 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 				  </div>
 				  
 				  
-				  <div class="tab-pane" id="opt4">
-					<form role = "form" action="" method="post">
+<!--Сводный индикатор -->				  
+				<div class="tab-pane" id="opt4">
+					<form role = "form" action="progress.php" method="post">
+						
+						
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<label>Фон диаграммы</label>
-									<input class="form-control" type="text" name="backgroundColor" size="10" value="">
+									<label>Логотип</label>
+									<select class = "form-control" name="selectPanelLogo">
+										<option value="logo1">Показывать</option>
+										<option value="logo2">Не показывать</option>
+									</select>
 								</div>
 							</div>
 						</div>
 						
 						<div class="row">
-							<div class="col-md-2">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label>Цвет 1</label>
-									<input class="form-control" type="text" name="Color1" size="10" value="">
+									<label>Правая панель</label>
+									<select class = "form-control" name="selectPanelRight">
+										<option value="right1">Показывать</option>
+										<option value="right2">Не показывать</option>
+									</select>
 								</div>
 							</div>
-							
-							<div class="col-md-2">
+						</div>
+						
+						
+						<div class="row">
+							<div class="col-md-4">
 								<div class="form-group">
-									<label>Цвет 2</label>
-									<input class="form-control" type="text" name="Color2" size="10" value="">
+									<label>Панель гостей</label>
+									<select class = "form-control" name="selectPanelGuests">
+										<option value="guest0">Нет гостей</option>
+										<option value="guest1">Один гость</option>
+										<option value="guest2">Два гостя</option>
+									</select>
 								</div>
 							</div>
-							
 						</div>
 						
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
-									<button type="submit" name="submit" class="btn btn-warning">Применить</button>
+									<label>Панель голосования</label>
+									<select class = "form-control" name="selectPanelVote">
+										<option value="vote1">Показывать</option>
+										<option value="vote2">Не показывать</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="subOpt4" class="btn btn-warning">Применить</button>
 								</div>
 							</div>
 						</div>
@@ -620,6 +648,26 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
+	
+	<script>
+  $(function() { 
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function () {
+    // сохраним последнюю вкладку
+    localStorage.setItem('lastTab', $(this).attr('href'));
+  });
+
+  //перейти к последней вкладки, если она существует:
+  var lastTab = localStorage.getItem('lastTab');
+  if (lastTab) {
+    $('a[href="' + lastTab + '"]').tab('show');
+  }
+  else
+  {
+    // установить первую вкладку активной если lasttab не существует
+    $('a[data-toggle="tab"]:first').tab('show');
+  }
+});
+</script>
   </body>
 </html>
 
