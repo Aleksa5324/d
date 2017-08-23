@@ -141,14 +141,14 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата начала</label>
-						<input class = "form-control" type="date" name="from" value="<?php $POST['from']; ?>">
+						<input class = "form-control" type="date" name="from" value="<?php if(!empty($_POST['from'])) echo $_POST['from']; ?>">
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата окончания</label>
-						<input class = "form-control" type="date" name="to" value="<?php $POST['to']; ?>">
+						<input class = "form-control" type="date" name="to" value="<?php if(!empty($_POST['to'])) echo $_POST['to']; ?>">
 					</div>
 				</div>
 			</div>	

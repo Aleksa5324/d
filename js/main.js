@@ -2,10 +2,10 @@
  * Показывать или спрятать форму с телефонами
  * 
  */
-function showRegisterBox(){
-    if( $("#registerBoxHidden").css('display') != 'block') {
-        $("#registerBoxHidden").show();
+function showPhoneBox(){
+    if( $("#phoneBoxHidden").css('display') != 'block') {
+        $("#phoneBoxHidden").show();
     } else {
-        $("#registerBoxHidden").hide();
+        $("#phoneBoxHidden").hide();
     }
 }

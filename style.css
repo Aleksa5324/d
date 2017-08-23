@@ -184,3 +184,13 @@ color: blue;
 	color: blue;
 }
 
+
+.showHidden{
+    text-decoration: underline;
+    color: blue;
+    cursor: pointer;
+}
+
+#phoneBoxHidden{
+    display: none;
+}

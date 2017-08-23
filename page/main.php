@@ -55,33 +55,12 @@ ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
 
-//извлечение 1 номера телефона для голосований из базы
+//извлечение номера телефона № 1 для голосований из базы
 $result1 =  mysqli_query ($db,"
 SELECT * 
-FROM `telefons` 
-ORDER BY `id` ASC
+FROM `phones` 
+WHERE `country_id` = 1
 ") or exit(mysqli_error());
-
-//извлечение 2 номера телефона для голосований из базы
-$result2 =  mysqli_query ($db,"
-SELECT * 
-FROM `telefons` 
-ORDER BY `id` ASC
-") or exit(mysqli_error());
-
-//извлечение 3 номера телефона для голосований из базы
-$result3 =  mysqli_query ($db,"
-SELECT * 
-FROM `telefons` 
-ORDER BY `id` ASC
-") or exit(mysqli_error());
-
-/*
-//info
-if(isset($_SESSION['info'])) {
-	$info = $_SESSION['info'];
-	unset($_SESSION['info']);
-}*/
 
 
 //вывод сайта для зарегистрированных пользователей
@@ -98,7 +77,6 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Голосование</title>
 
     <!-- Bootstrap -->
@@ -115,16 +93,6 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 	
-<!-- Вариант обратного таймера
-	<script>
-function tGol() {
-    var fname = document.getElementById('tg').value;
-     
-    document.getElementById('tg').innerHTML = fname;
-}
-
-</script>
--->
 
 <script type="text/javascript">
 	function showTime()  //текущее время
@@ -179,8 +147,7 @@ function tGol() {
  
 
   <body>
-   <!--<body onload="startTimer()">-->
-
+ 
 <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
@@ -212,7 +179,7 @@ function tGol() {
 			<?php Menu(); ?>
            
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
 
@@ -240,11 +207,11 @@ function tGol() {
 						
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     $op = $_POST['question']; //тут будет выбраное значение из списка
-    $q = mysqli_query ($db, "
+    $sql = mysqli_query ($db, "
 	SELECT * FROM `questions` 
 	WHERE `id`=".$op."
 	") or exit(mysqli_error());
-	while($row = mysqli_fetch_assoc($q)){
+	while($row = mysqli_fetch_assoc($sql)){
 		$_SESSION['question'] = $row['question']; //сохраняем в сессию текст вопроса
 	}
 }	
@@ -274,7 +241,7 @@ if(isset($_SESSION['question'])) {
 				
 		<form action="main.php" method="post">	
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label>Вид диаграммы</label>
 						<select class = "form-control" name="selectoptions">
@@ -285,11 +252,8 @@ if(isset($_SESSION['question'])) {
 						</select>
 					</div>
 				</div>
-			</div>
 			
-			
-			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-6">
 					<div class="form-group">
 						<label>Вид голосования</label>
 						<select class = "form-control" name="selectVote">
@@ -300,40 +264,88 @@ if(isset($_SESSION['question'])) {
 				</div>
 			</div>
 			
-			<div class="row">
-				<div class="col-md-4">
-				<a href=""> Выбор телефонов:</a>
-					<div class="form-group">
-						<label>Страна</label>
-						<select class = "form-control" name="selectCountry">
-							<option value="">Выберите страну</option>
+			<div id="phoneBox">
+                <div class="showHidden" onclick="showPhoneBox();">Выбор телефонов:</div>
+				<div id="phoneBoxHidden">
+                    
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Страна</label>
+								<select class = "form-control" name="selectCountry">
+									<option value="">Выберите страну</option>
 							
 <?php
-while ($row = mysqli_fetch_array($rs)){
-echo "<option value=' ".$row['id']." '>".$row['country']."</option>";
+while ($row1 = mysqli_fetch_array($rs)){
+echo "<option value=' ".$row1['id']." '>".$row1['country']."</option>";
 }
 						
 if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op = $_POST['country']; //тут будет выбраное значение из списка
-    $sql = mysqli_query ($db, "
-	SELECT * FROM `countries` 
-	WHERE `id`=".$op."
-	") or exit(mysqli_error());
-	while($row = mysqli_fetch_assoc($sql)){
-		$_SESSION['country'] = $row['country']; //сохраняем в сессию текст вопроса
-	}
+    $op1 = $_POST['country']; //тут будет выбраное значение из списка
+    $_SESSION['country'] = $op1; //сохраняем в сессию id страны
+	
 }	
-
 ?>											
-							
-							
-							
-							
-							
-						</select>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №1</label>
+								<select class = "form-control" name="selectCountry">
+									<option value="">Выберите телефон</option>
+<?php
+while ($row2 = mysqli_fetch_array($result1)){
+echo "<option value=' ".$row2['id']." '>".$row2['phone']."</option>";
+}
+						
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $op1 = $_POST['phone']; //тут будет выбраное значение из списка
+    $_SESSION['phone1'] = $op1; //сохраняем в сессию телефон №1 
+}	
+?>									
+									
+									
+									
+						<!-- Сюда надо вставить еще выборку с базы данных 2 телефонов-->			
+									
+									
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №2</label>
+								<select class = "form-control" name="selectCountry">
+									<option value="">Выберите телефон</option>
+									<option value="">380505555555</option>
+									<option value="">380506666666</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №3</label>
+								<select class = "form-control" name="selectCountry">
+									<option value="">Выберите телефон</option>
+									<option value="">380505555555</option>
+									<option value="">380506666666</option>
+								</select>
+							</div>
+						</div>
+						
+						
 					</div>
 				</div>
-			</div>				
+            </div>
+			
+			
+			
+			
+						
 			
 			<br>			
 			<div class="row">
@@ -433,6 +445,7 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
+	<script src="../js/main.js"></script>
 	
 <!--Вариант обратного таймера	
 	<script src="../js/jquery.time-to.js"></script>

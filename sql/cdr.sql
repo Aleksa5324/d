@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Авг 23 2017 г., 13:26
+-- Время создания: Авг 23 2017 г., 16:00
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -191,6 +191,30 @@ INSERT INTO `news` (`id`, `date`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `phones`
+--
+
+CREATE TABLE `phones` (
+  `id` int(11) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `country_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `phones`
+--
+
+INSERT INTO `phones` (`id`, `phone`, `country_id`, `user_id`) VALUES
+(1, '+38(056)370-40-91', 1, 2),
+(2, '+38(056)370-40-92', 1, 2),
+(3, '+38(056)370-40-93', 1, 1),
+(4, '+1(205)45-55-66', 2, 3),
+(5, '+1(206)43-32-44', 2, 3);
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `polls`
 --
 
@@ -225,7 +249,7 @@ CREATE TABLE `poll_answer` (
 
 INSERT INTO `poll_answer` (`id`, `poll_id`, `title`, `votes`) VALUES
 (1, 1, '1С', 4),
-(2, 1, 'Парус', 1),
+(2, 1, 'Парус', 2),
 (3, 1, 'ГроссБух', 1);
 
 -- --------------------------------------------------------
@@ -263,27 +287,6 @@ INSERT INTO `questions` (`id`, `question`, `date`) VALUES
 (8, 'Выиграет ли ФК \"Днепр\" в Киеве?', '2017-08-03 17:38:28'),
 (11, 'Были ли Вы на концерте \"Океан Эльзы\"?', '2017-08-03 17:42:26'),
 (18, 'Пользуетесь ли Вы 1С?', '2017-08-04 15:48:19');
-
--- --------------------------------------------------------
-
---
--- Структура таблицы `telefons`
---
-
-CREATE TABLE `telefons` (
-  `id` int(11) NOT NULL,
-  `number_tel` varchar(20) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Дамп данных таблицы `telefons`
---
-
-INSERT INTO `telefons` (`id`, `number_tel`, `user_id`) VALUES
-(1, '+38(056)370-40-91', 2),
-(2, '+38(056)370-40-92', 2),
-(3, '+38(056)370-40-93', 1);
 
 -- --------------------------------------------------------
 
@@ -348,6 +351,12 @@ ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `phones`
+--
+ALTER TABLE `phones`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `polls`
 --
 ALTER TABLE `polls`
@@ -369,12 +378,6 @@ ALTER TABLE `poll_ip`
 -- Индексы таблицы `questions`
 --
 ALTER TABLE `questions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Индексы таблицы `telefons`
---
-ALTER TABLE `telefons`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -413,6 +416,11 @@ ALTER TABLE `countries`
 ALTER TABLE `news`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT для таблицы `phones`
+--
+ALTER TABLE `phones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
 -- AUTO_INCREMENT для таблицы `polls`
 --
 ALTER TABLE `polls`
@@ -432,11 +440,6 @@ ALTER TABLE `poll_ip`
 --
 ALTER TABLE `questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
---
--- AUTO_INCREMENT для таблицы `telefons`
---
-ALTER TABLE `telefons`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
