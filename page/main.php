@@ -40,12 +40,6 @@ if(isset($_POST['selectoptions']) && $_POST['selectVote'] == 'opt1'){
 	}  
 }
 
-//извлечение страны из базы
-$rs =  mysqli_query ($db,"
-SELECT * 
-FROM `countries` 
-ORDER BY `id` DESC
-") or exit(mysqli_error());
 
 //извлечение тем для голосований из базы
 $result =  mysqli_query ($db,"
@@ -54,13 +48,6 @@ FROM `questions`
 ORDER BY `id` DESC
 ") or exit(mysqli_error());
 
-
-//извлечение номера телефона № 1 для голосований из базы
-$result1 =  mysqli_query ($db,"
-SELECT * 
-FROM `phones` 
-WHERE `country_id` = 1
-") or exit(mysqli_error());
 
 
 //вывод сайта для зарегистрированных пользователей
@@ -238,7 +225,100 @@ if(isset($_SESSION['question'])) {
 		
 		</form>		
 		
-				
+		
+
+		
+		
+		
+	<form action="main.php" method="post">	
+		<div id="phoneBox">
+                <div class="showHidden" onclick="showPhoneBox();">Выбор телефонов:</div>
+				<div id="phoneBoxHidden_">
+                    
+					<div class="row">
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Страна</label>
+								<select class = "form-control" name="selectCountry">
+									<option value="0">Выберите страну</option>
+<?php
+//извлечение страны из базы
+	$sql1 =  mysqli_query ($db,"
+			SELECT * 
+			FROM `countries` 
+			ORDER BY `id` DESC
+			") or exit(mysqli_error());
+			
+	while ($row1 = mysqli_fetch_array($sql1)){
+		echo "<option value=' ".$row1['id']." '>".$row1['country']."</option>";
+	}
+						
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+    $op1 = $_POST['country']; //тут будет выбраное значение из списка
+    $sql11 = mysqli_query ($db, "
+	SELECT * FROM `countries` 
+	WHERE `id`=".$op1."
+	") or exit(mysqli_error());
+	while($row11 = mysqli_fetch_assoc($sql11)){
+		$_SESSION['country'] = $row11['country']; //сохраняем в сессию страну
+	}
+}	
+
+?>										
+									
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №1</label>
+								<select class = "form-control" name="selectPhone1">
+									<option value="">Выберите телефон</option>
+									<option value="">380505555555</option>
+									<option value="">380506666666</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №2</label>
+								<select class = "form-control" name="selectPhone2">
+									<option value="">Выберите телефон</option>
+									<option value="">380505555555</option>
+									<option value="">380506666666</option>
+								</select>
+							</div>
+						</div>
+						
+						<div class="col-md-3">
+							<div class="form-group">
+								<label>Телефон №3</label>
+								<select class = "form-control" name="selectPhone3">
+									<option value="">Выберите телефон</option>
+									<option value="">380505555555</option>
+									<option value="">380506666666</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+							<button type="submit" name="subPhone" class="btn btn-warning">Сохранить</button>
+							</div>
+						</div>
+					</div>
+					
+				</div>
+            </div>
+	</form>		
+
+
+
+		
 		<form action="main.php" method="post">	
 			<div class="row">
 				<div class="col-md-6">
@@ -263,89 +343,6 @@ if(isset($_SESSION['question'])) {
 					</div>
 				</div>
 			</div>
-			
-			<div id="phoneBox">
-                <div class="showHidden" onclick="showPhoneBox();">Выбор телефонов:</div>
-				<div id="phoneBoxHidden">
-                    
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Страна</label>
-								<select class = "form-control" name="selectCountry">
-									<option value="">Выберите страну</option>
-							
-<?php
-while ($row1 = mysqli_fetch_array($rs)){
-echo "<option value=' ".$row1['id']." '>".$row1['country']."</option>";
-}
-						
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op1 = $_POST['country']; //тут будет выбраное значение из списка
-    $_SESSION['country'] = $op1; //сохраняем в сессию id страны
-	
-}	
-?>											
-								</select>
-							</div>
-						</div>
-						
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Телефон №1</label>
-								<select class = "form-control" name="selectCountry">
-									<option value="">Выберите телефон</option>
-<?php
-while ($row2 = mysqli_fetch_array($result1)){
-echo "<option value=' ".$row2['id']." '>".$row2['phone']."</option>";
-}
-						
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op1 = $_POST['phone']; //тут будет выбраное значение из списка
-    $_SESSION['phone1'] = $op1; //сохраняем в сессию телефон №1 
-}	
-?>									
-									
-									
-									
-						<!-- Сюда надо вставить еще выборку с базы данных 2 телефонов-->			
-									
-									
-								</select>
-							</div>
-						</div>
-						
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Телефон №2</label>
-								<select class = "form-control" name="selectCountry">
-									<option value="">Выберите телефон</option>
-									<option value="">380505555555</option>
-									<option value="">380506666666</option>
-								</select>
-							</div>
-						</div>
-						
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Телефон №3</label>
-								<select class = "form-control" name="selectCountry">
-									<option value="">Выберите телефон</option>
-									<option value="">380505555555</option>
-									<option value="">380506666666</option>
-								</select>
-							</div>
-						</div>
-						
-						
-					</div>
-				</div>
-            </div>
-			
-			
-			
-			
-						
 			
 			<br>			
 			<div class="row">

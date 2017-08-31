@@ -87,4 +87,8 @@ function Parse($p1, $p2, $p3){
 	return strip_tags(substr($num2, 0, strpos($num2, $p3)));
 }
 
+
+
+
 ?>
+

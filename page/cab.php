@@ -45,11 +45,6 @@ if (isset($_POST['from'],$_POST['to'],$_POST['billing'])){
     $from = $_POST['from'];
     $to = $_POST['to'] ;
     	
-	// $result = mysqli_query($db, "
-	// SELECT * FROM `billing` 
-	// WHERE `date` BETWEEN CAST('".$from."' AS DATE) and ADDDATE(CAST('".$to."' AS DATE),INTERVAL 1 DAY) 
-	// ") or exit(mysqli_error());
-
 	$result = mysqli_query($db, "
 	SELECT * 
 	FROM `billing` INNER JOIN `users` ON `billing`.`user_id`=`users`.`id`

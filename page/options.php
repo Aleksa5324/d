@@ -3,6 +3,26 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
+//Загрузка файла логотипа на сервер
+if(isset($_POST['subUploadfile'])){
+	if ($_FILES){
+		$name = $_FILES['filename']['name'];
+		switch($_FILES['filename']['type']){
+			case 'image/jpeg': $ext = 'jpg'; break;
+			case 'image/gif': $ext = 'gif'; break;
+			case 'image/png': $ext = 'png'; break;
+			case 'image/tiff': $ext = 'tif'; break;
+			default: $ext = ''; break;
+		}
+	if ($ext){
+		$n = "../img/logo.$ext";
+		$_SESSION['LOGO'] = $n;
+		move_uploaded_file($_FILES['filename']['tmp_name'], $n);
+		} else MessageSend(1, 'Неприемлемый файл изображения.');
+	} else MessageSend(1, 'Загрузки изображения не произошло.');
+}	
+
+
 //вывод сайта для зарегистрированных пользователей
 if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 	MessageSend(1, 'Требуется регистрация пользователя.');
@@ -32,6 +52,8 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
     <![endif]-->
   </head>
   <body>
+
+ 
    
 	<!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -69,6 +91,9 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 
 		
 <div class = "container">	
+<!--info --> 
+<?php MessageShow(); ?>
+
 	<div class = "row">
 		<div class="col-md-12">	
 			<div class = "tabs">
@@ -574,9 +599,31 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 				  
 <!--Сводный индикатор -->				  
 				<div class="tab-pane" id="opt4">
-					<form role = "form" action="progress.php" method="post">
+					<form enctype="multipart/form-data" role = "form" action="options.php" method="post">
 						
 						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Логотип:</label><br>
+									<?php if(isset($n)){
+									echo "<img src = '$n' width='250' alt='logo'><br>";}?>
+									<br><input type="file" name="filename"> 
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<button type="submit" name="subUploadfile" class="btn btn-warning">Загрузить</button>
+								</div>
+							</div>
+						</div>
+					
+					</form>
+					
+					<form role = "form" action="progress.php" method="post">					
 						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
@@ -634,8 +681,9 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 								</div>
 							</div>
 						</div>
-							
-				  	</form>
+						
+					</form>
+					
 				  </div>
 				  
 				</div>

@@ -3,6 +3,7 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 //header('Content-Type: text/html; charset=utf-8');
 
+  
 //настройка панели гостей
 if(isset($_POST['selectPanelGuests'], $_POST['subOpt4'])){
 	$selectPanelGuests = $_POST['selectPanelGuests'];
@@ -60,13 +61,13 @@ if(isset($_POST['selectPanelGuests'], $_POST['subOpt4'])){
 		
 <?php
 //вывод панел логотипа
-if(isset($_POST['selectPanelLogo'], $_POST['subOpt4'])){
+if(isset($_POST['selectPanelLogo'], $_POST['subOpt4'], $_SESSION['LOGO'])){
 	$selectPanelLogo = $_POST['selectPanelLogo'];
 	
 	if($selectPanelLogo == 'logo1') {
 		echo '
 			<div class="logo">
-				<img src="../img/logo_fc_dnepr.png" alt="">
+				<img src="'.$_SESSION['LOGO'].'" width="250" alt="logo">
 			</div> 
 		
 		';
@@ -91,7 +92,7 @@ if(isset($_POST['selectPanelRight'], $_POST['subOpt4'])){
 		echo '
 			<div class="rightPanel">
 			
-				<div id = "facebook"><b>Голосование FACEBOOK</b>
+				<div id = "facebook"><b>Голосование FACEBOOK (голосов - 114)</b>
 					<div class="progress" style ="height: 54px">
 						<div class="progress-bar progress-bar-success" style="width: 25%; font-size: 26px; line-height: 54px">
 							<span>25%</span>
@@ -103,7 +104,7 @@ if(isset($_POST['selectPanelRight'], $_POST['subOpt4'])){
 					</div>
 				</div> 
 				
-				<div id = "livestrim"><b>Голосование LIVESTRIM</b>
+				<div id = "livestrim"><b>Голосование LIVESTRIM (голосов - 234)</b>
 					<div class="progress" style ="height: 54px">
 						<div class="progress-bar progress-bar-success" style="width: 80%; font-size: 26px; line-height: 54px">
 							<span>80%</span>
@@ -115,7 +116,7 @@ if(isset($_POST['selectPanelRight'], $_POST['subOpt4'])){
 					</div>
 				</div> 
 				
-				<div id = "youtube"><b>Голосование YOUTUBE</b>
+				<div id = "youtube"><b>Голосование YOUTUBE (голосов - 875)</b>
 					<div class="progress" style ="height: 54px">
 						<div class="progress-bar progress-bar-success" style="width: 75%; font-size: 26px; line-height: 54px">
 							<span>75%</span>
@@ -127,7 +128,7 @@ if(isset($_POST['selectPanelRight'], $_POST['subOpt4'])){
 					</div>
 				</div> 
 					
-				<div id = "instagram"><b>Голосование INSTAGRAM</b>
+				<div id = "instagram"><b>Голосование INSTAGRAM (голосов - 724)</b>
 					<div class="progress" style ="height: 54px">
 						<div class="progress-bar progress-bar-success" style="width: 30%; font-size: 26px; line-height: 54px">
 							<span>30%</span>
@@ -139,7 +140,7 @@ if(isset($_POST['selectPanelRight'], $_POST['subOpt4'])){
 					</div>
 				</div> 
 				
-				<div id = "periscope"><b>Голосование PERISCOPE</b>
+				<div id = "periscope"><b>Голосование PERISCOPE (голосов - 1553)</b>
 					<div class="progress" style ="height: 54px">
 						<div class="progress-bar progress-bar-success" style="width: 20%; font-size: 26px; line-height: 54px">
 							<span>20%</span>
