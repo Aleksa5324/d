@@ -2,6 +2,19 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
+//кладем в куки данные телефонов
+if(isset($_POST['selectPhone1'])) {
+	$_SESSION['PHONE1'] = $_POST['selectPhone1'];
+} else {
+	$_SESSION['PHONE1'] = '';
+}
+
+if(isset($_POST['selectPhone2'])) {
+	$_SESSION['PHONE2'] = $_POST['selectPhone2'];
+} else {
+	$_SESSION['PHONE2'] = '';
+}
+
 
 //извлекаем с базы данных куки
 if(isset($_SESSION['USER_LOGIN_IN'])&& $_SESSION['USER_LOGIN_IN'] != 1 and $_COOKIE['user']){
@@ -43,10 +56,26 @@ if(isset($_POST['selectoptions']) && $_POST['selectVote'] == 'opt1'){
 
 //извлечение тем для голосований из базы
 $result =  mysqli_query ($db,"
-SELECT * 
-FROM `questions` 
-ORDER BY `id` DESC
-") or exit(mysqli_error());
+		SELECT * 
+		FROM `questions` 
+		ORDER BY `id` DESC
+		") or exit(mysqli_error());
+
+
+//извлечение страны из базы
+$result1 =  mysqli_query ($db,"
+		SELECT * 
+		FROM `countries` 
+		ORDER BY `id` DESC
+		") or exit(mysqli_error());
+
+//извлечение телефона 1 из базы
+$phones = mysqli_query ($db,"
+		SELECT *
+		FROM `phones`
+		WHERE `country_id`= 1
+		ORDER BY `id` DESC
+		") or exit(mysqli_error());
 
 
 
@@ -174,12 +203,12 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 
 
 	
-	<div class = "container">
+<div class = "container">
 
 <!--info --> 
 <?php MessageShow(); ?>
 	
-		<form action="main.php" method="post">
+		<form action="" method="post">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -192,116 +221,108 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 								echo "<option value=' ".$row['id']." '>".$row['question']."</option>";
 							}
 						
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op = $_POST['question']; //тут будет выбраное значение из списка
-    $sql = mysqli_query ($db, "
-	SELECT * FROM `questions` 
-	WHERE `id`=".$op."
-	") or exit(mysqli_error());
-	while($row = mysqli_fetch_assoc($sql)){
-		$_SESSION['question'] = $row['question']; //сохраняем в сессию текст вопроса
-	}
-}	
-
-?>							
+							if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
+								$op = $_POST['question']; //тут будет выбраное значение из списка
+								$sql = mysqli_query ($db, "
+								SELECT * FROM `questions` 
+								WHERE `id`=".$op."
+								") or exit(mysqli_error());
+								while($row = mysqli_fetch_assoc($sql)){
+									$_SESSION['question'] = $row['question']; //сохраняем в сессию текст вопроса
+								}
+							}	
+							?>							
 
 						</select>
-   						
-					</div>
+   					</div>
 				</div>
 								
-				<div class="col-md-1">
+				<div class="col-md-2">
 					<div class="form-group">
 					<br>
-						<button type="subTema" class="btn btn-warning">Применить</button>
+						<button type="submit" name ="subTema" class="btn btn-warning">Применить</button>
 					</div>
 				</div>
 			</div>
 				
-<?php
-if(isset($_SESSION['question'])) {
-	echo '<p style = "color: #cd66cc;">Текущая тема: <b>' . $_SESSION['question'] . '</b></p>';
-}	?>
+			<?php
+			if(isset($_SESSION['question'])) {
+				echo '<p style = "color: #cd66cc;">Текущая тема: <b>' . $_SESSION['question'] . '</b></p>';
+			}	?>
 		
 		</form>		
 		
-		
+		<hr>
 
 		
 		
 		
 	<form action="main.php" method="post">	
-		<div id="phoneBox">
-                <div class="showHidden" onclick="showPhoneBox();">Выбор телефонов:</div>
-				<div id="phoneBoxHidden_">
-                    
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Страна</label>
-								<select class = "form-control" name="selectCountry">
-									<option value="0">Выберите страну</option>
-<?php
-//извлечение страны из базы
-	$sql1 =  mysqli_query ($db,"
-			SELECT * 
-			FROM `countries` 
-			ORDER BY `id` DESC
-			") or exit(mysqli_error());
+		<div class="row">
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Вид диаграммы</label>
+					<select class = "form-control" name="selectoptions">
+						<option value="option1">Круговая_3d</option>
+						<option value="option2">Столбцы</option>
+						<option value="option3">Круговая+Столбцы</option>
+						<option value="option4">Сводный индикатор</option>
+					</select>
+				</div>
+			</div>
 			
-	while ($row1 = mysqli_fetch_array($sql1)){
-		echo "<option value=' ".$row1['id']." '>".$row1['country']."</option>";
-	}
-						
-if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
-    $op1 = $_POST['selectCountry']; //тут будет выбраное значение из списка
-    $sql11 = mysqli_query ($db, "
-	SELECT * FROM `countries` 
-	WHERE `id`=".$op1."
-	") or exit(mysqli_error());
-	while($row11 = mysqli_fetch_assoc($sql11)){
-		$_SESSION['country'] = $row11['country']; //сохраняем в сессию страну
-	}
-
-	$phones = mysqli_query ($db,"
-	SELECT *
-	FROM `telefons`
-	WHERE `country_id`=".$opt1."
-	ORDER BY `id` DESC
-	") or exit(mysqli_error());
-}
-?>										
-									
-								</select>
-							</div>
+			<div class="col-md-6">
+				<div class="form-group">
+					<label>Вид голосования</label>
+					<select class = "form-control" name="selectVote">
+						<option value="opt1">Телефонное голосование</option>
+						<option value="opt2">Интернет голосование</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	
+	
+	
+		<div id="phoneBox">
+            <div class="showHidden" onclick="showPhoneBox();">Выбор телефонов:</div>
+			<div id="phoneBoxHidden_">
+                    
+				<div class="row">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Страна</label>
+							<select class = "form-control" name="selectCountry">
+								<option value="0">Выберите страну</option>
+								<option value="1" selected>Украина</option>
+								<option value="2">США</option>
+							</select>
 						</div>
+					</div>
 						
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Телефон №1</label>
-								<select class = "form-control" name="selectPhone1">
-									<option value="">Выберите телефон</option>
-									<?php 
-										while ($phone = mysqli_fetch_array($phones)){
-											echo "<option value=' ".$phone['id']." '>".$phone['phone']."</option>";
-										}
-									?>
-								</select>
-							</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Телефон №1</label>
+							<select class = "form-control" name="selectPhone1">
+								<option value="">Выберите телефон</option>
+								<option value="+38(093)14-20-999" selected>+38(093)14-20-999</option>
+								<option value="+38(099)14-20-999">+38(099)14-20-999</option>
+							</select>
 						</div>
+					</div>
 						
-						<div class="col-md-3">
-							<div class="form-group">
-								<label>Телефон №2</label>
-								<select class = "form-control" name="selectPhone2">
-									<option value="">Выберите телефон</option>
-									<option value="">380505555555</option>
-									<option value="">380506666666</option>
-								</select>
-							</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Телефон №2</label>
+							<select class = "form-control" name="selectPhone2">
+								<option value="">Выберите телефон</option>
+								<option value="+38(093)14-20-999">+38(093)14-20-999</option>
+								<option value="+38(099)14-20-999" selected>+38(099)14-20-999</option>
+							</select>
 						</div>
+					</div>
 						
-						<div class="col-md-3">
+					<!--<div class="col-md-3">
 							<div class="form-group">
 								<label>Телефон №3</label>
 								<select class = "form-control" name="selectPhone3">
@@ -311,49 +332,15 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 								</select>
 							</div>
 						</div>
-					</div>
-					
-					<div class="row">
-						<div class="col-md-4">
-							<div class="form-group">
-							<button type="submit" name="subPhone" class="btn btn-warning">Сохранить</button>
-							</div>
-						</div>
-					</div>
-					
+					</div> -->
 				</div>
             </div>
-	</form>		
+		</div>
 
-
-
-		
-		<form action="main.php" method="post">	
-			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Вид диаграммы</label>
-						<select class = "form-control" name="selectoptions">
-							<option value="option1">Круговая_3d</option>
-							<option value="option2">Столбцы</option>
-							<option value="option3">Круговая+Столбцы</option>
-							<option value="option4">Сводный индикатор</option>
-						</select>
-					</div>
-				</div>
+					
+			<br>
+			<hr>			
 			
-				<div class="col-md-6">
-					<div class="form-group">
-						<label>Вид голосования</label>
-						<select class = "form-control" name="selectVote">
-							<option value="opt1">Телефонное голосование</option>
-							<option value="opt2">Интернет голосование</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			
-			<br>			
 			<div class="row">
 				<div class="col-md-2">
 					<div class="form-group">
@@ -391,14 +378,14 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Время старта</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="19:00:00">
+						<input class="form-control" type="text" name="textstart" size="10" value="19:00:00">
 					</div>
 				</div>
 				
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Время финиша</label>
-						<input class="form-control" type="text" name="textfield" size="10" value="19:15:00">
+						<input class="form-control" type="text" name="textstop" size="10" value="19:15:00">
 						
 					</div>
 				</div>
@@ -442,9 +429,9 @@ if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "POST"){
 					</div>
 				</div>
 			</div>
-
-		</form>
-	</div>	<!-- /container-fluid -->
+		</div>
+	</form>
+</div>	<!-- /container -->
 
 	
 	 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

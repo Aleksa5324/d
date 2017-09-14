@@ -22,8 +22,8 @@ include_once '../connect.php';
 	</div>
 	
 	<div class="legenda_col">
-			<p class ="blue">Да  (тел.+38(056)370-40-95)</p>
-			<p class ="red">Нет (тел.+38(056)370-40-91)</p>
+			<p class ="blue">Да  <?php echo $_SESSION['PHONE1'];?></p>
+			<p class ="red">Нет <?php echo $_SESSION['PHONE2'];?></p>
 		</div>	
 		
 	<div id="columnchart_material" style="width: 1200px; height: 720px;"></div>

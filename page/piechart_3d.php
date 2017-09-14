@@ -16,6 +16,14 @@ include_once '../connect.php';
 	<link rel="stylesheet" type="text/css" href="../style.css" />
   </head>
   <body>
+  
+	<div id="video-bg">
+		<video width="100%" height="auto" autoplay="autoplay" loop="loop" preload="auto" poster="../bg/daisy-stock-poster.jpg">
+			<source src="../bg/daisy-stock-h264-video.mp4" type="video/mp4"></source>
+			<source src="../bg/daisy-stock-webm-video.webm" type="video/webm"></source>
+		</video>
+	</div>
+		
 		<div class="titul">
 			<?php 
 			if(isset($_SESSION['question'])) {
@@ -26,8 +34,8 @@ include_once '../connect.php';
 		</div>
 		
 		<div class="legenda">
-			<p class ="blue">Да  (тел.+38(056)370-40-95)</p>
-			<p class ="red">Нет (тел.+38(056)370-40-91)</p>
+			<p class ="blue">Да  <?php echo $_SESSION['PHONE1'];?></p>
+			<p class ="red">Нет  <?php echo $_SESSION['PHONE2'];?></p>
 		</div>
 		
 		<div id="piechart_3d"></div>

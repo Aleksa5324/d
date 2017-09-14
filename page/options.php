@@ -3,7 +3,7 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
-//Загрузка файла логотипа на сервер
+//загрузка файла логотипа на сервер
 if(isset($_POST['subUploadfile'])){
 	if ($_FILES){
 		$name = $_FILES['filename']['name'];
@@ -634,9 +634,7 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 									</select>
 								</div>
 							</div>
-						</div>
 						
-						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>Правая панель</label>
@@ -660,9 +658,7 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 									</select>
 								</div>
 							</div>
-						</div>
 						
-						<div class="row">
 							<div class="col-md-4">
 								<div class="form-group">
 									<label>Панель голосования</label>
@@ -672,6 +668,57 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 									</select>
 								</div>
 							</div>
+						</div>
+						<hr>
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Страна</label>
+									<select class = "form-control" name="selectCountry">
+										<option value="0">Выберите страну</option>
+										<option value="1" selected>Украина</option>
+										<option value="2">США</option>
+									</select>
+								</div>
+							</div>
+						
+							<div class="col-md-4">
+								<div class="form-group">
+									<label>Телефон №1</label>
+									<select class = "form-control" name="selectPhone1">
+										<option value="">Выберите телефон</option>
+										<option value="+38(093)14-20-999" selected>+38(093)14-20-999</option>
+										<option value="+38(099)14-20-999">+38(099)14-20-999</option>
+									</select>
+								</div>
+							</div>
+								
+						</div>	
+
+						<div class="row">		
+								
+							<div class="col-md-4 col-md-offset-4">
+								<div class="form-group">
+									<label>Телефон №2</label>
+									<select class = "form-control" name="selectPhone2">
+										<option value="">Выберите телефон</option>
+										<option value="+38(093)14-20-999">+38(093)14-20-999</option>
+										<option value="+38(099)14-20-999" selected>+38(099)14-20-999</option>
+									</select>
+								</div>
+							</div>
+								
+							<!--<div class="col-md-3">
+									<div class="form-group">
+										<label>Телефон №3</label>
+										<select class = "form-control" name="selectPhone3">
+											<option value="">Выберите телефон</option>
+											<option value="">380505555555</option>
+											<option value="">380506666666</option>
+										</select>
+									</div>
+								</div>
+							</div> -->
 						</div>
 						
 						<div class="row">

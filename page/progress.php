@@ -3,6 +3,21 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 //header('Content-Type: text/html; charset=utf-8');
 
+
+
+//кладем в куки данные телефонов
+if(isset($_POST['selectPhone1'])) {
+	$_SESSION['PHONE1'] = $_POST['selectPhone1'];
+} else {
+	$_SESSION['PHONE1'] = '';
+}
+
+if(isset($_POST['selectPhone2'])) {
+	$_SESSION['PHONE2'] = $_POST['selectPhone2'];
+} else {
+	$_SESSION['PHONE2'] = '';
+}
+
   
 //настройка панели гостей
 if(isset($_POST['selectPanelGuests'], $_POST['subOpt4'])){
@@ -16,7 +31,6 @@ if(isset($_POST['selectPanelGuests'], $_POST['subOpt4'])){
 		$_SESSION['guest'] = 2; 
 	} else $_SESSION['guest'] = '';
 }
-
 
 ?>
 
@@ -173,25 +187,25 @@ echo '';
 
 } elseif(isset($_SESSION['guest']) && $_SESSION['guest'] == 1 ) {
 
-echo '
-			<div class="row minPadd" style = "background-color:yellow;">
-				<div class="col-md-12">
-					<div style ="text-align: center; font-size: 30px;">Поддерживаю (+3805005050): Иванов И.И.</div>
+echo "
+			<div class='row minPadd' style = 'background-color:yellow;'>
+				<div class='col-md-12'>
+					<div style ='text-align: center; font-size: 30px;'>Поддерживаю {$_SESSION['PHONE1']}: Иванов И.И.</div>
 				</div>
 			</div>
-';	
+";	
 } elseif(isset($_SESSION['guest']) && $_SESSION['guest'] == 2 ) {
 
-echo '
-			<div class="row minPadd" style = "background-color:yellow; display: block;">
-				<div class="col-md-6">
-					<div style ="text-align: center; font-size: 30px; border-right:1px dotted #7f7f6a">Поддерживаю (+3805005050): Иванов И.И.</div>
+echo "
+			<div class='row minPadd' style = 'background-color:yellow; display: block;'>
+				<div class='col-md-6'>
+					<div style ='text-align: center; font-size: 30px; border-right:1px dotted #7f7f6a'>Поддерживаю {$_SESSION['PHONE1']}: Иванов И.И.</div>
 				</div>
-				<div class="col-md-6">
-					<div style ="text-align: center; font-size: 30px;">Поддерживаю (+3805005051): Петров П.П.</div>
+				<div class='col-md-6'>
+					<div style ='text-align: center; font-size: 30px;'>Поддерживаю {$_SESSION['PHONE2']}: Петров П.П.</div>
 				</div>
 			</div>
-';	
+";	
 } 
 
 

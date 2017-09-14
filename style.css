@@ -14,7 +14,7 @@ body{
 	position: absolute; 
 	top: 350px; 
 	left: 1400px; 
-	z-index:1;
+	z-index:2;
 	color: black;
 	font-size: 36px;
 	/*line-height: 1.5;*/
@@ -50,7 +50,7 @@ color: blue;
 	position: absolute; 
 	top: 0px; 
 	left: 0px; 
-	z-index:1;
+	z-index:2;
 	color: black;
 	font-size: 96px;
 	font-family: Vernada;
@@ -101,7 +101,7 @@ color: blue;
 	position: absolute; 
 	top: 350px; 
 	right: 50px; 
-	z-index:1;
+	z-index:2;
 	color: black;
 	font-size: 36px;
 	/*line-height: 1.5;*/
@@ -194,3 +194,50 @@ color: blue;
 #phoneBoxHidden{
     display: none;
 }
+
+
+/* Стили для видеофона */
+
+#video-bg {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	overflow: hidden;
+	z-index: 0;
+	background: url(bg/daisy-stock-poster.jpg) no-repeat #94a233;
+	background-size: cover;
+}
+
+#video-bg > video {
+	position: absolute;
+	top: 0;
+	left: 0;
+	min-width: 100%; 
+	min-height: 100%;
+	width: auto;
+	height: auto; 
+}
+
+
+/* Проверка на поддержку свойства object-fit: */
+
+ @supports (object-fit: cover) {
+     #video-bg > video {
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         object-fit: cover;
+     }
+ }
+
+
+/* Отключение видео для устройств с размером экрана менее 800px: */
+
+@media screen and (max-device-width: 800px) {
+	#video-bg > video {
+		display: none;
+		}
+	}
