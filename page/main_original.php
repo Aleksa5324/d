@@ -170,7 +170,7 @@ function tGol() {
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
-			<?php Menu(); ?>
+			<?php MenuCabinet(); ?>
             <!--<li class="active"><a href="page/cab.php">КАБИНЕТ</a></li>-->
           </ul>
         </div><!--/.nav-collapse -->

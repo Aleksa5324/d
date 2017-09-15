@@ -74,7 +74,7 @@ MessageSend(2, 'На Ваш E-mail <b>' . HideEmail($row['email']).'</b> отп�
 
   <body>
   
-	<!-- Fixed navbar -->
+	<!-- Fixed navbar 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -102,12 +102,12 @@ MessageSend(2, 'На Ваш E-mail <b>' . HideEmail($row['email']).'</b> отп�
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
-            <?php Menu(); ?>
+            <?php MenuCabinet(); ?>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
-  
+	-->
   
 
     <div class="container">

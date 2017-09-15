@@ -241,3 +241,42 @@ color: blue;
 		display: none;
 		}
 	}
+
+	
+.section__list {
+    padding: 40px 0 0;
+    overflow: hidden;
+}
+.section__list li.list1 {
+    background-image: url("img/pr1.png");
+}
+.section__list li.list2 {
+    background-image: url("img/pr2.png");
+}
+.section__list li.list3 {
+    background-image: url("img/pr3.png");
+}
+.section__list li.list4 {
+    background-image: url("img/pr4.png");
+}
+.section__list li.list5 {
+    background-image: url("img/pr5.png");
+}
+.section__list li.list6 {
+    background-image: url("img/pr6.png");
+}
+
+
+.section__list ul li {
+    list-style: none;
+}
+.section__list li {
+    float: left;
+    width: 33.33%;
+    text-align: center;
+    line-height: 22px;
+    background-repeat: no-repeat;
+    background-position: top center;
+    padding-top: 80px;
+    margin: 0 0 35px;
+}

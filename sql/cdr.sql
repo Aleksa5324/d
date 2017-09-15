@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Авг 23 2017 г., 16:00
+-- Время создания: Сен 15 2017 г., 16:55
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -143,7 +143,8 @@ INSERT INTO `chat` (`id`, `message`, `user`, `time`) VALUES
 (13, 'получилось', 'admin', '2017-08-17 15:04:29'),
 (14, 'gkfdhjfldgfl', 'admin', '2017-08-18 16:11:17'),
 (15, 'ghjghmjghg', 'admin', '2017-08-21 10:21:09'),
-(16, 'hgftjg', 'admin', '2017-08-21 10:21:12');
+(16, 'hgftjg', 'admin', '2017-08-21 10:21:12'),
+(17, 'gfhgrfh', 'admin', '2017-09-15 09:45:30');
 
 -- --------------------------------------------------------
 
@@ -249,7 +250,7 @@ CREATE TABLE `poll_answer` (
 
 INSERT INTO `poll_answer` (`id`, `poll_id`, `title`, `votes`) VALUES
 (1, 1, '1С', 4),
-(2, 1, 'Парус', 2),
+(2, 1, 'Парус', 3),
 (3, 1, 'ГроссБух', 1);
 
 -- --------------------------------------------------------
@@ -301,16 +302,18 @@ CREATE TABLE `users` (
   `name` varchar(10) NOT NULL,
   `regdate` datetime NOT NULL,
   `email` varchar(50) NOT NULL,
-  `active` int(11) NOT NULL
+  `active` int(11) NOT NULL,
+  `access` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `login`, `password`, `name`, `regdate`, `email`, `active`) VALUES
-(1, 'admin', 'b13f668fa6521faddd45b3305635f4d9', 'admin', '2017-08-11 09:03:29', 'admin@admin.com', 1),
-(2, 'user1', 'a98775ebe95b0b5adea5573d9acc4b08', 'user1', '2017-08-11 09:23:04', 'user1@mail.com', 1);
+INSERT INTO `users` (`id`, `login`, `password`, `name`, `regdate`, `email`, `active`, `access`) VALUES
+(1, 'admin', 'b13f668fa6521faddd45b3305635f4d9', 'admin', '2017-08-11 09:03:29', 'admin@admin.com', 1, 5),
+(2, 'user1', 'a98775ebe95b0b5adea5573d9acc4b08', 'user1', '2017-08-11 09:23:04', 'user1@mail.com', 1, 0),
+(5, 'user2', '936ef12fb7cc08d2d1376d8ba3f2196e', 'user2', '2017-09-15 15:28:03', 'user2@i.ua', 1, 3);
 
 --
 -- Индексы сохранённых таблиц
@@ -404,7 +407,7 @@ ALTER TABLE `cdr`
 -- AUTO_INCREMENT для таблицы `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT для таблицы `countries`
 --
@@ -444,7 +447,7 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

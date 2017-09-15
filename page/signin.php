@@ -15,7 +15,7 @@ $row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `password`, `active` FROM `u
 if ($row['password'] != $_POST['password']) MessageSend(1,'Неверный логин или пароль.');	
 if ($row['active'] 	== 0) MessageSend(1,'Аккаунт пользователя <b>'.$_POST['login'].'</b> не подтвержден.');	
 
-$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email`, `password`, `login` FROM `users` WHERE `login` = '$_POST[login]'"));	
+$row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `id`, `name`, `regdate`, `email`, `password`, `login`, `access` FROM `users` WHERE `login` = '$_POST[login]'"));	
 $_SESSION['USER_LOGIN'] = $row['login'];
 $_SESSION['USER_PASSWORD'] = $row['password'];
 
@@ -23,11 +23,13 @@ $_SESSION['USER_ID'] = $row['id'];
 $_SESSION['USER_NAME'] = $row['name'];
 $_SESSION['USER_REGDATE'] = $row['regdate'];
 $_SESSION['USER_EMAIL'] = $row['email'];
+$_SESSION['USER_ACCESS'] = $row['access'];
 $_SESSION['USER_LOGIN_IN'] = 1;
+
 
 if(isset($_POST['remember'])) setcookie('user', $_POST['password'], strtotime('+10 days'), '/');
 	
-exit(header('Location: cab.php'));	
+exit(header('Location: ../index.php'));	
 
 }
 
@@ -71,8 +73,8 @@ if(isset($_POST['remember'])) {
   </head>
 
   <body>
-  
-	<!-- Fixed navbar -->
+
+	<!-- Fixed navbar 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -100,13 +102,15 @@ if(isset($_POST['remember'])) {
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
-            <?php Menu(); ?>
+            <?php MenuCabinet(); ?>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
-    </div>
+    </div>  
+	
+	-->
   
-  
+ 
 
     <div class="container">
 	

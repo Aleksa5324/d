@@ -19,7 +19,7 @@ if ($row['login']) MessageSend(1,'Логин <b>'.$_POST['login']. '</b> уже 
 $row = mysqli_fetch_assoc(mysqli_query($db, "SELECT `email` FROM `users` WHERE `email` = '$_POST[email]'"));	
 if ($row['email']) MessageSend(1,'E-mail <b>'.$_POST['email']. '</b> уже используется.');
 
-mysqli_query($db, "INSERT INTO `users` VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', 0)");	
+mysqli_query($db, "INSERT INTO `users` VALUES ('', '$_POST[login]', '$_POST[password]', '$_POST[name]', NOW(), '$_POST[email]', 0, 0)");	
 
 $code = substr(base64_encode($_POST['email']), 0, -1);
 $code = str_replace('=', '', base64_encode($_POST['email']));
@@ -77,7 +77,7 @@ elseif(isset($_GET['code'])) {
 
   <body>
   
-	<!-- Fixed navbar -->
+	<!-- Fixed navbar 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -105,13 +105,12 @@ elseif(isset($_GET['code'])) {
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="signin.php">Вход</a></li>
-            <?php Menu(); ?>
+            <?php MenuCabinet(); ?>
           </ul>
-        </div><!--/.nav-collapse -->
+        </div>
       </div>
     </div>
-  
-  
+	-->
 
     <div class="container">
 	

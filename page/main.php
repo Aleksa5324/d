@@ -2,6 +2,7 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
+
 //кладем в куки данные телефонов
 if(isset($_POST['selectPhone1'])) {
 	$_SESSION['PHONE1'] = $_POST['selectPhone1'];
@@ -177,24 +178,18 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
           <a class="navbar-brand" href="../index.php">ГОЛОСОВАНИЕ</a>
         </div>
         <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="main.php">Главная</a></li>
-            <li><a href="history.php">История</a></li>
-			<li><a href="news.php">Новости</a></li>
-            <li class="dropdown">
-              <a href="news.php" class="dropdown-toggle" data-toggle="dropdown">Настройки<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="admin_polls.php">Интернет голосование</a></li>
-                <li class="divider"></li>
-				<li><a href="options.php">Опции графиков</a></li>
-             </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="signin.php">Вход</a></li>
-			<?php Menu(); ?>
+			<?php  
+			if($_SESSION['USER_ACCESS'] == 0){
+				include 'menu_user0.php'; 
+			} elseif($_SESSION['USER_ACCESS'] == 3){
+				include 'menu_user3.php'; 
+			} else{
+				include 'menu.php';
+			}	
+			?>
+			<?php MenuCabinet(); ?>
            
-          </ul>
+          
         </div>
       </div>
     </div>

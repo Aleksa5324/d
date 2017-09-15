@@ -64,15 +64,19 @@ function ULogin($p1) {
 	}	
 }
 
-//функция для вывода меню для зарегистрированных пользователей
-function Menu() {
+//функция для вывода меню Кабинета для зарегистрированных пользователей
+function MenuCabinet() {
 	if (isset($_SESSION['USER_LOGIN_IN']) && $_SESSION['USER_LOGIN_IN'] =1){
-		$menu = '<li><a href="cab.php?&page=logout">Выйти</a></li>
-		<li class="active"><a href="cab.php">КАБИНЕТ</a></li>
-		<li><a href="#">Пользователь: <b>'.$_SESSION['USER_NAME'].'</b></a></li>';
-		echo $menu;
+		$menuCabinet = '<ul class="nav navbar-nav navbar-right">
+			<li><a href="cab.php?&page=logout">Выйти</a></li>
+			<li class="active"><a href="cab.php">КАБИНЕТ</a></li>
+			<li><a href="#">Пользователь: <b>'.$_SESSION['USER_NAME'].'</b></a></li>
+		</ul>';
+		echo $menuCabinet;
 	} 
 }
+
+
 
 
 /*функция парсинга элементов страниц другого сайта
