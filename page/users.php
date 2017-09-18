@@ -3,6 +3,17 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
+//удаление пользователя из базы
+if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+	mysqli_query($db, "
+	DELETE FROM `users`
+	WHERE `id` = ".$_GET['id']."
+	") or exit(mysqli_error());
+	
+	MessageSend(3,'Пользователь был удален');
+}
+
+
 ?>
 
 
@@ -31,7 +42,11 @@ include_once '../lib/myFunction.php';
     <![endif]-->
 	
 
-
+<script>
+function areYuoSure(){
+	return confirm('Вы уверены, что хотите удалить?');
+}
+</script>
 	
 </head>
   
@@ -81,7 +96,7 @@ include_once '../lib/myFunction.php';
 	<div class = "row">
 		<div class="col-md-12">	
 		
-		<p>Пользователи системы</p>
+		<p><b style="color: #cd66cc;">Пользователи системы:</b></p>
 		
 		<table class="table table-striped">
 			</tbody>
@@ -110,7 +125,7 @@ $result = mysqli_query($db, 'SELECT * FROM `users` ORDER BY `id` ASC LIMIT 50');
 					echo '<td>' . $row['regdate'] . '</td>';
 					echo '<td>' . $row['email'] . '</td>';
 					echo '<td>' . $row['access'] . '</td>';
-					echo "<td><a href='edit_user.php?action=edit&id={$row['id']} '>ИЗМЕНИТЬ</a></td>";
+					echo "<td><a href='edit_user.php?action=edit&id={$row['id']} '>ИЗМЕНИТЬ ДОСТУП ||</a><a href='users.php?page=users&action=delete&id={$row['id']}' onClick='return areYuoSure();'> УДАЛИТЬ</a></td>";
 				}
 				}
 			?>	
@@ -133,6 +148,7 @@ $result = mysqli_query($db, 'SELECT * FROM `users` ORDER BY `id` ASC LIMIT 50');
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="../js/bootstrap.js"></script>
+	
 
 
 	

@@ -15,11 +15,11 @@ if(isset($_POST['edit'],$_POST['access'])) {
 			WHERE `id` = ".(int)$_GET['id']."
 	") or exit(mysqli_error($db));
 	
-	$_SESSION['USER_ACCESS'] = $_POST['access'];	
 	MessageSend(3,'Запись была изменена', 'users.php');
 }
 
 
+//получаем данные пользователя по ID
 $user= mysqli_query($db,"
 		SELECT * 
 		FROM `users` 
@@ -35,6 +35,7 @@ $row = mysqli_fetch_assoc($user);
 
 if(isset($_POST['access'])) {
 	$row['access'] = $_POST['access'];
+	
 }
 
 ?>
@@ -67,7 +68,7 @@ if(isset($_POST['access'])) {
 	<div class = "container-fluid">	
 		<div class = "row">
 			<div class="col-md-12">	
-				<form class="form-horizontal" role = "form" action="edit_user.php" method="post">
+				<form class="form-horizontal" action="" method="post">
 						<br>
 						<fieldset>
 						<legend style="color: green">Редактирование доступа пользователя</legend>
@@ -98,8 +99,8 @@ if(isset($_POST['access'])) {
 							</div>
 							<div class="form-group">
 								<label class="col-sm-2 control-label">Доступ</label>
-								<div class="col-sm-2">
-								  <input type="text" name ="access" class="form-control" placeholder="Доступ" required autofocus style="margin-bottom: 5px;" value="<?php echo htmlspecialchars($row['access']); ?>">
+								<div class="col-sm-4">
+								  <input type="text" name ="access" class="form-control" placeholder="0-Пользователь; 3-Модератор; 5-Администратор" required autofocus style="margin-bottom: 5px;" value="">
 								</div>
 							</div>
 							

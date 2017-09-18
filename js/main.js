@@ -11,3 +11,10 @@ function showPhoneBox(){
 }
 
 
+/**
+*Подтверждение удаления
+*
+*/
+function areYuoSure(){
+	return confirm('Вы уверены, что хотите удалить?');
+}

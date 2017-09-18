@@ -89,7 +89,15 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+ 
+<script>
+function areYuoSure(){
+	return confirm('Вы уверены, что хотите удалить?');
+}
+</script>
+ 
    
+ 
   </head>
   <body>
 	
@@ -205,7 +213,7 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 		<form action="" method="post">		
 			<?php while($row = mysqli_fetch_assoc($question)) { ?>					
 				<div>
-					<div><input type="checkbox" name ="ids[]" value="<?php echo $row['id']; ?>"> <a href="history.php?page=history&action=delete&id=<?php echo $row['id']; ?>">УДАЛИТЬ</a> <a href="edit_question.php?action=edit&id=<?php echo $row['id']; ?>">ИЗМЕНИТЬ</a> <b><?php echo $row['question'];?></b> <span style="color:#777777; font-size:10px;"><?php echo '('.$row['date']. ')'; ?></span></div>
+					<div><input type="checkbox" name ="ids[]" value="<?php echo $row['id']; ?>"> <a href="history.php?page=history&action=delete&id=<?php echo $row['id']; ?>" onClick='return areYuoSure();'>УДАЛИТЬ</a> <a href="edit_question.php?action=edit&id=<?php echo $row['id']; ?>">ИЗМЕНИТЬ</a> <b><?php echo $row['question'];?></b> <span style="color:#777777; font-size:10px;"><?php echo '('.$row['date']. ')'; ?></span></div>
 				</div>
 				<hr>
 				<?php } ?>	
