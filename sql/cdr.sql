@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Сен 15 2017 г., 16:55
+-- Время создания: Сен 20 2017 г., 16:21
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -21,6 +21,64 @@ SET time_zone = "+00:00";
 --
 -- База данных: `cdr`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `answers_opros`
+--
+
+CREATE TABLE `answers_opros` (
+  `id` int(11) NOT NULL,
+  `answer` varchar(255) NOT NULL,
+  `question_id` int(11) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `votes` int(11) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `answers_opros`
+--
+
+INSERT INTO `answers_opros` (`id`, `answer`, `question_id`, `phone`, `votes`) VALUES
+(1, 'PHP', 1, '+38(000)00-00-001', 6),
+(2, 'JAVA', 1, '+38(000)00-00-002', 2),
+(3, 'JS', 1, '+38(000)00-00-003', 2),
+(4, '1C', 1, '+38(000)00-00-004', 0),
+(5, 'C++', 1, '+38(000)00-00-005', 0),
+(6, 'Красный', 3, '+38(000)00-00-001', 0),
+(7, 'Желтый', 3, '+38(000)00-00-002', 0),
+(8, 'Зеленый', 3, '+38(000)00-00-003', 0),
+(9, 'Сиреневый', 0, '', 0),
+(10, 'Бирюзовый', 0, '', 0),
+(11, 'Синий', 0, '', 0),
+(12, 'Фиолетовый', 0, '', 0),
+(13, 'Бордовый', 0, '', 0),
+(14, 'Цветной', 0, '', 0),
+(15, 'к', 0, '', 0),
+(16, '', 0, '', 0),
+(17, 'Малиновый', 3, '+38(000)00-00-004', 1),
+(18, 'ss', 0, '', 0),
+(19, 'ff', 0, '', 0),
+(20, 'rrr', 0, '', 0),
+(21, 'Симпатичный', 3, '+38(000)00-00-005', 0),
+(22, 'Веселый', 3, '+38(000)00-00-006', 0),
+(23, 'Basic', 1, '+38(000)00-00-006', 0),
+(25, '55', 0, '', 0),
+(26, 'парпа', 6, '', 0),
+(27, 'парпрен', 6, '', 1),
+(28, '331', 7, '', 0),
+(29, '3322', 7, '', 0),
+(30, '333', 7, '', 0),
+(31, '4411', 8, '', 0),
+(32, '442', 8, '', 0),
+(33, '443', 8, '', 0),
+(34, '444', 8, '', 0),
+(35, '445', 8, '', 0),
+(37, '551', 10, '+38(000)00-00-001', 0),
+(38, '552', 10, '+38(000)00-00-003', 0),
+(39, '51', 5, '+38(000)00-00-001', 1),
+(40, '52', 5, '+38(000)00-00-002', 0);
 
 -- --------------------------------------------------------
 
@@ -192,6 +250,29 @@ INSERT INTO `news` (`id`, `date`, `title`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Структура таблицы `opros_ip`
+--
+
+CREATE TABLE `opros_ip` (
+  `id` int(11) NOT NULL,
+  `question_opros_id` int(11) NOT NULL,
+  `ip` int(15) NOT NULL,
+  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `opros_ip`
+--
+
+INSERT INTO `opros_ip` (`id`, `question_opros_id`, `ip`, `date`) VALUES
+(1, 1, 2130706433, '2017-09-20 14:18:41'),
+(2, 3, 2130706433, '2017-09-20 14:18:49'),
+(3, 5, 2130706433, '2017-09-20 14:19:43'),
+(4, 6, 2130706433, '2017-09-20 14:19:59');
+
+-- --------------------------------------------------------
+
+--
 -- Структура таблицы `phones`
 --
 
@@ -266,6 +347,13 @@ CREATE TABLE `poll_ip` (
   `date` int(10) UNSIGNED NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `poll_ip`
+--
+
+INSERT INTO `poll_ip` (`id`, `poll_id`, `ip`, `date`) VALUES
+(1, 2, 2130706433, 1505715955);
+
 -- --------------------------------------------------------
 
 --
@@ -288,6 +376,33 @@ INSERT INTO `questions` (`id`, `question`, `date`) VALUES
 (8, 'Выиграет ли ФК \"Днепр\" в Киеве?', '2017-08-03 17:38:28'),
 (11, 'Были ли Вы на концерте \"Океан Эльзы\"?', '2017-08-03 17:42:26'),
 (18, 'Пользуетесь ли Вы 1С?', '2017-08-04 15:48:19');
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `questions_opros`
+--
+
+CREATE TABLE `questions_opros` (
+  `id` int(11) NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_modification` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `active` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `questions_opros`
+--
+
+INSERT INTO `questions_opros` (`id`, `question`, `date_created`, `date_modification`, `active`) VALUES
+(1, 'Какой язык программирования Вы бы выбрали для изучения?', '2017-09-19 07:00:00', '2017-09-19 08:27:17', 1),
+(3, 'Ваш любимый цвет автомобиля?', '2017-09-19 08:36:52', '2017-09-19 12:23:02', 0),
+(5, '11', '2017-09-19 09:00:05', '2017-09-19 09:02:13', 0),
+(6, '22', '2017-09-19 09:14:05', '2017-09-19 12:19:08', 0),
+(7, '33', '2017-09-19 12:04:24', '2017-09-19 12:04:24', 0),
+(8, '44', '2017-09-19 12:12:07', '2017-09-19 12:49:38', 0),
+(10, '55', '2017-09-19 12:46:23', '2017-09-19 12:46:23', 0);
 
 -- --------------------------------------------------------
 
@@ -318,6 +433,12 @@ INSERT INTO `users` (`id`, `login`, `password`, `name`, `regdate`, `email`, `act
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `answers_opros`
+--
+ALTER TABLE `answers_opros`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Индексы таблицы `billing`
@@ -354,6 +475,12 @@ ALTER TABLE `news`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `opros_ip`
+--
+ALTER TABLE `opros_ip`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `phones`
 --
 ALTER TABLE `phones`
@@ -384,6 +511,12 @@ ALTER TABLE `questions`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `questions_opros`
+--
+ALTER TABLE `questions_opros`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
@@ -393,6 +526,11 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
+--
+-- AUTO_INCREMENT для таблицы `answers_opros`
+--
+ALTER TABLE `answers_opros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 --
 -- AUTO_INCREMENT для таблицы `billing`
 --
@@ -419,6 +557,11 @@ ALTER TABLE `countries`
 ALTER TABLE `news`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
+-- AUTO_INCREMENT для таблицы `opros_ip`
+--
+ALTER TABLE `opros_ip`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
 -- AUTO_INCREMENT для таблицы `phones`
 --
 ALTER TABLE `phones`
@@ -427,22 +570,27 @@ ALTER TABLE `phones`
 -- AUTO_INCREMENT для таблицы `polls`
 --
 ALTER TABLE `polls`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT для таблицы `poll_answer`
 --
 ALTER TABLE `poll_answer`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT для таблицы `poll_ip`
 --
 ALTER TABLE `poll_ip`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT для таблицы `questions`
 --
 ALTER TABLE `questions`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+--
+-- AUTO_INCREMENT для таблицы `questions_opros`
+--
+ALTER TABLE `questions_opros`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --

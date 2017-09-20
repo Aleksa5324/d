@@ -2,7 +2,11 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
-
+if(isset($_POST['id'])){
+	$_SESSION['QUESTION_ID'] = $_POST['id'];
+}else{
+	$_SESSION['QUESTION_ID'] = '';
+}
 ?>
 
 
@@ -14,7 +18,7 @@ include_once '../lib/myFunction.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Информация</title>
+    <title>Опрос пользователей</title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -67,35 +71,68 @@ include_once '../lib/myFunction.php';
       </div>
     </div>
 
-	
-<!-- Вывод инфосообщения -->
-<?php if(isset($info)) { ?>
-	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
-<?php } ?>
 
-	
 <div class = "container">
 <!--info --> 
 <?php MessageShow(); ?>
-
-	<div class = "row">
+<br>
+	<div class = "row" style ="font-size: 20px;">
 		<div class="col-md-12">	
 		
-			<form class="form-horizontal" action="golos_start.php" method="post">
+			<form class="form-horizontal" action="golos_result.php" method="post">
 				<br>
-				<fieldset>
-					<legend style="color: green">Опрос пользователей</legend>
-						
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Код для голосования</label>
-						<div class="col-sm-4">
-							<input type="text" name ="id" class="form-control" placeholder="" required autofocus style="margin-bottom: 5px;" value="">
-						</div>
-					</div>
-							
+				
+<?php
+if(isset($_POST['id']) && !empty($_POST['id'])){
+$result = mysqli_query($db, "SELECT * 
+	FROM `questions_opros` 
+	WHERE `id` = ".(int)$_POST['id']." 
+	LIMIT 1 
+	");
+
+	if (isset($result)) {
+		while($row = mysqli_fetch_assoc($result)) {
+		echo $row['question'];
+		}
+	}
+}
+?>				
+<br><br>
+			
+<?php
+if(isset($_POST['id']) && !empty($_POST['id'])){
+$res = mysqli_query($db, "SELECT * 
+	FROM `answers_opros` 
+	WHERE `question_id` = ".(int)$_POST['id']." 
+	LIMIT 50 
+	");
+
+if (isset($res)) {
+	while($row = mysqli_fetch_assoc($res)) {
+	echo "
+	<div class='radio'>
+		<label>
+			<input type='radio' name='voice' value='".$row['id']."'>
+			".$row['answer']."  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; или звонок на номер &nbsp;&nbsp;&nbsp; ".$row['phone']."
+		</label>
+	</div>
+	
+	";
+	
+	}
+}
+}
+
+
+?>
+			
+					
+					
+					<br><br>
+					
 					<div class="form-group">
 						<div class="col-md-4 col-md-offset-2">
-							<button type="submit" name="subStart" class="btn btn-success">Начать</button>
+							<button type="submit" name="subFinish" class="btn btn-success">Проголосовать</button>
 						</div>
 					</div>
 							
@@ -104,8 +141,7 @@ include_once '../lib/myFunction.php';
 							<a href="info.php" class="btn btn-warning" role="button">Вернуться</a>
 						</div>
 					</div>
-							
-				</fieldset>	
+				
 			</form>	
 			<hr>
 			

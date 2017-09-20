@@ -2,6 +2,26 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
+//d($_POST,1);
+
+
+
+if(isset($_POST['subFinish'], $_POST['voice'])){
+	
+	 $ip=$_SERVER['REMOTE_ADDR'];
+	 $result=mysqli_query($db,"SELECT count(id) FROM opros_ip
+		 WHERE question_opros_id='".$_SESSION['QUESTION_ID']."' and ip=INET_ATON('".$ip."') LIMIT 1");
+	 $number=mysqli_fetch_array($result);
+		 if ($number[0]==0) {
+			$res=mysqli_query($db,"INSERT INTO opros_ip (question_opros_id,ip,date)
+				values ('".$_SESSION['QUESTION_ID']."',INET_ATON('".$ip."'), NOW())");
+			$res=mysqli_query($db,"UPDATE answers_opros SET votes=(votes+1)
+				WHERE id='".$_POST['voice']."' LIMIT 1");
+			MessageSend(3,'Спасибо! Ваш голос принят');
+		 }
+		 else MessageSend(1,'Вы уже голосовали!');
+	
+}
 
 ?>
 
@@ -14,7 +34,7 @@ include_once '../lib/myFunction.php';
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Информация</title>
+    <title>Опрос пользователей</title>
 
     <!-- Bootstrap -->
     <link href="../css/bootstrap.css" rel="stylesheet">
@@ -67,45 +87,23 @@ include_once '../lib/myFunction.php';
       </div>
     </div>
 
-	
-<!-- Вывод инфосообщения -->
-<?php if(isset($info)) { ?>
-	<h2 style="color:red; padding-left:15px;"><?php echo $info; ?></h2>
-<?php } ?>
 
-	
 <div class = "container">
 <!--info --> 
 <?php MessageShow(); ?>
-
-	<div class = "row">
+<br>
+	<div class = "row" style ="font-size: 20px;">
 		<div class="col-md-12">	
 		
-			<form class="form-horizontal" action="golos_start.php" method="post">
-				<br>
-				<fieldset>
-					<legend style="color: green">Опрос пользователей</legend>
-						
-					<div class="form-group">
-						<label class="col-sm-2 control-label">Код для голосования</label>
-						<div class="col-sm-4">
-							<input type="text" name ="id" class="form-control" placeholder="" required autofocus style="margin-bottom: 5px;" value="">
-						</div>
-					</div>
-							
-					<div class="form-group">
-						<div class="col-md-4 col-md-offset-2">
-							<button type="submit" name="subStart" class="btn btn-success">Начать</button>
-						</div>
-					</div>
+			<form class="form-horizontal" action="" method="post">
+				
 							
 					<div class="form-group">
 						<div class="col-md-4 col-md-offset-2">
 							<a href="info.php" class="btn btn-warning" role="button">Вернуться</a>
 						</div>
 					</div>
-							
-				</fieldset>	
+				
 			</form>	
 			<hr>
 			

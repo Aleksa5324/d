@@ -13,6 +13,9 @@ if ($poll_id>0) {
  $db=mysqli_connect("localhost","root","","cdr");
  $res=mysqli_query($db,"set names utf8");
 
+ 
+ 
+ 
 if ($answer_id!='') {
  $ip=$_SERVER['REMOTE_ADDR'];
  $res=mysqli_query($db,"SELECT count(id) FROM poll_ip
@@ -27,6 +30,8 @@ if ($answer_id!='') {
  }
  else $answer='Вы уже голосовали!';
 }
+
+
 
  $summa=mysqli_fetch_array(mysqli_query($db,"SELECT max(votes) AS max_v, sum(votes)
      AS sum_v FROM poll_answer WHERE poll_id='".$poll_id."' LIMIT 1"));

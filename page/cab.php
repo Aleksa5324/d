@@ -228,11 +228,24 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 						
 					</div>
 									  
-					<div class="tab-pane" id="opt2">
+<!-- Оплата -->		<div class="tab-pane" id="opt2">
 						<form role = "form" action="" method="post">
 									
 			<div class="row">
 			<br>
+				<p style="padding-left:15px;">Вы можете произвести оплату любым удобным способом через провайдер платежей ИНТЕРКАССА </p>
+			
+				<div class="col-md-2">
+					<div class="form-group">
+					<label></label>
+						<a href="https://www.interkassa.com/" class="btn btn-warning" role="button">Оплатить</a>
+					</div>
+				</div>
+			</div>
+			<hr>
+			
+			<div class="row">
+			<p style="padding-left:15px;">Для просмотра истории платежей необходимо указать период в формате dd.mm.yyyy</p>
 				<div class="col-md-2">
 					<div class="form-group">
 						<label>Дата начала</label>
@@ -246,6 +259,7 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 						<input class = "form-control" type="date" name="to" value="<?php if(!empty($_POST['to'])) echo $_POST['to']; ?>">
 					</div>
 				</div>
+				<br>
 			</div>	
 			
 					

@@ -3,6 +3,19 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
+
+//удаление вопроса из базы
+if(isset($_GET['action']) && $_GET['action'] == 'delete') {
+	mysqli_query($db, "
+	DELETE FROM `questions_opros`
+	WHERE `id` = ".$_GET['id']."
+	") or exit(mysqli_error());
+	
+	MessageSend(3,'Вопрос был удален');
+}
+
+
+
 //вывод сайта для зарегистрированных пользователей
 if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 	MessageSend(1, 'Требуется регистрация пользователя.');
@@ -30,6 +43,14 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+	
+<script>
+function areYuoSure(){
+	return confirm('Вы уверены, что хотите удалить?');
+}
+</script>
+	
+	
   </head>
   <body>
 
@@ -67,7 +88,7 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 <div class = "container">	
 <!--info --> 
 <?php MessageShow(); ?>
-
+<br>
 	<div class = "row">
 		<div class="col-md-12">	
 			<div class = "tabs">
@@ -80,7 +101,52 @@ if (!isset($_SESSION['USER_LOGIN_IN']) or $_SESSION['USER_LOGIN_IN'] =0 ) {
 					<!-- Tab panes -->
 				<div class="tab-content">
 					<div class="tab-pane active" id="opt1">
-						Вопросы
+						<div class = "row">
+		<div class="col-md-12">	
+		<br>
+		<p><b style="color: #cd66cc;">Список вопросов для формирования опроса пользователей (для активации установите статус равный 1):</b></p>
+		<p><b>ВАЖНО!</b> Для правильного отображения опроса необходимо, чтобы был установлен только один вопрос со статусом = 1, который и будет активный на данный момент.</p>
+		<p>Для формирования ответов на вопрос выберите "ИЗМЕНИТЬ".</p>
+		<br>
+		
+		<table class="table table-striped">
+			</tbody>
+				<tr >
+					<th>ID</th>	
+					<th>Вопрос</th>
+					<th>Дата создания</th>
+					<th>Дата модификации</th>
+					<th>Статус</th>
+					<th>Действие</th>
+				</tr>
+				
+								
+			<?php 
+				$result = mysqli_query($db, 'SELECT * FROM `questions_opros` ORDER BY `active` DESC LIMIT 50');
+			
+				if (isset($result)) {
+				while($row = mysqli_fetch_assoc($result)) {
+				
+				echo '<tr>';
+					echo '<td>' . $row['id'] . '</td>';
+					echo '<td>' . $row['question'] . '</td>';
+					echo '<td>' . $row['date_created'] . '</td>';
+					echo '<td>' . $row['date_modification'] . '</td>';
+					echo '<td>' . $row['active'] . '</td>';
+					echo "<td><a href='add_question_opros.php'>ДОБАВИТЬ   ||</a> <a href='edit_question_opros.php?action=edit&id={$row['id']} '>ИЗМЕНИТЬ   ||</a><a href='options_oprosy.php?page=options_oprosy&action=delete&id={$row['id']}' onClick='return areYuoSure();'> УДАЛИТЬ</a></td>";
+				}
+				}
+			?>	
+				</tr>							
+			</tbody>	
+		</table>	
+		
+		
+		
+		
+		</div>
+		
+	</div>	
 					</div>
 					  
 					  
