@@ -162,7 +162,7 @@ function areYuoSure(){
 		<p><b style="color: #cd66cc;">Список ответов на вопрос:</b></p>
 		
 		<table class="table table-striped">
-			</tbody>
+			<tbody>
 				<tr >
 					<th>ID</th>	
 					<th>Ответ</th>
