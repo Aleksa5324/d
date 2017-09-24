@@ -3,9 +3,15 @@ include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
 
-
 if(isset($_POST['question_o'])){
-	$_SESSION['QUESTION_O'] = trim($_POST['question_o']);
+	$_SESSION['QUESTION_ID'] = trim($_POST['question_o']);
+	
+	//получаем вопрос по ID, который пришел в $_POST['question_o']
+	$res = mysqli_query($db, "SELECT * FROM `questions_opros` WHERE `id` = '".$_SESSION['QUESTION_ID']."' ");
+
+	$row = mysqli_fetch_array($res);
+	$_SESSION['QUESTION_O'] = $row['question'];
+	
 }
 
 

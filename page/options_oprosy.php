@@ -163,10 +163,9 @@ function areYuoSure(){
 											$res = mysqli_query($db, 'SELECT * FROM `questions_opros` WHERE `active` = 1 ');
 											
 											while ($row = mysqli_fetch_array($res)){
-												echo "<option value=' ".$row['question']." ' selected>".$row['question']."</option>";
-												
+												echo "<option value=' ".$row['id']." ' selected>".$row['question']."</option>";
 											}
-											
+																		
 											?>							
 
 										</select>

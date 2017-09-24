@@ -1,30 +1,33 @@
 <?php
+include_once '../connect.php';
+include_once '../lib/myFunction.php';
 
- 
-// подключаемся к базе 
-	$db = mysqli_connect("127.0.0.1", "root", "", "cdr") or die("Ошибка " . mysqli_error($db));
-	mysqli_set_charset($db, "utf8");
+/**
+*Получаем данные БД и преобразовываем в json формат для построения графика
+*
+*/
+function getDataString(){
+	global $db;
+		
+	$query = "SELECT `answer`, `votes` FROM `answers_opros` WHERE `question_id` = ".$_SESSION['QUESTION_ID']." ";
 
-	function getDataString(){
-		global $db;
+	$res = mysqli_query($db, $query);
+	
+	$data = '{"cols": [';
+	$data .= '{"label":"Ответ","type":"string"},';
+	$data .= '{"label":"Голоса","type":"number"}';
+	$data .= '],"rows": [';		
 		
-		$query = "SELECT `answer`, `votes` FROM `answers_opros` WHERE `question_id` = 1 ";
-
-		$res = mysqli_query($db, $query);
+	while($row = mysqli_fetch_assoc($res)){
+		$data .= '{"c":[{"v":"'.$row['answer'].'"},{"v":'.$row['votes'].'}]},';
+	}
 		
-		$data = '{"cols": [';
-		$data .= '{"label":"Ответ","type":"string"},';
-		$data .= '{"label":"Голоса","type":"number"}';
-		$data .= '],"rows": [';		
+	$data = rtrim($data, ',');
+	$data .= ']}';
 		
-		while($row = mysqli_fetch_assoc($res)){
-			$data .= '{"c":[{"v":"'.$row['answer'].'"},{"v":'.$row['votes'].'}]},';
-		}
-		
-		$data = rtrim($data, ',');
-		$data .= ']}';
-		
-		return $data;
+	return $data;
 }
+
+
 
 echo getDataString();
