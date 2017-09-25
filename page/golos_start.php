@@ -92,13 +92,25 @@ $result = mysqli_query($db, "SELECT *
 
 	if (isset($result)) {
 		while($row = mysqli_fetch_assoc($result)) {
-		echo $row['question'];
+		echo "<div style ='font-size: 60px;'>".$row['question']."</div>";
 		}
 	}
 }
 ?>				
 <br><br>
 			
+
+
+				<table class="table table-striped">
+					<tbody>
+						<tr>
+							<th>Ответ</th>
+							<th>Голосование по телефону</th>
+							<th>Голосование по SMS </th>
+						</tr>
+		
+
+
 <?php
 if(isset($_POST['id']) && !empty($_POST['id'])){
 $res = mysqli_query($db, "SELECT * 
@@ -109,24 +121,36 @@ $res = mysqli_query($db, "SELECT *
 
 if (isset($res)) {
 	while($row = mysqli_fetch_assoc($res)) {
+	echo '<tr>';
+	echo '<td>';
 	echo "
 	<div class='radio'>
 		<label>
 			<input type='radio' name='voice' value='".$row['id']."'>
-			".$row['answer']."  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; или звонок на номер &nbsp;&nbsp;&nbsp; ".$row['phone']."
+			".$row['answer']."
 		</label>
 	</div>
-	
 	";
+	echo '</td>';
 	
+	echo '<td>' ;
+	echo "звонок на номер ".$row['phone']."";
+	echo '</td>';
+	
+	echo '<td>' ;
+	echo "SMS на номер ".$row['phone']."";
+	echo '</td>';
 	}
 }
 }
 
-
 ?>
-			
-					
+
+						</tr>							
+					</tbody>	
+				</table>
+
+
 					
 					<br><br>
 					
