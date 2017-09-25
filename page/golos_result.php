@@ -2,9 +2,8 @@
 include_once '../connect.php';
 include_once '../lib/myFunction.php';
 
-//d($_POST,1);
 
-
+//Для правильной проверки по ip надо заходить на сайт через домен (без использования localhost)
 
 if(isset($_POST['subFinish'], $_POST['voice'])){
 	
