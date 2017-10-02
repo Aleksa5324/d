@@ -26,7 +26,7 @@ if(isset($_POST['question_o'])){
 	
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="../js/scripts_opros.js"></script>
+	<script src="../js/scripts_o.js"></script>
 	
 	<link rel="stylesheet" type="text/css" href="../style.css" />
   </head>
