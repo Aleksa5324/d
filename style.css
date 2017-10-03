@@ -280,3 +280,59 @@ color: blue;
     padding-top: 80px;
     margin: 0 0 35px;
 }
+
+
+.pricing {
+    padding: 3.3rem;
+    color: #767676;
+    background-color: #E7E7E7;
+}
+.plan-header, .plan-body {
+    background-color: #E7E7E7;
+}
+.price-value {
+    font-weight: 700;
+    vertical-align: top;
+}
+
+.display-5 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.5rem;
+}
+.price-figure {
+    font-weight: 700;
+    color: #232323;
+}
+
+.display-1 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 4.25rem;
+}
+.plan-title {
+    margin-top: 1.4rem;
+}
+
+.display-5 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1.5rem;
+}
+.plan-body {
+    background-color: #E7E7E7;
+}
+
+.display-7 {
+    font-family: 'Rubik', sans-serif;
+    font-size: 1rem;
+}
+
+.mbr-text {
+    font-style: normal;
+    line-height: 1.6;
+}
+
+hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 1px solid #cec7c7;
+}

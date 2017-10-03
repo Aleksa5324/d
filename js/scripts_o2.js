@@ -8,7 +8,7 @@ window.onload = function() {
 	var jsonData;
 	
 	function init() {
-		chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+		chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
 		updateView();
 		setInterval(updateView, UPDATE_INTERVAL);
 	}
@@ -34,7 +34,8 @@ window.onload = function() {
 						'height':820,
 						//'is3D': true,
 						
-						'legend': {position: 'right', textStyle: {color: 'black', fontSize: 36}},
+						'legend': {position: 'none', textStyle: {color: 'black', fontSize: 36}},
+						'bar': {groupWidth: "75%"},
 						'titleTextStyle': {fontSize:36,},
 						'chartArea': {left:20,top:200,width:'95%',height:'80%'}
 					   };

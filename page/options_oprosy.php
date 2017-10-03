@@ -48,8 +48,6 @@ function areYuoSure(){
 	return confirm('Вы уверены, что хотите удалить?');
 }
 </script>
-	
-	
   </head>
   <body>
 
@@ -168,6 +166,19 @@ function areYuoSure(){
 																		
 											?>							
 
+										</select>
+									</div>
+								</div>
+							</div>
+							
+							
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label>Вид графика</label>
+										<select class="form-control" name="chart">
+											<option value="1" selected>PieChart</option>
+											<option value="2">ColumnChart</option>
 										</select>
 									</div>
 								</div>

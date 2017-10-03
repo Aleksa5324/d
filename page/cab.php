@@ -229,19 +229,93 @@ if(!empty($_GET['page']) && $_GET['page'] == 'logout' && $_SESSION['USER_LOGIN_I
 					</div>
 									  
 <!-- Оплата -->		<div class="tab-pane" id="opt2">
+
+<br><br>
+<div class="container">
+        <div class="media-container-row">
+            <div class=" col-12 col-lg-4 col-md-6 my-2">
+                <div class="pricing">
+                    <div class="plan-header">
+                        <div class="plan-price">
+                            <span class="price-value mbr-fonts-style display-5">
+                                $
+                            </span>
+                            <span class="price-figure mbr-fonts-style display-1">
+                                35
+                            </span>
+                            <h3 class="plan-title mbr-fonts-style display-5">User</h3>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="plan-body">
+                        <p class="mbr-text mbr-fonts-style display-7">Стандартный тариф для пользователей, которые будут иметь возможность принимать участие в голосовании.<br><br>
+                        </p>
+                        <div class="mbr-section-btn pt-4 text-center"><a href="https://www.liqpay.ua/" class="btn btn-primary" target="_blank">
+                                ОПЛАТИТЬ</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4 col-md-6 my-2">
+                <div class="pricing">
+                    <div class="plan-header">
+                        <div class="plan-price">
+                            <span class="price-value mbr-fonts-style display-5">
+                                $
+                            </span>
+                            <span class="price-figure mbr-fonts-style display-1">
+                                65
+                            </span>
+                            <h3 class="plan-title mbr-fonts-style display-5">
+                                Moderator</h3>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="plan-body">
+                        <p class="mbr-text mbr-fonts-style display-7">
+                            Тариф для модераторов системы, которые смогут формировать вопросы и ответы для опросов, голосований, тестов и т.д.<br>
+                        </p>
+                        <div class="mbr-section-btn pt-4 text-center"><a href="https://www.liqpay.ua/" class="btn btn-primary display-4" target="_blank">
+                                ОПЛАТИТЬ</a></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-lg-4 col-md-6 my-2">
+                <div class="pricing">
+                    <div class="plan-header">
+                        <div class="plan-price">
+                            <span class="price-value mbr-fonts-style display-5">
+                                $
+                            </span>
+                            <span class="price-figure mbr-fonts-style display-1">
+                                90
+                            </span>
+                            <h3 class="plan-title mbr-fonts-style display-5">
+                                Administrator</h3>
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="plan-body ">
+                        <p class="mbr-text mbr-fonts-style display-7">
+                            Тариф для полного доступа к системе. Объединяет возможности как Пользователя, так и Модератора + функции Администратора системы</p>
+                        <div class="mbr-section-btn pt-4 text-center"><a href="https://www.liqpay.ua/" class="btn btn-primary display-4" target="_blank">
+                                ОПЛАТИТЬ
+                            </a></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+
 						<form role = "form" action="" method="post">
-									
-			<div class="row">
 			<br>
-				<p style="padding-left:15px;">Вы можете произвести оплату любым удобным способом через провайдер платежей ИНТЕРКАССА </p>
-			
-				<div class="col-md-2">
-					<div class="form-group">
-					<label></label>
-						<a href="https://www.interkassa.com/" class="btn btn-warning" role="button">Оплатить</a>
-					</div>
-				</div>
-			</div>
 			<hr>
 			
 			<div class="row">
