@@ -430,3 +430,7 @@ p {
     text-align: center;
 }
 
+.video-time {
+	font-size: 10px;
+	color: red;
+}

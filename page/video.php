@@ -42,6 +42,32 @@ if(isset($_POST['subVideoChat'])) {
   
  
   <body>
+  
+  <script>
+    window.onload = () => {
+      const updateTimers = () => {
+        const timers = document.querySelectorAll('span[data-datetime]')
+        timers.forEach(timerEl => {
+          const timestamp = Date.parse(timerEl.dataset.datetime)
+          const delta = timestamp - new Date().getTime()
+
+          if (delta <= 0 ) {
+            timerEl.textContent = ''
+            console.warn(`Date: ${timerEl.dataset.datetime} is in the past`)
+          } else {
+            const seconds = Math.floor( (delta/1000) % 60 )
+            const minutes = Math.floor( (delta/1000/60) % 60 )
+            const hours = Math.floor( (delta/(1000*60*60)) % 24 )
+            const days = Math.floor( delta/(1000*60*60*24) )
+
+            timerEl.textContent = `${days} дн. ${hours} ч. ${minutes} м. ${seconds} с.`
+          }
+        })
+      }
+      setInterval(updateTimers, 1000)
+    }
+  </script>
+  
 
 <!-- Fixed navbar -->
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -95,20 +121,7 @@ if(isset($_POST['subVideoChat'])) {
 						<div id="player"></div>
 						<script>
 
-// FLASH
-/* 
-hdwplayer({ 
-	id       : 'player',
-	swf      : 'player.swf',
-	width    : '550',
-	height   : '305',
-	type	 : 'video',
-	video    : 'http://www.hdwplayer.com/videos/2012.mp4',
-	autoStart: 'true'
-}); 
-*/							 
-								 
-								
+								// FLASH
 								hdwplayer({ 
 									id        : 'player',
 									swf       : 'player.swf',
@@ -183,7 +196,7 @@ hdwplayer({
 						<div class="row">
                         <div class="col-sm-2">
                             <div class="companyinfo">
-                                <h2>Анонс</h2>
+                                <h2>Скоро</h2>
                                 <p>Спешите подписаться на просмотр следующего материала</p>
                             </div>
                         </div>
@@ -200,6 +213,7 @@ hdwplayer({
                                     </a>
                                     <p>Веб разработка</p>
                                     <h2>24/11/2017</h2>
+									<span class = "video-time" data-datetime="2017-11-24T09:00:00"></span>
                                 </div>
                             </div>
 
@@ -215,6 +229,7 @@ hdwplayer({
                                     </a>
                                     <p>Банковское дело</p>
                                     <h2>27/12/2017</h2>
+									<span class = "video-time" data-datetime="2017-11-27T10:30:00"></span>
                                 </div>
                             </div>
 
@@ -228,8 +243,9 @@ hdwplayer({
                                             <i class="fa fa-play-circle-o"></i>
                                         </div>
                                     </a>
-                                    <p>Кулинария</p>
+                                    <p>Маркетинг</p>
                                     <h2>03/01/2018</h2>
+									<span class = "video-time" data-datetime="2018-01-03T11:15:00"></span>
                                 </div>
                             </div>
 
@@ -245,6 +261,7 @@ hdwplayer({
                                     </a>
                                     <p>Торговля с Китаем</p>
                                     <h2>10/01/2018</h2>
+									<span class = "video-time" data-datetime="2018-01-10T09:00:00"></span>
                                 </div>
                             </div>
                         </div>
@@ -442,7 +459,7 @@ hdwplayer({
                                             <i class="fa fa-play-circle-o"></i>
                                         </div>
                                     </a>
-                                    <p>Кулинария</p>
+                                    <p>Маркетинг</p>
                                     <h2>03/01/2018</h2>
                                 </div>
                             </div>
@@ -502,7 +519,7 @@ hdwplayer({
                                             <i class="fa fa-play-circle-o"></i>
                                         </div>
                                     </a>
-                                    <p>Кулинария</p>
+                                    <p>Маркетинг</p>
                                     <h2>03/01/2018</h2>
                                 </div>
                             </div>
@@ -562,7 +579,7 @@ hdwplayer({
                                             <i class="fa fa-play-circle-o"></i>
                                         </div>
                                     </a>
-                                    <p>Кулинария</p>
+                                    <p>Маркетинг</p>
                                     <h2>03/01/2018</h2>
                                 </div>
                             </div>
