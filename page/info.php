@@ -113,7 +113,7 @@ if (isset($_POST['subTesty'])) {
 		
 		
 		<div class="row">
-			<div class="col-md-4 col-md-offset-2">
+			<div class="col-md-4">
 				<div class="form-group">
 					<a href="golos.php" class="btn btn-warning" role="button">Перейти к голосованию</a>
 					
@@ -123,6 +123,12 @@ if (isset($_POST['subTesty'])) {
 			<div class="col-md-4">
 				<div class="form-group">
 					<a href="testy.php" class="btn btn-warning" role="button">Перейти к тестам</a>
+				</div>
+			</div>
+			
+			<div class="col-md-4">
+				<div class="form-group">
+					<a href="video.php" class="btn btn-warning" role="button">Перейти к видео</a>
 				</div>
 			</div>
 		</div>

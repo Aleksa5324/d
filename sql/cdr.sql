@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Окт 03 2017 г., 13:33
+-- Время создания: Ноя 09 2017 г., 15:10
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -78,7 +78,11 @@ INSERT INTO `answers_opros` (`id`, `answer`, `question_id`, `phone`, `votes`) VA
 (37, '551', 10, '+38(000)00-00-001', 0),
 (38, '552', 10, '+38(000)00-00-003', 0),
 (39, '51', 5, '+38(000)00-00-001', 1),
-(40, '52', 5, '+38(000)00-00-002', 0);
+(40, '52', 5, '+38(000)00-00-002', 0),
+(41, 'Негативно', 0, '+38(000)00-00-001', 0),
+(42, 'позитивно', 11, '+38(000)00-00-001', 1),
+(43, 'негативно', 11, '+38(000)00-00-002', 1),
+(44, 'нейтрально', 11, '+38(000)00-00-003', 1);
 
 -- --------------------------------------------------------
 
@@ -267,7 +271,8 @@ CREATE TABLE `opros_ip` (
 
 INSERT INTO `opros_ip` (`id`, `question_opros_id`, `ip`, `date`) VALUES
 (5, 1, 2130706433, '2017-10-02 14:13:01'),
-(6, 3, 2130706433, '2017-10-02 14:14:48');
+(6, 3, 2130706433, '2017-10-02 14:14:48'),
+(7, 11, 2130706433, '2017-10-13 06:36:17');
 
 -- --------------------------------------------------------
 
@@ -401,7 +406,8 @@ INSERT INTO `questions_opros` (`id`, `question`, `date_created`, `date_modificat
 (6, '22', '2017-09-19 09:14:05', '2017-09-19 12:19:08', 0),
 (7, '33', '2017-09-19 12:04:24', '2017-09-19 12:04:24', 0),
 (8, '44', '2017-09-19 12:12:07', '2017-09-19 12:49:38', 0),
-(10, '55', '2017-09-19 12:46:23', '2017-09-19 12:46:23', 0);
+(10, '55', '2017-09-19 12:46:23', '2017-09-19 12:46:23', 0),
+(11, 'Как вы относитесь к судебной реформе', '2017-10-04 07:24:02', '2017-10-04 07:24:57', 1);
 
 -- --------------------------------------------------------
 
@@ -428,6 +434,26 @@ INSERT INTO `users` (`id`, `login`, `password`, `name`, `regdate`, `email`, `act
 (1, 'admin', 'b13f668fa6521faddd45b3305635f4d9', 'admin', '2017-08-11 09:03:29', 'admin@admin.com', 1, 5),
 (2, 'user1', 'a98775ebe95b0b5adea5573d9acc4b08', 'user1', '2017-08-11 09:23:04', 'user1@mail.com', 1, 0),
 (5, 'user2', '936ef12fb7cc08d2d1376d8ba3f2196e', 'user2', '2017-09-15 15:28:03', 'user2@i.ua', 1, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `videochat`
+--
+
+CREATE TABLE `videochat` (
+  `id` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `user` varchar(20) NOT NULL,
+  `time` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Дамп данных таблицы `videochat`
+--
+
+INSERT INTO `videochat` (`id`, `message`, `user`, `time`) VALUES
+(3, 'А есть новости в бегущей строке от Украинской правды?', 'user1', '2017-11-09 15:49:55');
 
 --
 -- Индексы сохранённых таблиц
@@ -522,6 +548,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Индексы таблицы `videochat`
+--
+ALTER TABLE `videochat`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT для сохранённых таблиц
 --
 
@@ -529,7 +561,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `answers_opros`
 --
 ALTER TABLE `answers_opros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT для таблицы `billing`
 --
@@ -559,7 +591,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `opros_ip`
 --
 ALTER TABLE `opros_ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT для таблицы `phones`
 --
@@ -589,12 +621,17 @@ ALTER TABLE `questions`
 -- AUTO_INCREMENT для таблицы `questions_opros`
 --
 ALTER TABLE `questions_opros`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT для таблицы `videochat`
+--
+ALTER TABLE `videochat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

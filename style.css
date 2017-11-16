@@ -174,6 +174,18 @@ color: blue;
 	padding: 5px;
 }
 
+
+.VideoChatMessage{
+	width: 340px; 
+	height: 50px; 
+	resize: none;
+	padding: 5px;
+}
+.VideoChatBox{
+	height: 140px;
+	overflow: auto;
+	border: 1px solid #dddddd;
+}
 .Page{
 	padding-top: 30px;
 }
@@ -336,3 +348,85 @@ hr {
     border: 0;
     border-top: 1px solid #cec7c7;
 }
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #555;
+    cursor: default;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top: 3px solid #5b9b21;
+    border-bottom-color: transparent;
+}
+
+#fon {
+    width: 540px;  
+    height: 305px;  
+    background-image: url("img/video_zast.jpg");  
+	margin: 10px auto;
+}  
+
+/* 
+#vstream {
+	height: 350px;
+    left: 574px;
+    margin: 10px auto;
+    position: absolute;
+    top: 122px;
+    width: 565px;
+}
+ */
+
+.video-responsive {
+  position: relative; 
+  padding-bottom: 56.25%; 
+  height: 0; 
+  overflow:hidden; 
+} 
+.video-responsive iframe, 
+.video-responsive object,
+.video-responsive video, 
+.video-responsive embed {
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  height: 100%; 
+}
+
+.video-gallery {
+    margin-top: 57px;
+    position: inherit;
+}
+.iframe-img {
+    position: relative;
+    display: block;
+    height: 61px;
+    margin-bottom: 10px;
+    border: 2px solid #CCCCC6;
+    border-radius: 3px;
+}
+.video-gallery p {
+    color: #8C8C88;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 0px;
+}
+
+p {
+    margin: 0 0 10px;
+}
+
+.video-gallery h2 {
+    color: #8c8c88;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-top: 0px;
+}
+
+.text-center {
+    text-align: center;
+}
+
