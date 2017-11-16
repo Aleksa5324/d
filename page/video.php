@@ -83,9 +83,9 @@ if(isset($_POST['subVideoChat'])) {
         </div>
         <div class="navbar-collapse collapse">
 			<?php  
-			if($_SESSION['USER_ACCESS'] == 0){
+			if(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 0){
 				include 'menu_user0.php'; 
-			} elseif($_SESSION['USER_ACCESS'] == 3){
+			} elseif(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 3){
 				include 'menu_user3.php'; 
 			} else{
 				include 'menu.php';
@@ -116,7 +116,7 @@ if(isset($_POST['subVideoChat'])) {
 				<p>Здесь скоро будет прямая видеотрансляция...</p>
 								
 				<!--<div id="fon"></div>-->
-					<div id="vstream">
+					<div id="vstream" class="video-responsive">
 						<script src="hdwplayer.js"></script>
 						<div id="player"></div>
 						<script>
@@ -197,7 +197,7 @@ if(isset($_POST['subVideoChat'])) {
                         <div class="col-sm-2">
                             <div class="companyinfo">
                                 <h2>Скоро</h2>
-                                <p>Спешите подписаться на просмотр следующего материала</p>
+                                <p>Спешите подписаться на видеоблоги в прямом эфире</p>
                             </div>
                         </div>
                         <div class="col-sm-7">

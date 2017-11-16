@@ -24,6 +24,7 @@ if(isset($_SESSION['USER_LOGIN_IN'])&& $_SESSION['USER_LOGIN_IN'] != 1 and $_COO
 	$_SESSION['USER_NAME'] = $row['name'];
 	$_SESSION['USER_REGDATE'] = $row['regdate'];
 	$_SESSION['USER_EMAIL'] = $row['email'];
+	$_SESSION['USER_ACCESS'] = $row['access'];
 	$_SESSION['USER_LOGIN_IN'] = 1;
 }
 

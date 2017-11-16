@@ -434,3 +434,10 @@ p {
 	font-size: 10px;
 	color: red;
 }
+
+
+@media (max-width:640px){
+	.section__list li {
+    width: 50%;
+	}
+}
