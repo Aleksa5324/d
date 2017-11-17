@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Ноя 09 2017 г., 15:10
+-- Время создания: Ноя 16 2017 г., 10:38
 -- Версия сервера: 10.1.25-MariaDB
 -- Версия PHP: 5.6.31
 
@@ -41,7 +41,7 @@ CREATE TABLE `answers_opros` (
 --
 
 INSERT INTO `answers_opros` (`id`, `answer`, `question_id`, `phone`, `votes`) VALUES
-(1, 'PHP', 1, '+38(000)00-00-001', 11),
+(1, 'PHP', 1, '+38(000)00-00-001', 12),
 (2, 'JAVA', 1, '+38(000)00-00-002', 5),
 (3, 'JS', 1, '+38(000)00-00-003', 3),
 (4, '1C', 1, '+38(000)00-00-004', 3),
@@ -207,7 +207,8 @@ INSERT INTO `chat` (`id`, `message`, `user`, `time`) VALUES
 (15, 'ghjghmjghg', 'admin', '2017-08-21 10:21:09'),
 (16, 'hgftjg', 'admin', '2017-08-21 10:21:12'),
 (17, 'gfhgrfh', 'admin', '2017-09-15 09:45:30'),
-(18, 'ee', 'admin', '2017-09-22 09:08:39');
+(18, 'ee', 'admin', '2017-09-22 09:08:39'),
+(19, 'mbn,', 'admin', '2017-11-09 20:28:48');
 
 -- --------------------------------------------------------
 
@@ -272,7 +273,8 @@ CREATE TABLE `opros_ip` (
 INSERT INTO `opros_ip` (`id`, `question_opros_id`, `ip`, `date`) VALUES
 (5, 1, 2130706433, '2017-10-02 14:13:01'),
 (6, 3, 2130706433, '2017-10-02 14:14:48'),
-(7, 11, 2130706433, '2017-10-13 06:36:17');
+(7, 11, 2130706433, '2017-10-13 06:36:17'),
+(8, 1, 1565277295, '2017-11-09 18:30:03');
 
 -- --------------------------------------------------------
 
@@ -453,7 +455,8 @@ CREATE TABLE `videochat` (
 --
 
 INSERT INTO `videochat` (`id`, `message`, `user`, `time`) VALUES
-(3, 'А есть новости в бегущей строке от Украинской правды?', 'user1', '2017-11-09 15:49:55');
+(3, 'А есть новости в бегущей строке от Украинской правды?', 'user1', '2017-11-09 15:49:55'),
+(4, ',..m.', 'user1', '2017-11-09 20:31:20');
 
 --
 -- Индексы сохранённых таблиц
@@ -576,7 +579,7 @@ ALTER TABLE `cdr`
 -- AUTO_INCREMENT для таблицы `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 --
 -- AUTO_INCREMENT для таблицы `countries`
 --
@@ -591,7 +594,7 @@ ALTER TABLE `news`
 -- AUTO_INCREMENT для таблицы `opros_ip`
 --
 ALTER TABLE `opros_ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT для таблицы `phones`
 --
@@ -631,7 +634,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `videochat`
 --
 ALTER TABLE `videochat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

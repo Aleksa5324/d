@@ -175,12 +175,6 @@ color: blue;
 }
 
 
-.VideoChatMessage{
-	width: 340px; 
-	height: 50px; 
-	resize: none;
-	padding: 5px;
-}
 .VideoChatBox{
 	height: 140px;
 	overflow: auto;
@@ -435,9 +429,25 @@ p {
 	color: red;
 }
 
+.address {
+	padding-top: 40px;
+	display: block;
+    margin: 0 auto;
+}
+
+.center-img {
+  display: block;
+  margin: 0 auto;
+}
 
 @media (max-width:640px){
 	.section__list li {
     width: 50%;
+	}
+}
+
+@media (max-width:640px){
+	.section__list li {
+    width: 100%;
 	}
 }

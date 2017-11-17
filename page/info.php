@@ -64,9 +64,9 @@ if (isset($_POST['subTesty'])) {
         </div>
         <div class="navbar-collapse collapse">
 			<?php  
-			if($_SESSION['USER_ACCESS'] == 0){
+			if(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 0){
 				include 'menu_user0.php'; 
-			} elseif($_SESSION['USER_ACCESS'] == 3){
+			} elseif(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 3){
 				include 'menu_user3.php'; 
 			} else{
 				include 'menu.php';
@@ -99,7 +99,7 @@ if (isset($_POST['subTesty'])) {
 			
 
 		<div class="section__list">
-            <ul>
+            <ul style="padding-left: 0px;">
                 <li class="list1">Возможность обучения из любой<br>точки мира, где есть доступ<br>в Интернет</li>
                 <li class="list2">Более 300 единиц учебного контента<br>(мультимедийные курсы,<br>видеолекции и др.)</li>
                 <li class="list3">Поддержка программ управленческого<br>развития в формате<br>blended learning</li>
@@ -115,20 +115,20 @@ if (isset($_POST['subTesty'])) {
 		<div class="row">
 			<div class="col-md-4">
 				<div class="form-group">
-					<a href="golos.php" class="btn btn-warning" role="button">Перейти к голосованию</a>
+					<a href="golos.php" class="btn btn-warning btn-block" role="button">Перейти к голосованию</a>
 					
 				</div>
 			</div>
 		
 			<div class="col-md-4">
 				<div class="form-group">
-					<a href="testy.php" class="btn btn-warning" role="button">Перейти к тестам</a>
+					<a href="testy.php" class="btn btn-warning btn-block" role="button">Перейти к тестам</a>
 				</div>
 			</div>
 			
 			<div class="col-md-4">
 				<div class="form-group">
-					<a href="video.php" class="btn btn-warning" role="button">Перейти к видео</a>
+					<a href="video.php" class="btn btn-warning btn-block" role="button">Перейти к видео</a>
 				</div>
 			</div>
 		</div>

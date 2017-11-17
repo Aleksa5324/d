@@ -52,9 +52,9 @@ include_once '../lib/myFunction.php';
         </div>
         <div class="navbar-collapse collapse">
 			<?php  
-			if($_SESSION['USER_ACCESS'] == 0){
+			if(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 0){
 				include 'menu_user0.php'; 
-			} elseif($_SESSION['USER_ACCESS'] == 3){
+			} elseif(isset($_SESSION['USER_ACCESS']) && $_SESSION['USER_ACCESS'] == 3){
 				include 'menu_user3.php'; 
 			} else{
 				include 'menu.php';
@@ -94,14 +94,14 @@ include_once '../lib/myFunction.php';
 					</div>
 							
 					<div class="form-group">
-						<div class="col-md-4 col-md-offset-2">
-							<button type="submit" name="subStart" class="btn btn-success">Начать</button>
+						<div class="col-md-2 col-md-offset-2">
+							<button type="submit" name="subStart" class="btn btn-success btn-block">Начать</button>
 						</div>
 					</div>
 							
 					<div class="form-group">
-						<div class="col-md-4 col-md-offset-2">
-							<a href="info.php" class="btn btn-warning" role="button">Вернуться</a>
+						<div class="col-md-2 col-md-offset-2">
+							<a href="info.php" class="btn btn-warning btn-block" role="button">Вернуться</a>
 						</div>
 					</div>
 							

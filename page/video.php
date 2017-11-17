@@ -133,8 +133,7 @@ if(isset($_POST['subVideoChat'])) {
 									videoHTML5 : 'http://188.40.136.78:8080/t2/mystream.m3u8',
 									autoStart : 'true'
 								});
-									
-								
+						
 						</script>
 					</div>
 					
@@ -267,7 +266,7 @@ if(isset($_POST['subVideoChat'])) {
                         </div>
                         <div class="col-sm-3">
                             <div class="address">
-                                <img src="../img/map.png" alt="">
+                                <img src="../img/map.png" alt="" class="center-img">
                                 <p></p>
                             </div>
                         </div>
@@ -296,7 +295,7 @@ if(isset($_POST['subVideoChat'])) {
 											<div class="row">
 												<div class="col-md-12">
 													<div class="form-group">
-														<textarea rows="3" cols="70" name="text" placeholder="Ваш вопрос"></textarea>
+														<textarea rows="3" cols="40" name="text" placeholder="Ваш вопрос"></textarea>
 													</div>
 												</div>
 											</div>
@@ -621,7 +620,7 @@ if(isset($_POST['subVideoChat'])) {
 								<form class="form-horizontal" role="form" method ="POST" action ="video.php">
 									<br>									
 									
-									<textarea rows="3" cols="70" class ="VideoChatMessage" name="text" placeholder="Текст сообщения" required></textarea>
+									<textarea rows="3" cols="44" class ="VideoChatMessage" name="text" placeholder="Текст сообщения" required></textarea>
 									
 									<div class="row">
 										
